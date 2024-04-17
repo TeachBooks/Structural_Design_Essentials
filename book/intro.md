@@ -24,7 +24,7 @@ This book is authored by:
 - Sander Pasterkamp (CEG - 3md)
 - Ate Snijder (BK - AE&T)
 - Marco Schuurman (CEG - 3md)
-- Geert Ravenhorst (CEG - ES)
+- Geert Ravenshorst (CEG - ES)
 
 The following Teaching Assistants were involved in the creation of this jupyterbook:
 - Guus Meinema (MSc student CEG)

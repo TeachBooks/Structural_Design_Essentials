@@ -118,6 +118,7 @@ parts:
     - file: examples/timber/timber
       sections:
       - file: examples/timber/voorontwerp_houten_hal
+      - file: examples/timber/houten_kolommen
     - file: examples/steel/steel
       sections:
       - file: examples/steel/3d
