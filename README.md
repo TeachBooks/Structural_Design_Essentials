@@ -1,19 +1,21 @@
-# Template
+# Quick Reference
 
-This is the template book. You can fork this to create a book in as easy-as-possible a way. Focus is mostly on providing a clean and simple view to the key setup of our book repo.
+This jupyterbook serves as design guideline that replaces Quick Reference and Vademecum.
 
-# How to deploy a fork of this book on GitHub Pages
 
-1. Click `Fork`, and set a name for your new book.
-2. To enable deploying via GitHub Actions, go to `⚙ Settings`, then to `Pages`, and under `Build and Deployment` set `Source` to `GitHub Actions`.
-3. To trigger a deployment for the first time, you can go to `Actions` (top panel), then click `deploy-book` on the left, then `Run workflow` on the right. The book is also automatically deployed whenever commits are pushed (in absence of errors).
+Structural Engineering educators in the [Faculties of Civil Engineering and Geosciences (CEG)](https://www.tudelft.nl/en/ceg) and [Architecture and the Built Environment (A&BE)](https://www.tudelft.nl/en/architecture-and-the-built-environment) make extensive use of a self-produced reference books that contain drawing instructions, design tables, material properties, equations, examples of structural elements, examples of calculations for dimensionsing of structural elements and good design examples. Students use these reference books while participating in the many Structural Design classes at the faculties of CiTG and A&BE. In 2004, the “Info Map Constructieleer” was published by prof. Wagemans et al., in the format of a A4 ring binder which, over the years, has been used by thousands of students in structural design education since. In 2011, the content was updated and translated into English. The current Quick Reference, as the new name is, further abbreviated here as QR, can be found here as PDF (https://tinyurl.com/Reference-Tables). In 2021 the large parts of the QR were used to create a similar resource at the Architecture faculty called ‘Vademecum voor draagconstructies van gebouwen’, further abbreviated here as VDM. Until 2022, the QR and VDM were available as hardcopy and distributed by the VSSD shop, with copyrights remaining at the Faculty of CEG and A&BE.
 
-Voila! You can now access the copy of the template at 
-`https://<username>.github.io/<bookname>/` (e.g. https://teachbooks.github.io/template).
+## Authors
+This book is authored by:
+- Roel Schipper (CEG -3md) project leader
+- Sander Pasterkamp (CEG - 3md)
+- Ate Snijder (BK - AE&T)
+- Marco Schuurman (CEG - 3md)
+- Geert Ravenhorst (CEG - ES)
 
-It is possible to have multiple versions of a book published at once, by creating another Git branch (e.g. `draft` or `dev`).
-For each branch, the respective book is published at `https://<username>.github.io/<bookname>/<branchname>`.
-Technical note: for convenience, just `https://<username>.github.io/<bookname>/` redirects to `https://<username>.github.io/<bookname>/book/`, which is itself an alias (a symlink) to 
-`https://<username>.github.io/<bookname>/main/`.
+The following Teaching Assistants were involved in the creation of this jupyterbook:
+- Guus Meinema (MSc student CEG)
+- Niels van Vliet (MSc student CEG)
 
-To learn more about how we do this, please see the [GitHub Actions documentation](https://docs.github.com/en/actions) and our deployment pipeline configuration file `.github/workflows/deploy-book-ghpages.yml`.
+## Funding
+The project was funded by the Open Education Stimulation Fund from [the TU Delft](https://www.tudelft.nl/).
