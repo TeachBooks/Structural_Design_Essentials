@@ -76,7 +76,7 @@ parts:
       - file: basics/timber/information
       - file: basics/timber/material_characteristics
       - file: basics/timber/products
-      - file: basics/timber/dimension_tables
+      - file: basics/timber/section_tables
 
   - caption: Design guidelines
     numbered: 2
@@ -118,6 +118,7 @@ parts:
     - file: examples/timber/timber
       sections:
       - file: examples/timber/voorontwerp_houten_hal
+      - file: examples/timber/houten_kolommen
     - file: examples/steel/steel
       sections:
       - file: examples/steel/3d
