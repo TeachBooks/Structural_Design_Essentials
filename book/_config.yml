@@ -2,6 +2,7 @@
 title: Quick Reference
 author: Roel Schipper, Sander Pasterkamp, Ate Snijder, Marco Schuurman, Geert Ravenshorst, Guus Meinema, Niels van Vliet
 logo: logo.png
+copyright: Delft University of Technology, CC BY 4.0
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
