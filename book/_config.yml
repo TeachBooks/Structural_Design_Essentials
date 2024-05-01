@@ -9,9 +9,6 @@ copyright: Delft University of Technology, CC BY 4.0
 execute:
   execute_notebooks: "off"
 
-html:
-  favicon : "favicon.ico"
-
 # Define the name of the latex output file for PDF builds
 latex:
   latex_documents:
@@ -30,3 +27,4 @@ repository:
 html:
   use_issues_button: true
   use_repository_button: true
+  favicon : "favicon.ico"
