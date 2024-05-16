@@ -42,7 +42,8 @@ parts:
     - file: design_workflow/general_drawing/general_drawing
       sections:
       - file: design_workflow/general_drawing/technical_drawings
-      - file: design_workflow/general_drawing/cross_section_indications
+      - file: design_workflow/general_drawing/line_types_and_hatching
+      - file: design_workflow/general_drawing/construction_drawings
 
   - caption: Basic properties
     numbered: 2
@@ -115,11 +116,23 @@ parts:
   - caption: Examples
     numbered: 2
     chapters:
+    - file: examples/calculation/calculation
+      sections:
+      - file: examples/calculation/beam
+      - file: examples/calculation/column
+      - file: examples/calculation/cantilever_beam
+      - file: examples/calculation/truss_beam
     - file: examples/timber/timber
       sections:
       - file: examples/timber/voorontwerp_houten_hal
       - file: examples/timber/houten_kolommen
+      - file: examples/timber/3D_timber_building
     - file: examples/steel/steel
       sections:
       - file: examples/steel/3d
+    - file: examples/drawings/drawings
+      sections:
+      - file: examples/drawings/steel
+      - file: examples/drawings/timber
+      - file: examples/drawings/concrete
 
