@@ -42,6 +42,7 @@ parts:
     - file: design_workflow/general_drawing/general_drawing
       sections:
       - file: design_workflow/general_drawing/technical_drawings
+      - file: design_workflow/general_drawing/architectural_drawings
       - file: design_workflow/general_drawing/line_types_and_hatching
       - file: design_workflow/general_drawing/construction_drawings
 
