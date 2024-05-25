@@ -91,6 +91,7 @@ parts:
       - file: design/concrete/precast_concrete_planks
       - file: design/concrete/prefab_prestressed_beams
       - file: design/concrete/bridge_beams
+      - file: design/concrete/moment_normalforce_interaction
     - file: design/steel/steel
       sections:
       - file: design/steel/spans_in_steel
