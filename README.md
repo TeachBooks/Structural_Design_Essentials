@@ -9,7 +9,7 @@ Structural Engineering educators in the [Faculties of Civil Engineering and Geos
 This book is authored by:
 - Roel Schipper (CEG -3md) project leader
 - Sander Pasterkamp (CEG - 3md)
-- Ate Snijder (BK - AE&T)
+- Ate Snijder (A&BE - AE&T)
 - Marco Schuurman (CEG - 3md)
 - Geert Ravenhorst (CEG - ES)
 
