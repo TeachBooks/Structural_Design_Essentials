@@ -123,14 +123,9 @@ parts:
       - file: examples/calculation/column
       - file: examples/calculation/cantilever_beam
       - file: examples/calculation/truss_beam
-    - file: examples/timber/timber
-      sections:
-      - file: examples/timber/voorontwerp_houten_hal
-      - file: examples/timber/houten_kolommen
+      - file: examples/calculation/voorontwerp_houten_hal
+      - file: examples/calculation/houten_kolommen
     - file: examples/steel/steel
-      sections:
-      - file: examples/steel/3d
-    - file: examples/drawings/drawings
       sections:
       - file: examples/drawings/steel
       - file: examples/drawings/timber
