@@ -18,6 +18,10 @@ hardcopy and distributed by the VSSD shop, with copyrights remaining at the Facu
 A&BE.
 `````
 
+```{admonition} Collaborate!
+If you find any mistakes, please let us know in this [Google Form](https://docs.google.com/forms/d/e/1FAIpQLScMBPusjh_-0EUo0I86M4Pg8IWoo9z-MRbLmXczPKPZlZn7FA/viewform?usp=sf_link). Also suggestions or additions are highly encouraged!
+```
+
 ## Authors
 This book is authored by:
 - Roel Schipper (CEG -3md) project leader
