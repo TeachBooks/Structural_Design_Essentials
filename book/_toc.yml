@@ -114,20 +114,29 @@ parts:
       - file: design/foundations/foundation_methods_2
       - file: design/foundations/tables
 
-  - caption: Examples
+  - caption: Calculation examples
     numbered: 2
     chapters:
-    - file: examples/calculation/calculation
+    - file: calculation_examples/concrete/concrete
       sections:
-      - file: examples/calculation/beam
-      - file: examples/calculation/column
-      - file: examples/calculation/cantilever_beam
-      - file: examples/calculation/truss_beam
-      - file: examples/calculation/voorontwerp_houten_hal
-      - file: examples/calculation/houten_kolommen
-    - file: examples/steel/steel
+      - file: calculation_examples/concrete/beam
+      - file: calculation_examples/concrete/column
+      - file: calculation_examples/concrete/cantilever_beam
+      - file: calculation_examples/concrete/truss_beam
+    - file: calculation_examples/timber/timber
       sections:
-      - file: examples/drawings/steel
-      - file: examples/drawings/timber
-      - file: examples/drawings/concrete
+      - file: calculation_examples/timber/voorontwerp_houten_hal
+      - file: calculation_examples/timber/houten_kolommen
+    - file: calculation_examples/steel/steel
+      sections:
+      - file: calculation_examples/steel/beam
+      - file: calculation_examples/steel/column
+      - file: calculation_examples/steel/cantilever_beam
+      - file: calculation_examples/steel/truss_beam
 
+  - caption: Drawing examples
+    numbered: 2
+    chapters:
+    - file: drawing_examples/steel
+    - file: drawing_examples/timber
+    - file: drawing_examples/concrete
