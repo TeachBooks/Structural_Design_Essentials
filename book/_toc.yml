@@ -25,6 +25,7 @@ parts:
     - file: design_workflow/general_design_guide
     - file: design_workflow/general_loads/general_loads
       sections:
+      - file: design_workflow/general_loads/structural_safety
       - file: design_workflow/general_loads/loads_limit_states
       - file: design_workflow/general_loads/permanent_loads
       - file: design_workflow/general_loads/variable_loads_1_buildings
