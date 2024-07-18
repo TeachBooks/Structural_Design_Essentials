@@ -19,3 +19,6 @@ The following Teaching Assistants were involved in the creation of this jupyterb
 
 ## Funding
 The project was funded by the Open Education Stimulation Fund from [the TU Delft](https://www.tudelft.nl/).
+
+## Acknowledgment
+Tom van Woudenberg, Robert Lanzafame, Freek Pols and their student army have made it possible to develop this Teachbook with minimal effort from our side on the infrastructure. Many thanks for your groundbraking preparations and supportive availability throughout the process!
