@@ -1,5 +1,10 @@
 # Welcome to the new Quick Reference
-This jupyterbook serves as design guideline that replaces Quick Reference and Vademecum.
+This jupyterbook serves as design guideline that replaces Quick Reference (QR) and Vademecum (VDM). The present version of both the QR and VDM have been redeveloped  as Online Open Textbook, using and refreshing the existing content. We make use of the [Jupyter Book](https://jupyterbook.org/en/stable/intro.html) toolchain, of which the main components are:
+- The [Teachbooks](https://teachbooks.github.io/) hosting platform
+- Github as platform to allow easy-access to the open source material
+- MyST Markdown language for the text source, an easy-to-learn markup language
+
+We hope this new edition will serve new generations of students and professionals with their daily work in designing civil engineering and building structures.
 
 `````{admonition} A little history...
 :class: tip
@@ -16,11 +21,6 @@ similar resource at the Architecture faculty called ‘Vademecum voor draagconst
 gebouwen’, further abbreviated here as VDM. Until 2022, the QR and VDM were available as
 hardcopy and distributed by the VSSD shop, with copyrights remaining at the Faculty of CEG and
 A&BE.
-
-The present new version of both the QR and VDM are redeveloped  as Online Open Textbook, using and refreshing the existing content. We make use of the [Jupyter Book](https://jupyterbook.org/en/stable/intro.html) toolchain, of which the main components are:
-- The [Teachbooks](https://teachbooks.github.io/) hosting platform
-- Github as platform to allow easy-access to the open source material
-- MyST Markdown language for the text source, an easy-to-learn markup language
 `````
 
 ```{admonition} Collaborate!
@@ -37,7 +37,7 @@ This book is authored by:
 
 {sup}'1'TU Delft Faculty of Civil Engineering and Geosciences, Department Materials, Mechanics, Management & Design (3MD) 
 {sup}'2'TU Delft Faculty of Architecture and the Built Environment, Department Architectural Engineering and Technology (AE&T)
-{sup}'3'TU Delft Faculty of Civil Engineering and Geosciences, Department Engineering Structures
+{sup}'3'TU Delft Faculty of Civil Engineering and Geosciences, Department Engineering Structures (ES)
 
 The following Teaching Assistants were involved in the creation of this jupyterbook:
 - Guus Meinema (student MSc Civil Engineering)
