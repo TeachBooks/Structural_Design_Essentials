@@ -21,25 +21,27 @@ hardcopy and distributed by the VSSD shop, with copyrights remaining at the Facu
 A&BE. The old QR and VDM can be found here as PDF (https://tinyurl.com/Reference-Tables). 
 `````
 
-```{admonition} Collaborate!
-If you find any mistakes, please let us know in this [Google Form](https://docs.google.com/forms/d/e/1FAIpQLScMBPusjh_-0EUo0I86M4Pg8IWoo9z-MRbLmXczPKPZlZn7FA/viewform?usp=sf_link). Also suggestions or additions are highly encouraged!
-```
-
-## Authors
-This book is authored by:
-- Roel Schipper, project leader [^1]
+## Editors
+This book is edited by:
+- Roel Schipper, project lead [^1]
 - Sander Pasterkamp[^1]
 - Ate Snijder[^2]
 - Marco Schuurman[^1]
 - Geert Ravenshorst[^3]
 
-The following Teaching Assistants were involved in the creation of this jupyterbook:
+The following Teaching Assistants were resonsible for most of the hands-on creation of this Jupyter Book:
 - Guus Meinema (student MSc Civil Engineering)
 - Niels van Vliet (student MSc Civil Engineering)
+
+## Earlier work
+Authors who initiated or contributed to earlier versions of the Infomap or Quick Reference, to whom we are greatly indebted, are: Leo Wagemans, Felix Soons, Sander Pasterkamp, Sjors van Es and B. van Raaij.
 
 ## Funding
 The project was funded by the [Open Education Stimulation Fund](https://www.tudelft.nl/en/open-science/funding/awarded-projects/open-education-stimulation-fund-2023) of TU Delft.
 
+```{admonition} Collaborate!
+If you find any mistakes, please let us know in this [Google Form](https://docs.google.com/forms/d/e/1FAIpQLScMBPusjh_-0EUo0I86M4Pg8IWoo9z-MRbLmXczPKPZlZn7FA/viewform?usp=sf_link). Also suggestions or additions are highly encouraged!
+```
 
 [^1]: TU Delft Faculty of Civil Engineering and Geosciences, Department Materials, Mechanics, Management & Design (3MD) 
 [^2]: TU Delft Faculty of Architecture and the Built Environment, Department Architectural Engineering and Technology (AE&T)
