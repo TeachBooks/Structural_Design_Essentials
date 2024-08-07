@@ -27,13 +27,13 @@ If you find any mistakes, please let us know in this [Google Form](https://docs.
 
 ## Authors
 This book is authored by:
-- Roel Schipper{sup}'1', project leader
+- Roel Schipper{sup}`1`, project leader
 - Sander Pasterkamp{sup}'1' 
 - Ate Snijder{sup}'2'
 - Marco Schuurman{sup}'1'
 - Geert Ravenshorst{sup}'3'
 
-{sup}'1'TU Delft Faculty of Civil Engineering and Geosciences, Department Materials, Mechanics, Management & Design (3MD) 
+{sup}`1`TU Delft Faculty of Civil Engineering and Geosciences, Department Materials, Mechanics, Management & Design (3MD) 
 {sup}'2'TU Delft Faculty of Architecture and the Built Environment, Department Architectural Engineering and Technology (AE&T)
 {sup}'3'TU Delft Faculty of Civil Engineering and Geosciences, Department Engineering Structures (ES)
 
