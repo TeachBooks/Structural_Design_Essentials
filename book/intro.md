@@ -45,7 +45,12 @@ If you find any mistakes, please let us know in this [Google Form](https://docs.
 ## Set-up of the Quick Reference
 
 The Quick Reference is organised along the following structure:
-- Design Workflow: 
+- **General design info**: the design process broken down in substeps, information about loads from Eurocode, helpful structural mechanics solutions for hand calculations, drawing conventions
+- **Basic properties**: material comparison and construction types, environmental impact, costs information, material characteristics and common structural elements in concrete, steel and timber
+- **Design guidelines**: typical construction types and dimensioning guidelines per material
+- **Calculation examples**: good practice for set-up of a design calculation
+- **Drawing examples**: a collection of examples of educational and industry-standard drawings
+ 
 
 [^1]: TU Delft Faculty of Civil Engineering and Geosciences, Department Materials, Mechanics, Management & Design (3MD) 
 [^2]: TU Delft Faculty of Architecture and the Built Environment, Department Architectural Engineering and Technology (AE&T)
