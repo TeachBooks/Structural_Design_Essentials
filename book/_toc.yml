@@ -7,18 +7,6 @@ options:
   numbered: 2
 
 parts:
-  - caption: Practical information
-    numbered: 2
-    chapters:
-    - file: schedules/schedule
-      sections:
-      - file: schedules/phase1
-      - file: schedules/phase2
-      - file: schedules/phase3
-      - file: schedules/phase4
-      - file: schedules/phase5
-    - file: schedules/promotion
-
   - caption: Design Workflow
     numbered: 2
     chapters:
@@ -115,6 +103,19 @@ parts:
       - file: design/foundations/foundation_methods_1
       - file: design/foundations/foundation_methods_2
       - file: design/foundations/tables
+
+  - caption: Internal pages
+    numbered: 2
+    chapters:
+    - file: schedules/schedule
+      sections:
+      - file: schedules/phase1
+      - file: schedules/phase2
+      - file: schedules/phase3
+      - file: schedules/phase4
+      - file: schedules/phase5
+    - file: schedules/promotion
+
 
   - caption: Calculation examples
     numbered: 2
