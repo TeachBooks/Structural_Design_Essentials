@@ -33,7 +33,6 @@ The following Teaching Assistants were resonsible for most of the hands-on creat
 - Guus Meinema (student MSc Civil Engineering)
 - Niels van Vliet (student MSc Civil Engineering)
 
-## Earlier work
 Authors who initiated or contributed to earlier versions of the Infomap or Quick Reference, to whom we are greatly indebted, are: Leo Wagemans, Felix Soons, Sander Pasterkamp, Sjors van Es and B. van Raaij.
 
 ## Funding
