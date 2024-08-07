@@ -1,8 +1,8 @@
 # Welcome to the new Quick Reference
 This jupyterbook serves as design guideline that replaces Quick Reference (QR) and Vademecum (VDM). The present version of both the QR and VDM have been redeveloped  as Online Open Textbook, using and refreshing the existing content. We make use of the [Jupyter Book](https://jupyterbook.org/en/stable/intro.html) toolchain, of which the main components are:
 - The [Teachbooks](https://teachbooks.github.io/) hosting platform
-- Github as platform to allow easy-access to the open source material
-- MyST Markdown language for the text source, an easy-to-learn markup language
+- [Github](https://github.com/TeachBooks/Quick_Reference) as platform to allow easy-access to and reuse of the open source material
+- [MyST Markdown](https://myst-parser.readthedocs.io/en/latest/syntax/typography.html), the language for the text source, an easy-to-learn markup syntax
 
 We hope this new edition will serve new generations of students and professionals with their daily work in designing civil engineering and building structures.
 
@@ -14,13 +14,11 @@ professional design drawings. Students use these reference books while participa
 Structural Design classes at the faculties of CiTG and A&BE. In 2004, the “Info Map
 Constructieleer” was published by prof. Wagemans et al., in the format of a A4 ring binder which,
 over the years, has been used by thousands of students in structural design education since. In
-2011, the content was updated and translated into English. The current Quick Reference, as the
-new name is, further abbreviated here as QR, can be found here as PDF
-(https://tinyurl.com/Reference-Tables). In 2021 the large parts of the QR were used to create a
+2011, the content was updated and translated into English and renamed to Quick Reference. In 2021 the large parts of the QR were used to create a
 similar resource at the Architecture faculty called ‘Vademecum voor draagconstructies van
 gebouwen’, further abbreviated here as VDM. Until 2022, the QR and VDM were available as
 hardcopy and distributed by the VSSD shop, with copyrights remaining at the Faculty of CEG and
-A&BE.
+A&BE. The old QR and VDM can be found here as PDF (https://tinyurl.com/Reference-Tables). 
 `````
 
 ```{admonition} Collaborate!
