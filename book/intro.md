@@ -27,19 +27,22 @@ If you find any mistakes, please let us know in this [Google Form](https://docs.
 
 ## Authors
 This book is authored by:
-- Roel Schipper{sup}`1`, project leader
-- Sander Pasterkamp{sup}'1' 
-- Ate Snijder{sup}'2'
-- Marco Schuurman{sup}'1'
-- Geert Ravenshorst{sup}'3'
-
-{sup}`1`TU Delft Faculty of Civil Engineering and Geosciences, Department Materials, Mechanics, Management & Design (3MD) 
-{sup}'2'TU Delft Faculty of Architecture and the Built Environment, Department Architectural Engineering and Technology (AE&T)
-{sup}'3'TU Delft Faculty of Civil Engineering and Geosciences, Department Engineering Structures (ES)
+- Roel Schipper, project leader [^1]
+- Sander Pasterkamp[^1]
+- Ate Snijder[^2]
+- Marco Schuurman[^1]
+- Geert Ravenshorst[^3]
 
 The following Teaching Assistants were involved in the creation of this jupyterbook:
 - Guus Meinema (student MSc Civil Engineering)
 - Niels van Vliet (student MSc Civil Engineering)
 
 ## Funding
-The project was funded by the Open Education Stimulation Fund from [the TU Delft](https://www.tudelft.nl/).
+The project was funded by the [Open Education Stimulation Fund](https://www.tudelft.nl/en/open-science/funding/awarded-projects/open-education-stimulation-fund-2023) of TU Delft.
+
+
+[^1]: TU Delft Faculty of Civil Engineering and Geosciences, Department Materials, Mechanics, Management & Design (3MD) 
+[^2]: TU Delft Faculty of Architecture and the Built Environment, Department Architectural Engineering and Technology (AE&T)
+[^3]: TU Delft Faculty of Civil Engineering and Geosciences, Department Engineering Structures (ES)
+
+
