@@ -39,8 +39,8 @@ Authors who initiated or contributed to earlier versions of the Infomap or Quick
 ## Funding
 The project was funded by the [Open Education Stimulation Fund](https://www.tudelft.nl/en/open-science/funding/awarded-projects/open-education-stimulation-fund-2023) of TU Delft.
 
-```{admonition} Collaborate!
-If you find any mistakes, please let us know in this [Google Form](https://docs.google.com/forms/d/e/1FAIpQLScMBPusjh_-0EUo0I86M4Pg8IWoo9z-MRbLmXczPKPZlZn7FA/viewform?usp=sf_link). Also suggestions or additions are highly encouraged! for more advanced users, also a direct link to our [github](https://github.com/TeachBooks/Quick_Reference) environment is possible after becoming part of our team. This would allow you to [branch](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches) and make direct changes or corrections, commit and push. After that, we will process your proposed pull requests. Please [mail](mailto:h.r.schipper@tudelft.nl) us if you want access.
+```{admonition} Please collaborate with us!
+If you find any mistakes, please let us know in this [Google Form](https://docs.google.com/forms/d/e/1FAIpQLScMBPusjh_-0EUo0I86M4Pg8IWoo9z-MRbLmXczPKPZlZn7FA/viewform?usp=sf_link). Also suggestions or additions are highly encouraged! For more advanced users, also a direct link to our [github](https://github.com/TeachBooks/Quick_Reference) environment is possible after becoming part of our team. This would allow you to [branch](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches) and make direct changes or corrections, commit and push. After that, we will process your proposed pull requests. Please [mail](mailto:h.r.schipper@tudelft.nl&subject=Quick%20Reference%20Jupyter%20Book) us if you want access.
 ```
 
 [^1]: TU Delft Faculty of Civil Engineering and Geosciences, Department Materials, Mechanics, Management & Design (3MD) 
