@@ -23,11 +23,11 @@ A&BE. The old QR and VDM can be found here as PDF (https://tinyurl.com/Reference
 
 ## Editors
 This book is edited by:
-- [Roel Schipper](mailto:h.r.schipper@tudelft.nl?subject=Quick%20Reference%20Jupyter%20Book), project lead [^1]
-- Sander Pasterkamp[^1]
-- Ate Snijder[^2]
-- Marco Schuurman[^1]
-- Geert Ravenshorst[^3]
+- [Roel Schipper](https://www.tudelft.nl/citg/over-faculteit/afdelingen/chairs/dbe/building-engineering/staff/drir-hr-roel-schipper), project lead [^1]
+- [Sander Pasterkamp](https://www.tudelft.nl/citg/over-faculteit/afdelingen/chairs/dbe/building-engineering/staff/ir-s-pasterkamp)[^1]
+- [Ate Snijder](https://www.tudelft.nl/staff/a.h.snijder/)[^2]
+- [Marco Schuurman](https://www.tudelft.nl/staff/a.c.b.schuurman/?cHash=c59805dd5d8dd4baca341a27f26a6805)[^1]
+- [Geert Ravenshorst](https://www.tudelft.nl/citg/over-faculteit/afdelingen/engineering-structures/sections-labs/biobased-structures-and-materials/staff/drir-gjp-ravenshorst)[^3]
 
 The following Teaching Assistants were resonsible for most of the hands-on creation of this Jupyter Book:
 - Guus Meinema (student MSc Civil Engineering)
