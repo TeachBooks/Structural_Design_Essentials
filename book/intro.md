@@ -3,7 +3,7 @@ This jupyterbook serves as design guideline that replaces Quick Reference and Va
 
 `````{admonition} A little history...
 :class: tip
-Structural Engineering educators in the [Faculties of Civil Engineering and Geosciences (CEG)](https://www.tudelft.nl/en/ceg) and [Architecture and the Built Environment (A&BE)](https://www.tudelft.nl/en/architecture-and-the-built-environment) make extensive use of a self-produced reference books that contain drawing instructions, design tables, material properties, equations, examples
+Structural Engineering educators in the [Faculties of Civil Engineering and Geosciences (CEG)](https://www.tudelft.nl/en/ceg) and [Architecture and the Built Environment (A&BE)](https://www.tudelft.nl/en/architecture-and-the-built-environment) make extensive use of self-produced reference books that contain drawing instructions, design tables, material properties, equations, examples
 of structural elements, examples of calculations for dimensionsing of structural elements and
 good design examples. Students use these reference books while participating in the many
 Structural Design classes at the faculties of CiTG and A&BE. In 2004, the “Info Map
