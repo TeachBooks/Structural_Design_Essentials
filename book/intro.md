@@ -42,6 +42,10 @@ The project was funded by the [Open Education Stimulation Fund](https://www.tude
 ```{admonition} Please collaborate with us!
 If you find any mistakes, please let us know in this [Google Form](https://docs.google.com/forms/d/e/1FAIpQLScMBPusjh_-0EUo0I86M4Pg8IWoo9z-MRbLmXczPKPZlZn7FA/viewform?usp=sf_link). Also suggestions or additions are highly encouraged! For more advanced users, also a direct link to our [github](https://github.com/TeachBooks/Quick_Reference) environment is possible after becoming part of our team. This would allow you to [branch](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches) and make direct changes or corrections, commit and push. After that, we will process your proposed pull requests. Please [mail](mailto:h.r.schipper@tudelft.nl?subject=Quick%20Reference%20Jupyter%20Book) us if you want access.
 ```
+## Set-up of the Quick Reference
+
+The Quick Reference is organised along the following structure:
+- Design Workflow: 
 
 [^1]: TU Delft Faculty of Civil Engineering and Geosciences, Department Materials, Mechanics, Management & Design (3MD) 
 [^2]: TU Delft Faculty of Architecture and the Built Environment, Department Architectural Engineering and Technology (AE&T)
