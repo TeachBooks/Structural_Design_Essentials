@@ -104,19 +104,6 @@ parts:
       - file: design/foundations/foundation_methods_2
       - file: design/foundations/tables
 
-  - caption: Internal pages
-    numbered: 2
-    chapters:
-    - file: schedules/schedule
-      sections:
-      - file: schedules/phase1
-      - file: schedules/phase2
-      - file: schedules/phase3
-      - file: schedules/phase4
-      - file: schedules/phase5
-    - file: schedules/promotion
-
-
   - caption: Calculation examples
     numbered: 2
     chapters:
@@ -131,15 +118,27 @@ parts:
       - file: calculation_examples/timber/voorontwerp_houten_hal
       - file: calculation_examples/timber/houten_kolommen
     - file: calculation_examples/steel/steel
-      sections:
-      - file: calculation_examples/steel/beam
-      - file: calculation_examples/steel/column
-      - file: calculation_examples/steel/cantilever_beam
-      - file: calculation_examples/steel/truss_beam
+      # sections:
+      # - file: calculation_examples/steel/beam
+      # - file: calculation_examples/steel/column
+      # - file: calculation_examples/steel/cantilever_beam
+      # - file: calculation_examples/steel/truss_beam
 
-  - caption: Drawing examples
+  # - caption: Drawing examples
+  #   numbered: 2
+  #   chapters:
+  #   - file: drawing_examples/steel/steel
+  #   - file: drawing_examples/timber/timber
+  #   - file: drawing_examples/concrete/concrete
+  
+  - caption: Internal pages
     numbered: 2
     chapters:
-    - file: drawing_examples/steel
-    - file: drawing_examples/timber
-    - file: drawing_examples/concrete
+    - file: schedules/schedule
+      sections:
+      - file: schedules/phase1
+      - file: schedules/phase2
+      - file: schedules/phase3
+      - file: schedules/phase4
+      - file: schedules/phase5
+    - file: schedules/promotion
