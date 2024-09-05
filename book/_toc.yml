@@ -107,6 +107,10 @@ parts:
   - caption: Calculation examples
     numbered: 2
     chapters:
+    - file: calculation_examples/safety/intro_safety
+      sections:
+      - file: calculation_examples/safety/CS_23_24_safety
+    chapters:
     - file: calculation_examples/concrete/concrete
       sections:
       - file: calculation_examples/concrete/beam
