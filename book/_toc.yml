@@ -110,6 +110,9 @@ parts:
     - file: calculation_examples/safety/intro_safety
       sections:
       - file: calculation_examples/safety/CS_23_24_safety
+    - file: calculation_examples/LCA/LCA
+      sections:
+      - file: calculation_examples/LCA/lecture_exercise
     - file: calculation_examples/concrete/concrete
       sections:
       - file: calculation_examples/concrete/beam
