@@ -1,4 +1,4 @@
-# Calculation examples safety
+# Safety
 
 ```{tableofcontents}
 ```

@@ -1,5 +1,4 @@
-# Calculation examples concrete
-
+# Concrete
 
 ```{tableofcontents}
 ```

@@ -124,8 +124,11 @@ parts:
       - file: calculation_examples/steel/truss_beam
     - file: calculation_examples/timber/timber
       sections:
+      - file: calculation_examples/timber/beam
+      - file: calculation_examples/timber/column
+      - file: calculation_examples/timber/cantilever_beam
+      - file: calculation_examples/timber/truss_beam
       - file: calculation_examples/timber/voorontwerp_houten_hal
-      - file: calculation_examples/timber/houten_kolommen
 
   - caption: Drawing examples
     numbered: 2
@@ -134,7 +137,6 @@ parts:
     - file: drawing_examples/steel/steel
     - file: drawing_examples/timber/timber
     
-  
 #  - caption: Internal pages
 #    numbered: 2
 #    chapters:

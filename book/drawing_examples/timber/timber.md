@@ -1,4 +1,4 @@
-# Drawing examples timber
+# Timber
 
 This section provides drawings of the Octatube case study building in timber.
 

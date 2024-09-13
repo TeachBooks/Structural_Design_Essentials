@@ -1,4 +1,4 @@
-# Drawing examples steel
+# Steel
 
 This section provides drawings of the Octatube case study building in steel.
 

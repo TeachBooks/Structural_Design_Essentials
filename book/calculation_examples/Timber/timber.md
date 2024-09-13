@@ -1,4 +1,4 @@
-# Calculation examples timber
+# Timber
 
 
 ```{tableofcontents}

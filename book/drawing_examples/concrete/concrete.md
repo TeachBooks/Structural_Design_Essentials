@@ -1,4 +1,4 @@
-# Drawing examples concrete
+# Concrete
 
 This section provides drawings of the Octatube case study building in concrete.
 
