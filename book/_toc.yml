@@ -41,7 +41,6 @@ parts:
     - file: basics/general_materials
     - file: basics/concrete/concrete
       sections:
-      - file: basics/concrete/information
       - file: basics/concrete/material_characteristics_concrete
       - file: basics/concrete/material_characteristics_concrete_steel
       - file: basics/concrete/reinforcement
@@ -51,7 +50,6 @@ parts:
       - file: basics/concrete/concrete_construction_applications
     - file: basics/steel/steel
       sections:
-      - file: basics/steel/information
       - file: basics/steel/material_characteristics
       - file: basics/steel/products_1_hot_rolled_sections
       - file: basics/steel/products_2_cold_rolled_sections
@@ -64,7 +62,6 @@ parts:
       - file: basics/steel/hollow_sections_trusses
     - file: basics/timber/timber
       sections:
-      - file: basics/timber/information
       - file: basics/timber/material_characteristics
       - file: basics/timber/products
       - file: basics/timber/section_tables
@@ -98,7 +95,6 @@ parts:
       - file: design/timber/trusses_and_joints
     - file: design/foundations/foundations
       sections:
-      - file: design/foundations/information
       - file: design/foundations/design_guide
       - file: design/foundations/foundation_methods_1
       - file: design/foundations/foundation_methods_2
