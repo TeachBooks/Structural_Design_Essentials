@@ -2,6 +2,10 @@
 
 This section provides drawings of the Octatube case study building in timber.
 
+<div style="text-align: center;">
+    <iframe src="../../_static/Connection_Timber.html" width="750" height="300" frameborder="0"></iframe>
+</div>
+
 ```{figure} Images/hout1.jpg
 ---
 ---

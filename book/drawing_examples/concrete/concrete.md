@@ -2,6 +2,10 @@
 
 This section provides drawings of the Octatube case study building in concrete.
 
+<div style="text-align: center;">
+    <iframe src="../../_static/Octatube_Concrete.html" width="750" height="300" frameborder="0"></iframe>
+</div>
+
 ```{figure} Images/beton1.jpg
 ---
 ---
