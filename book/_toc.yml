@@ -33,7 +33,6 @@ parts:
       - file: design_workflow/general_drawing/technical_drawings
       - file: design_workflow/general_drawing/architectural_drawings
       - file: design_workflow/general_drawing/line_types_and_hatching
-      - file: design_workflow/general_drawing/construction_drawings
 
   - caption: Basic properties
     numbered: 2
@@ -109,6 +108,7 @@ parts:
     chapters:
     - file: calculation_examples/safety/intro_safety
       sections:
+      - file: calculation_examples/safety/effect_vs_resistance
       - file: calculation_examples/safety/CS_23_24_safety
     - file: calculation_examples/LCA/LCA
       sections:
