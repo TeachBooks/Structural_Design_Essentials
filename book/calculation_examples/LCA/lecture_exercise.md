@@ -1,5 +1,9 @@
 # Lecture exercise
 
+```{note}
+The calculations serve as examples for educational purposes and not as guidance for practice.
+```
+
 ```{Note}
 This exercise shows some of the basic principles of an LCA. It serves educational purposes and should not be used for guidance in practice. The lecture, which covered this example, was given in the course Sustainable Construction Members in the Master Civil Engineering, track Structural Engineering, by [Henk Jonkers](https://www.tudelft.nl/citg/over-faculteit/afdelingen/materials-mechanics-management-design-3md/sections-labs/materials-environment/staff/prof-dr-hm-henk-jonkers) in the academic year 2023-2024.
 ```
