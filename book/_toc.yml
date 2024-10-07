@@ -113,8 +113,6 @@ parts:
       sections:
       - file: calculation_examples/concrete/beam
       - file: calculation_examples/concrete/column
-      - file: calculation_examples/concrete/cantilever_beam
-      - file: calculation_examples/concrete/truss_beam
     - file: calculation_examples/steel/steel
       sections:
       - file: calculation_examples/steel/beam
@@ -123,11 +121,8 @@ parts:
       - file: calculation_examples/steel/truss_beam
     - file: calculation_examples/timber/timber
       sections:
-      - file: calculation_examples/timber/beam
-      - file: calculation_examples/timber/column
-      - file: calculation_examples/timber/cantilever_beam
-      - file: calculation_examples/timber/truss_beam
       - file: calculation_examples/timber/voorontwerp_houten_hal
+      - file: calculation_examples/timber/houten_kolommen
 
   - caption: Drawing examples
     numbered: 2
