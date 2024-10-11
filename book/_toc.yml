@@ -109,6 +109,7 @@ parts:
     - file: calculation_examples/LCA/LCA
       sections:
       - file: calculation_examples/LCA/lecture_exercise
+      - file: calculation_examples/LCA/TSCT
     - file: calculation_examples/concrete/concrete
       sections:
       - file: calculation_examples/concrete/beam
