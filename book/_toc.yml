@@ -33,7 +33,6 @@ parts:
       - file: design_workflow/general_drawing/technical_drawings
       - file: design_workflow/general_drawing/architectural_drawings
       - file: design_workflow/general_drawing/line_types_and_hatching
-      - file: design_workflow/general_drawing/construction_drawings
 
   - caption: Basic properties
     numbered: 2
@@ -41,7 +40,6 @@ parts:
     - file: basics/general_materials
     - file: basics/concrete/concrete
       sections:
-      - file: basics/concrete/information
       - file: basics/concrete/material_characteristics_concrete
       - file: basics/concrete/material_characteristics_concrete_steel
       - file: basics/concrete/reinforcement
@@ -51,7 +49,6 @@ parts:
       - file: basics/concrete/concrete_construction_applications
     - file: basics/steel/steel
       sections:
-      - file: basics/steel/information
       - file: basics/steel/material_characteristics
       - file: basics/steel/products_1_hot_rolled_sections
       - file: basics/steel/products_2_cold_rolled_sections
@@ -64,7 +61,6 @@ parts:
       - file: basics/steel/hollow_sections_trusses
     - file: basics/timber/timber
       sections:
-      - file: basics/timber/information
       - file: basics/timber/material_characteristics
       - file: basics/timber/products
       - file: basics/timber/section_tables
@@ -98,7 +94,6 @@ parts:
       - file: design/timber/trusses_and_joints
     - file: design/foundations/foundations
       sections:
-      - file: design/foundations/information
       - file: design/foundations/design_guide
       - file: design/foundations/foundation_methods_1
       - file: design/foundations/foundation_methods_2
@@ -109,13 +104,15 @@ parts:
     chapters:
     - file: calculation_examples/safety/intro_safety
       sections:
+      - file: calculation_examples/safety/effect_vs_resistance
       - file: calculation_examples/safety/CS_23_24_safety
+    - file: calculation_examples/LCA/LCA
+      sections:
+      - file: calculation_examples/LCA/lecture_exercise
     - file: calculation_examples/concrete/concrete
       sections:
       - file: calculation_examples/concrete/beam
       - file: calculation_examples/concrete/column
-      - file: calculation_examples/concrete/cantilever_beam
-      - file: calculation_examples/concrete/truss_beam
     - file: calculation_examples/steel/steel
       sections:
       - file: calculation_examples/steel/beam
@@ -124,11 +121,8 @@ parts:
       - file: calculation_examples/steel/truss_beam
     - file: calculation_examples/timber/timber
       sections:
-      - file: calculation_examples/timber/beam
-      - file: calculation_examples/timber/column
-      - file: calculation_examples/timber/cantilever_beam
-      - file: calculation_examples/timber/truss_beam
       - file: calculation_examples/timber/voorontwerp_houten_hal
+      - file: calculation_examples/timber/houten_kolommen
 
   - caption: Drawing examples
     numbered: 2
