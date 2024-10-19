@@ -3,9 +3,8 @@
 This section provides drawings of the Octatube case study building in steel.
 
 <div style="text-align: center;">
-    <iframe src="../../_static/Octatube_Steel.html" width="750" height="750" frameborder="0"></iframe>
+    <iframe src="../../_static/Octatube_Steel.html" width="750" height="300" frameborder="0"></iframe>
 </div>
-&nbsp;
 
 ```{figure} Images/staal1.jpg
 ---
