@@ -28,3 +28,19 @@ html:
   use_issues_button: true
   use_repository_button: true
   favicon : "favicon.ico"
+
+parse:
+  myst_enable_extensions:
+    # don't forget to list any other extensions you want enabled,
+    # including those that are enabled by default! See here: https://jupyterbook.org/en/stable/customize/config.html
+    - amsmath
+    - colon_fence
+    - deflist
+    - dollarmath
+    - html_admonition
+    - html_image
+    - linkify
+    - replacements
+    - smartquotes
+    - substitution
+    - tasklist
