@@ -49,7 +49,7 @@ parts:
       - file: basics/concrete/concrete_construction_applications
     - file: basics/steel/steel
       sections:
-      - file: basics/steel/material_characteristics
+      - file: basics/steel/material_characteristics_steel
       - file: basics/steel/products_1_hot_rolled_sections
       - file: basics/steel/products_2_cold_rolled_sections
       - file: basics/steel/products_3_welded_sections
@@ -61,7 +61,7 @@ parts:
       - file: basics/steel/hollow_sections_trusses
     - file: basics/timber/timber
       sections:
-      - file: basics/timber/material_characteristics
+      - file: basics/timber/material_characteristics_timber
       - file: basics/timber/products
       - file: basics/timber/section_tables
 

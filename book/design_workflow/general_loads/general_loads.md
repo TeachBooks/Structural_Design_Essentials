@@ -1,5 +1,9 @@
 # General loads
 
+```{note}
+The NEN standards can be found at [Connect.NEN](https://connect.nen.nl/)
+```
+
 This section will explain what possible loads and load combinations can act
 on a structure. Loads are part of the greater group of ‘actions’. ‘Actions’
 comprise all possible infuences on a structure (e.g. temperature

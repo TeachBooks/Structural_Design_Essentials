@@ -6,6 +6,8 @@ This section provides drawings of the Octatube case study building in concrete.
     <iframe src="../../_static/Octatube_Concrete.html" width="750" height="750" frameborder="0"></iframe>
 </div>
 
+<center>3D model of the Octatube building in concrete.</center>
+
 ```{figure} Images/beton1.jpg
 ---
 ---
