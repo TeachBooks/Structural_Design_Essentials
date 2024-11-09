@@ -111,9 +111,10 @@ parts:
       sections:
       - file: calculation_examples/LCA/lecture_exercise
       - file: calculation_examples/LCA/simplified_LCA_tool
-      - file: calculation_examples/LCA/steel_comparison
+      - file: calculation_examples/LCA/Octatube_comparison
+      # - file: calculation_examples/LCA/steel_comparison
       - file: calculation_examples/LCA/TSCT
-      - file: calculation_examples/LCA/TSCT_example
+      # - file: calculation_examples/LCA/TSCT_example
     - file: calculation_examples/concrete/concrete
       sections:
       - file: calculation_examples/concrete/beam
