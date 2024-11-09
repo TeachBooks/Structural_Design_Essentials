@@ -6,6 +6,8 @@ This section provides drawings of the Octatube case study building in timber.
     <iframe src="../../_static/Octatube_Timber.html" width="750" height="750" frameborder="0"></iframe>
 </div>
 
+<center>3D model of the Octatube building in timber.</center>
+
 ```{figure} Images/hout1.jpg
 ---
 ---
