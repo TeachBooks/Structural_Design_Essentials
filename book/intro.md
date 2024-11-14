@@ -6,22 +6,17 @@ This Jupyter Book serves as design guideline that replaces Quick Reference (QR) 
 
 The editors hope this fresh edition will serve new generations of students and professionals with their daily work in designing civil engineering and building structures. We also hope that you as reader will contribute, so that frequent updates can be published. To that end, please use the form at the lower end of this page, or directly link to our github environment.
 
-`````{admonition} A little history...
-:class: tip
-<p>Structural Engineering educators in the [Faculties of Civil Engineering and Geosciences (CEG)](https://www.tudelft.nl/en/ceg) and [Architecture and the Built Environment (A&BE)](https://www.tudelft.nl/en/architecture-and-the-built-environment) make extensive use of self-produced reference books containing drawing instructions, design tables, material properties, equations, examples of structural elements, examples of calculations for dimensionsing of structural elements and
-professional design drawings.<p/>
-
-<p>Students use these reference books while participating in the many
-Structural Design classes at the faculties of CiTG and A&BE. In 2002, the “Info Map
-Constructieleer” was published by prof. Wagemans et al., in the format of a A4 ring binder which,
-over the years, has been used by thousands of students in structural design education since. Already at that moment, the Infomap was a continuation of earlier publications with similar content. In
-2011, the content was updated, translated into English, and renamed to Quick Reference. In 2021 the large parts of the QR were used to create a similar resource at the Architecture faculty called ‘Vademecum voor draagconstructies van
-gebouwen’, further abbreviated here as VDM.<p/>
-
-<p>Until 2022, the QR and VDM were available as
+> **A little history...**
+> 
+> Structural Engineering educators in the [Faculties of Civil Engineering and Geosciences (CEG)](https://www.tudelft.nl/en/ceg) and [Architecture and the Built Environment (A&BE)](https://www.tudelft.nl/en/architecture-and-the-built-environment) make extensive use of self-produced reference books containing drawing instructions, design tables, material properties, equations, examples of structural elements, examples of calculations for dimensionsing of structural elements, and professional design drawings.
+>
+> Students use these reference books while participating in the many Structural Design classes at the faculties of CiTG and A&BE. In 2002, the “Info Map Constructieleer” was published by prof. Wagemans et al., in the format of a A4 ring binder which, over the years, has been used by thousands of students in structural design education since. Already at that moment, the Infomap was a continuation of earlier publications with similar content. In 2011, the content was updated, translated into English, and renamed to Quick Reference. In 2021 the large parts of the QR were used to create a similar resource at the Architecture faculty called ‘Vademecum voor draagconstructies van gebouwen’, further abbreviated here as VDM.
+>
+> Until 2022, the QR and VDM were available as
 hardcopy and distributed by the VSSD shop, with copyrights remaining at the Faculty of CEG and
-A&BE. The old QR and VDM can be found here as PDF (https://tinyurl.com/Reference-Tables).<p/>
-`````
+A&BE. The old QR and VDM can be found here as PDF (https://tinyurl.com/Reference-Tables).
+>
+
 
 ## Editors
 This book is edited by:
