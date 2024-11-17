@@ -14,7 +14,7 @@ The editors hope this fresh edition will serve new generations of students and p
 >
 > Until 2022, the QR and VDM were available as
 hardcopy and distributed by the VSSD shop, with copyrights remaining at the Faculty of CEG and
-A&BE. The old QR and VDM can be found here as PDF (https://tinyurl.com/Reference-Tables).
+A&BE. The old QR and VDM can be found [here](https://tinyurl.com/Reference-Tables) as PDF.
 >
 
 
