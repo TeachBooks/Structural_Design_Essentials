@@ -8,6 +8,8 @@ This section provides drawings of the Octatube case study building in steel.
 
 <center>3D model of the Octatube building in steel.</center>
 
+Or download the file [here](../../_static/Octatube_Steel.html) and open it in your web browser.
+
 ```{figure} Images/staal1.jpg
 ---
 ---
