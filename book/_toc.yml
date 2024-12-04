@@ -79,18 +79,21 @@ parts:
       - file: design/concrete/prefab_prestressed_beams
       - file: design/concrete/bridge_beams
       - file: design/concrete/moment_normalforce_interaction
+      - file: design/concrete/3d_connections
     - file: design/steel/steel
       sections:
       - file: design/steel/spans_in_steel
       - file: design/steel/steel_structures
       - file: design/steel/connections_matrix
       - file: design/steel/connections
+      - file: design/steel/3d_connections
       - file: design/steel/buckling
     - file: design/timber/timber
       sections:
       - file: design/timber/spans_in_timber
       - file: design/timber/timber_structures_and_details
       - file: design/timber/connection_elements
+      - file: design/timber/3d_connections
       - file: design/timber/trusses_and_joints
     - file: design/foundations/foundations
       sections:
