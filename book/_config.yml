@@ -1,7 +1,7 @@
 
-title: Quick Reference
+title: Structural Design Essentials
 author: Roel Schipper, Sander Pasterkamp, Ate Snijder, Marco Schuurman, Geert Ravenshorst, Guus Meinema, Niels van Vliet
-logo: logo.png
+logo: logoSDE.png
 copyright: Delft University of Technology, CC BY 4.0
 
 # Force re-execution of notebooks on each build.
