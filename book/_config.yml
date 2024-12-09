@@ -20,7 +20,7 @@ bibtex_bibfiles:
 
 # Information about where the book exists on the web
 repository:
-  url: https://github.com/TeachBooks/Quick_Reference  # Online location of your book
+  url: https://github.com/TeachBooks/Structural_Design_Essentials  # Online location of your book
 
 # Add GitHub buttons to your book
 # See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
