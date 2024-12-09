@@ -38,9 +38,9 @@ The project was funded by the [Open Education Stimulation Fund](https://www.tude
 ```{admonition} Please collaborate with us!
 If you find any mistakes, please let us know in this [Google Form](https://docs.google.com/forms/d/e/1FAIpQLScMBPusjh_-0EUo0I86M4Pg8IWoo9z-MRbLmXczPKPZlZn7FA/viewform?usp=sf_link). Also suggestions or additions are highly encouraged! For more advanced users, also a direct link to our [github](https://github.com/TeachBooks/Quick_Reference) environment is possible after becoming part of our team. This would allow you to [branch](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches) and make direct changes or corrections, commit and push. After that, we will process your proposed pull requests. Please [mail](mailto:h.r.schipper@tudelft.nl?subject=Quick%20Reference%20Jupyter%20Book) us if you want access.
 ```
-## Set-up of the Quick Reference
+## Set-up of the Structural Design Essentials
 
-The Quick Reference is organised along the following structure:
+The Structural Design Essentials is organised along the following structure:
 - **General design info**: the design process broken down in substeps, information about loads from Eurocode, helpful structural mechanics solutions for hand calculations, drawing conventions
 - **Basic properties**: material comparison and construction types, environmental impact, costs information, material characteristics and common structural elements in concrete, steel and timber
 - **Design guidelines**: typical construction types and dimensioning guidelines per material
