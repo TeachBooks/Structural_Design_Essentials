@@ -37,7 +37,8 @@ parts:
   - caption: Basic properties
     numbered: 2
     chapters:
-    - file: basics/general_materials
+    - file: basics/mechanical_properties_materials
+    - file: basics/sustainable_properties_materials
     - file: basics/concrete/concrete
       sections:
       - file: basics/concrete/material_characteristics_concrete
@@ -113,9 +114,10 @@ parts:
       sections:
       - file: calculation_examples/LCA/lecture_exercise
       - file: calculation_examples/LCA/simplified_LCA_tool
-      - file: calculation_examples/LCA/steel_comparison
+      - file: calculation_examples/LCA/Octatube_comparison
+      # - file: calculation_examples/LCA/steel_comparison
       - file: calculation_examples/LCA/TSCT
-      - file: calculation_examples/LCA/TSCT_example
+      # - file: calculation_examples/LCA/TSCT_example
     - file: calculation_examples/concrete/concrete
       sections:
       - file: calculation_examples/concrete/beam
