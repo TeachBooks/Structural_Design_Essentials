@@ -17,7 +17,6 @@ hardcopy and distributed by the VSSD shop, with copyrights remaining at the Facu
 A&BE. The old QR and VDM can be found [here](https://tinyurl.com/Reference-Tables) as PDF.
 >
 
-
 ## Editors
 This book is edited by:
 - [Roel Schipper](https://www.tudelft.nl/citg/over-faculteit/afdelingen/chairs/dbe/building-engineering/staff/drir-hr-roel-schipper), project lead [^1]
@@ -36,7 +35,9 @@ Authors who initiated or contributed to earlier versions of the Infomap or Quick
 The project was funded by the [Open Education Stimulation Fund](https://www.tudelft.nl/en/open-science/funding/awarded-projects/open-education-stimulation-fund-2023) of TU Delft.
 
 ```{admonition} Please collaborate with us!
-If you find any mistakes, please let us know in this [Google Form](https://docs.google.com/forms/d/e/1FAIpQLScMBPusjh_-0EUo0I86M4Pg8IWoo9z-MRbLmXczPKPZlZn7FA/viewform?usp=sf_link). Also suggestions or additions are highly encouraged! For more advanced users, also a direct link to our [github](https://github.com/TeachBooks/Quick_Reference) environment is possible after becoming part of our team. This would allow you to [branch](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches) and make direct changes or corrections, commit and push. After that, we will process your proposed pull requests. Please [mail](mailto:h.r.schipper@tudelft.nl?subject=Quick%20Reference%20Jupyter%20Book) us if you want access.
+If you find any mistakes, please let us know in this [Google Form](https://docs.google.com/forms/d/e/1FAIpQLScMBPusjh_-0EUo0I86M4Pg8IWoo9z-MRbLmXczPKPZlZn7FA/viewform?usp=sf_link). Also suggestions or additions are highly encouraged!
+
+If you would like to collaborate by writing additional pages, but you don't know where to get started, the following [one page PDF explainer](OnePager_HowToEdit_SDE.pdf), might help you to get started. There is a direct link to our [github](https://github.com/TeachBooks/Quick_Reference), where you can edit after becoming part of our team. This would allow you to [branch](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches) and make direct changes or corrections, commit and push. After that, we will process your proposed pull requests. Please [mail](mailto:h.r.schipper@tudelft.nl?subject=Structural%20Design%20Essentials%20Jupyter%20Book) us if you want access.
 ```
 ## Set-up of the Structural Design Essentials
 
