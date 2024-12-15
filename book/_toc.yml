@@ -42,7 +42,6 @@ parts:
     - file: basics/concrete/concrete
       sections:
       - file: basics/concrete/material_characteristics_concrete
-      - file: basics/concrete/material_characteristics_concrete_steel
       - file: basics/concrete/reinforcement
       - file: basics/concrete/products_1_floors
       - file: basics/concrete/products_2_beams
@@ -130,8 +129,8 @@ parts:
       - file: calculation_examples/steel/truss_beam
     - file: calculation_examples/timber/timber
       sections:
-      - file: calculation_examples/timber/voorontwerp_houten_hal
-      - file: calculation_examples/timber/houten_kolommen
+      - file: calculation_examples/timber/predesign_timber_hall
+      - file: calculation_examples/timber/timber_columns
 
   - caption: Drawing examples
     numbered: 2
