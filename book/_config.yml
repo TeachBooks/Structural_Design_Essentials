@@ -1,7 +1,7 @@
 
-title: Quick Reference
+title: Structural Design Essentials
 author: Roel Schipper, Sander Pasterkamp, Ate Snijder, Marco Schuurman, Geert Ravenshorst, Guus Meinema, Niels van Vliet
-logo: logo.png
+logo: LogoSDE.2.png
 copyright: Delft University of Technology, CC BY 4.0
 
 # Force re-execution of notebooks on each build.
@@ -20,7 +20,7 @@ bibtex_bibfiles:
 
 # Information about where the book exists on the web
 repository:
-  url: https://github.com/TeachBooks/Quick_Reference  # Online location of your book
+  url: https://github.com/TeachBooks/Structural_Design_Essentials  # Online location of your book
 
 # Add GitHub buttons to your book
 # See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
