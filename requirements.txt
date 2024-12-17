@@ -14,4 +14,6 @@ plotly
 # docutils version for reference page formatting
 docutils==0.17.1
 
-sphinx-thebe ~= 0.3.1  #temporarily disable
+# now list the packages (and the respective url) you wish to download from the GitLab package registry
+--extra-index-url https://gitlab.tudelft.nl/api/v4/projects/11239/packages/pypi/simple
+sphinx-thebe ~= 0.9.9
