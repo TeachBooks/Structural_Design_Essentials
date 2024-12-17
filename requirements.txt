@@ -14,5 +14,3 @@ plotly
 
 # docutils version for reference page formatting
 docutils==0.17.1
-
-# sphinx-thebe ~= 0.9.9  #temporarily disable
