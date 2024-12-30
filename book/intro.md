@@ -29,6 +29,7 @@ This book is edited by:
 The following Teaching Assistants were resonsible for most of the hands-on creation of this Jupyter Book:
 - Guus Meinema (student MSc Civil Engineering)
 - Niels van Vliet (student MSc Civil Engineering)
+- Minke van den Boogaard (student MSc Architecture)
 
 Authors who initiated or contributed to earlier versions of the Infomap or Quick Reference, to whom we are greatly indebted, are: Leo Wagemans, Felix Soons, Sander Pasterkamp, Sjors van Es and B. van Raaij.
 
