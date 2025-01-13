@@ -1,4 +1,4 @@
-# Welcome to Structural Design Essentials
+# Structural Design Essentials
 This Jupyter Book serves as design guideline that replaces Quick Reference (QR) and Vademecum (VDM). The QR and VDM have been redeveloped as Online Open Textbook, reusing, updating and adding to the existing content. The new Online Open textbook is named Structutal Design Essentials (SDE). We make use of the [Jupyter Book](https://jupyterbook.org/en/stable/intro.html) toolchain, of which the main components are:
 - The [Teachbooks](https://teachbooks.github.io/) hosting platform
 - [Github](https://github.com/TeachBooks/Quick_Reference) as platform to allow easy-access to and reuse of the open source material
