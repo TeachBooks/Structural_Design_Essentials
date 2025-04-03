@@ -36,7 +36,7 @@ Authors who initiated or contributed to earlier versions of the Infomap or Quick
 The project was funded by the [Open Education Stimulation Fund](https://www.tudelft.nl/en/open-science/funding/awarded-projects/open-education-stimulation-fund-2023) of TU Delft.
 
 ```{admonition} Please collaborate with us!
-If you find any mistakes, please let us know in this [Microsoft Form]: (https://forms.office.com/Pages/ResponsePage.aspx?id=TVJuCSlpMECM04q0LeCIe7pa2NCH8SNEpSpX2OO4qDBUQjZVTjZHWFZMVUVDVFRQWUJVOVFZWEVVTy4u). Also suggestions or additions are highly encouraged!
+If you find any mistakes, please let us know in this [Microsoft Form](https://forms.office.com/Pages/ResponsePage.aspx?id=TVJuCSlpMECM04q0LeCIe7pa2NCH8SNEpSpX2OO4qDBUQjZVTjZHWFZMVUVDVFRQWUJVOVFZWEVVTy4u). Also suggestions or additions are highly encouraged!
 
 If you would like to collaborate by writing additional pages, but you don't know where to get started, the following [one page PDF explainer](OnePager_HowToEdit_SDE.pdf), might help you to get started. There is a direct link to our [github](https://github.com/TeachBooks/Structural_Design_Essentials), where you can edit after becoming part of our team. This would allow you to [branch](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches) and make direct changes or corrections, commit and push. After that, we will process your proposed pull requests. Please [mail](mailto:h.r.schipper@tudelft.nl?subject=Structural%20Design%20Essentials%20Jupyter%20Book) us if you want access.
 ```
