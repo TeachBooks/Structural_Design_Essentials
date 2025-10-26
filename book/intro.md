@@ -26,9 +26,9 @@ This book is edited by:
 - [Geert Ravenshorst](https://www.tudelft.nl/citg/over-faculteit/afdelingen/engineering-structures/sections-labs/biobased-structures-and-materials/staff/drir-gjp-ravenshorst)[^3]
 
 The following Teaching Assistants were resonsible for most of the hands-on creation of this Jupyter Book:
-- [Guus Meinema] (https://nl.linkedin.com/in/guus-meinema-9266011b4), (former student MSc Civil Engineering)
-- [Niels van Vliet] (https://www.tudelft.nl/staff/n.a.vanvliet/) (former student MSc Civil Engineering, now PhD researcher [^3])
-- [Minke van den Boogaard] (https://nl.linkedin.com/in/minke-van-den-boogaard-204a79268) (former student MSc Architecture)
+- [Guus Meinema](https://nl.linkedin.com/in/guus-meinema-9266011b4) (former student MSc Civil Engineering)
+- [Niels van Vliet](https://www.tudelft.nl/staff/n.a.vanvliet/) (former student MSc Civil Engineering, now PhD researcher [^3])
+- [Minke van den Boogaard](https://nl.linkedin.com/in/minke-van-den-boogaard-204a79268) (former student MSc Architecture)
 
 Authors who initiated or contributed to earlier versions of the Infomap or Quick Reference, to whom we are greatly indebted, are: Leo Wagemans, Felix Soons, Sander Pasterkamp, Sjors van Es and B. van Raaij.
 
