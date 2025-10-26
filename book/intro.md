@@ -49,6 +49,9 @@ The Structural Design Essentials is organised along the following structure:
 - **Calculation examples**: good practice for set-up of a design calculation
 - **Drawing examples**: a collection of examples of educational and industry-standard drawings
  
+## How to cite this book
+R. Schipper, S. Pasterkamp, A. Snijder, M. Schuurman, G. Ravenshorst, G. Meinema, N. van Vliet, M. van den Boogaart, _Structural Design Essentials_, Delft University of Technology, 2024
+
 
 [^1]: TU Delft Faculty of Civil Engineering and Geosciences, Department Materials, Mechanics, Management & Design (3MD) 
 [^2]: TU Delft Faculty of Architecture and the Built Environment, Department Architectural Engineering and Technology (AE&T)
