@@ -4,7 +4,7 @@ This Jupyter Book serves as design guideline that replaces Quick Reference (QR) 
 - [Github](https://github.com/TeachBooks/Quick_Reference) as platform to allow easy-access to and reuse of the open source material
 - [MyST Markdown](https://myst-parser.readthedocs.io/en/latest/syntax/typography.html), the language for the text source, an easy-to-learn markup syntax
 
-The editors hope this fresh edition will serve new generations of students and professionals with their daily work in designing civil engineering and building structures. We also hope that you as reader will contribute, so that frequent updates can be published. To that end, please use the form at the lower end of this page, or directly link to our github environment.
+The editors hope this fresh edition will continue to serve new generations of students and professionals with their daily work in designing civil engineering and building structures. We also hope that you as reader will contribute, so that frequent updates can be published. To that end, please use the form at the lower end of this page, or directly link to our github environment.
 
 > **A little history...**
 > 
@@ -26,9 +26,9 @@ This book is edited by:
 - [Geert Ravenshorst](https://www.tudelft.nl/citg/over-faculteit/afdelingen/engineering-structures/sections-labs/biobased-structures-and-materials/staff/drir-gjp-ravenshorst)[^3]
 
 The following Teaching Assistants were resonsible for most of the hands-on creation of this Jupyter Book:
-- Guus Meinema (student MSc Civil Engineering)
-- Niels van Vliet (student MSc Civil Engineering)
-- Minke van den Boogaard (student MSc Architecture)
+- [Guus Meinema] (https://nl.linkedin.com/in/guus-meinema-9266011b4), (former student MSc Civil Engineering)
+- [Niels van Vliet] (https://www.tudelft.nl/staff/n.a.vanvliet/) (former student MSc Civil Engineering, now PhD researcher [^3])
+- [Minke van den Boogaard] (https://nl.linkedin.com/in/minke-van-den-boogaard-204a79268) (former student MSc Architecture)
 
 Authors who initiated or contributed to earlier versions of the Infomap or Quick Reference, to whom we are greatly indebted, are: Leo Wagemans, Felix Soons, Sander Pasterkamp, Sjors van Es and B. van Raaij.
 
