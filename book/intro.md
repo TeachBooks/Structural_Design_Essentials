@@ -50,8 +50,7 @@ The Structural Design Essentials is organised along the following structure:
 - **Drawing examples**: a collection of examples of educational and industry-standard drawings
  
 ## How to cite this book
-R. Schipper, S. Pasterkamp, A. Snijder, M. Schuurman, G. Ravenshorst, G. Meinema, N. van Vliet, M. van den Boogaart, _Structural Design Essentials_, Delft University of Technology, 2024
-download citation [here](SDE.ris) as .ris file.
+R. Schipper, S. Pasterkamp, A. Snijder, M. Schuurman, G. Ravenshorst, G. Meinema, N. van Vliet, M. van den Boogaart, _Structural Design Essentials_, Delft University of Technology, 2024 (download citation [here](SDE.ris) as .ris file).
 
 
 [^1]: TU Delft Faculty of Civil Engineering and Geosciences, Department Materials, Mechanics, Management & Design (3MD) 
