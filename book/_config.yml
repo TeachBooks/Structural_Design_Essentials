@@ -45,10 +45,14 @@ parse:
     - tasklist
 
 sphinx:
-  extra_extensions: ["sphinx_multitoc_numbering"]
+  extra_extensions:
+    - sphinx_multitoc_numbering
+    - sphinx_tudelft_theme
+    - teachbooks_favourites
+    - sphinx_apa_references
   config:
     html_js_files:
     - https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js
-    thebe_config:
-      use_thebe_lite: true
-      exclude_patterns: ["**/_*.yml", "**/*.md", "**/*.ipynb"]
+    tud_change_logo: false
+    tud_sticky_logo: false
+    tud_change_titlesize: false
