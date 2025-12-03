@@ -41,7 +41,8 @@ The Structural Design Essentials is organised along the following structure:
 ## How to cite this book
 R. Schipper, S. Pasterkamp, A. Snijder, M. Schuurman, G. Ravenshorst, G. Meinema, N. van Vliet, M. van den Boogaart, _Structural Design Essentials_, Delft University of Technology, 2024 (download citation [here](SDE.ris) as .ris file).
 
-<A little history...>
+<details>
+<summary><b>A little history...</b></summary>
 
 Structural Engineering educators in the [Faculties of Civil Engineering and Geosciences (CEG)](https://www.tudelft.nl/en/ceg) and [Architecture and the Built Environment (A&BE)](https://www.tudelft.nl/en/architecture-and-the-built-environment) make extensive use of self-produced reference books containing drawing instructions, design tables, material properties, equations, examples of structural elements, examples of calculations for dimensionsing of structural elements, and professional design drawings.
 
@@ -49,7 +50,7 @@ Students use these reference books while participating in the many Structural De
 
 Until 2022, the QR and VDM were available as hardcopy and distributed by the VSSD shop, with copyrights remaining at the Faculty of CEG and A&BE. The old QR and VDM can be found [here](https://tinyurl.com/Reference-Tables) as PDF.
 
-</A little history...>
+</details>
 
 
 
