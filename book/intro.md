@@ -7,13 +7,13 @@ The Structural Design Essentials is an online textbook with information helpful 
 - **Calculation examples**: good practice for set-up of a design calculation
 - **Drawing examples**: a collection of examples of educational and industry-standard drawings
 
+The editors hope the SDE will continue to serve new generations of students and professionals with their daily work in designing civil engineering structures. We also hope that you as reader will contribute, so that frequent updates can be published. To that end, please use the info lower at this page, or directly link to our github environment.
+
 ## Technicalities of Structural Design Essentials
 We make use of the [Jupyter Book](https://jupyterbook.org/en/stable/intro.html) toolchain, of which the main components are:
 - The [Teachbooks](https://teachbooks.github.io/) hosting platform
 - [Github](https://github.com/TeachBooks/Quick_Reference) as platform to allow easy-access to and reuse of the open source material
 - [MyST Markdown](https://myst-parser.readthedocs.io/en/latest/syntax/typography.html), the language for the text source, an easy-to-learn markup syntax
-
-The editors hope the SDE will continue to serve new generations of students and professionals with their daily work in designing civil engineering structures. We also hope that you as reader will contribute, so that frequent updates can be published. To that end, please use the info lower at this page, or directly link to our github environment.
 
 ## Editors
 This book is edited by:
