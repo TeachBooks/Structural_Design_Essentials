@@ -6,17 +6,6 @@ This Jupyter Book serves as design guideline that replaces Quick Reference (QR) 
 
 The editors hope this fresh edition will continue to serve new generations of students and professionals with their daily work in designing civil engineering and building structures. We also hope that you as reader will contribute, so that frequent updates can be published. To that end, please use the form at the lower end of this page, or directly link to our github environment.
 
-> **A little history...**
-> 
-> Structural Engineering educators in the [Faculties of Civil Engineering and Geosciences (CEG)](https://www.tudelft.nl/en/ceg) and [Architecture and the Built Environment (A&BE)](https://www.tudelft.nl/en/architecture-and-the-built-environment) make extensive use of self-produced reference books containing drawing instructions, design tables, material properties, equations, examples of structural elements, examples of calculations for dimensionsing of structural elements, and professional design drawings.
->
-> Students use these reference books while participating in the many Structural Design classes at the faculties of CiTG and A&BE. In 2002, the “Info Map Constructieleer” was published by prof. Wagemans et al., in the format of a A4 ring binder which, over the years, has been used by thousands of students in structural design education since. Already at that moment, the Infomap was a continuation of earlier publications with similar content. In 2011, the content was updated, translated into English, and renamed to Quick Reference. In 2021 the large parts of the QR were used to create a similar resource at the Architecture faculty called ‘Vademecum voor draagconstructies van gebouwen’, further abbreviated here as VDM. In 2024 the new Online Open textbook was renamed to Structutal Design Essentials (SDE).
->
-> Until 2022, the QR and VDM were available as
-hardcopy and distributed by the VSSD shop, with copyrights remaining at the Faculty of CEG and
-A&BE. The old QR and VDM can be found [here](https://tinyurl.com/Reference-Tables) as PDF.
->
-
 ## Editors
 This book is edited by:
 - [Roel Schipper](https://www.tudelft.nl/citg/over-faculteit/afdelingen/chairs/dbe/building-engineering/staff/drir-hr-roel-schipper), project lead [^1]
@@ -35,11 +24,11 @@ Authors who initiated or contributed to earlier versions of the Infomap or Quick
 ## Funding
 The project was funded by the [Open Education Stimulation Fund](https://www.tudelft.nl/en/open-science/funding/awarded-projects/open-education-stimulation-fund-2023) of TU Delft.
 
-```{admonition} Please collaborate with us!
+## Please collaborate with us!
 If you find any mistakes, please let us know in this [Microsoft Form](https://forms.office.com/Pages/ResponsePage.aspx?id=TVJuCSlpMECM04q0LeCIe7pa2NCH8SNEpSpX2OO4qDBUQjZVTjZHWFZMVUVDVFRQWUJVOVFZWEVVTy4u). Also suggestions or additions are highly encouraged!
 
 If you would like to collaborate by writing additional pages, but you don't know where to get started, the following [one page PDF explainer](OnePager_HowToEdit_SDE.pdf), might help you to get started. There is a direct link to our [github](https://github.com/TeachBooks/Structural_Design_Essentials), where you can edit after becoming part of our team. This would allow you to [branch](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches) and make direct changes or corrections, commit and push. After that, we will process your proposed pull requests. Please [mail](mailto:h.r.schipper@tudelft.nl?subject=Structural%20Design%20Essentials%20Jupyter%20Book) us if you want access.
-```
+
 ## Set-up of the Structural Design Essentials
 
 The Structural Design Essentials is organised along the following structure:
@@ -51,6 +40,19 @@ The Structural Design Essentials is organised along the following structure:
  
 ## How to cite this book
 R. Schipper, S. Pasterkamp, A. Snijder, M. Schuurman, G. Ravenshorst, G. Meinema, N. van Vliet, M. van den Boogaart, _Structural Design Essentials_, Delft University of Technology, 2024 (download citation [here](SDE.ris) as .ris file).
+
+<details>
+
+**A little history...**
+
+Structural Engineering educators in the [Faculties of Civil Engineering and Geosciences (CEG)](https://www.tudelft.nl/en/ceg) and [Architecture and the Built Environment (A&BE)](https://www.tudelft.nl/en/architecture-and-the-built-environment) make extensive use of self-produced reference books containing drawing instructions, design tables, material properties, equations, examples of structural elements, examples of calculations for dimensionsing of structural elements, and professional design drawings.
+
+Students use these reference books while participating in the many Structural Design classes at the faculties of CiTG and A&BE. In 2002, the “Info Map Constructieleer” was published by prof. Wagemans et al., in the format of a A4 ring binder which, over the years, has been used by thousands of students in structural design education since. Already at that moment, the Infomap was a continuation of earlier publications with similar content. In 2011, the content was updated, translated into English, and renamed to Quick Reference. In 2021 the large parts of the QR were used to create a similar resource at the Architecture faculty called ‘Vademecum voor draagconstructies van gebouwen’, further abbreviated here as VDM. In 2024 the new Online Open textbook was renamed to Structutal Design Essentials (SDE).
+
+Until 2022, the QR and VDM were available as hardcopy and distributed by the VSSD shop, with copyrights remaining at the Faculty of CEG and A&BE. The old QR and VDM can be found [here](https://tinyurl.com/Reference-Tables) as PDF.
+
+</details>
+
 
 
 [^1]: TU Delft Faculty of Civil Engineering and Geosciences, Department Materials, Mechanics, Management & Design (3MD) 
