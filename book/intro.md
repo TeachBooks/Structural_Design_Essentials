@@ -6,7 +6,7 @@ The Structural Design Essentials is an online textbook with information helpful 
 - **Design guidelines**: typical construction types and dimensioning guidelines per material
 - **Calculation examples**: good practice for set-up of a design calculation
 - **Drawing examples**: a collection of examples of educational and industry-standard drawings
-- 
+
 ## Technicalities of Structural Design Essentials
 We make use of the [Jupyter Book](https://jupyterbook.org/en/stable/intro.html) toolchain, of which the main components are:
 - The [Teachbooks](https://teachbooks.github.io/) hosting platform
@@ -41,17 +41,13 @@ If you would like to collaborate by writing additional pages, but you don't know
 ## How to cite this book
 R. Schipper, S. Pasterkamp, A. Snijder, M. Schuurman, G. Ravenshorst, G. Meinema, N. van Vliet, M. van den Boogaart, _Structural Design Essentials_, Delft University of Technology, 2024 (download citation [here](SDE.ris) as .ris file).
 
-<details>
-<summary><b>A little history...</b></summary>
+## A little history...
 
 Structural Engineering educators in the [Faculties of Civil Engineering and Geosciences (CEG)](https://www.tudelft.nl/en/ceg) and [Architecture and the Built Environment (A&BE)](https://www.tudelft.nl/en/architecture-and-the-built-environment) make extensive use of self-produced reference books containing drawing instructions, design tables, material properties, equations, examples of structural elements, examples of calculations for dimensionsing of structural elements, and professional design drawings.
 
 Students use these reference books while participating in the many Structural Design classes at the faculties of CiTG and A&BE. In 2002, the “Info Map Constructieleer” was published by prof. Wagemans et al., in the format of a A4 ring binder which, over the years, has been used by thousands of students in structural design education since. Already at that moment, the Infomap was a continuation of earlier publications with similar content. In 2011, the content was updated, translated into English, and renamed to Quick Reference. In 2021 the large parts of the QR were used to create a similar resource at the Architecture faculty called ‘Vademecum voor draagconstructies van gebouwen’, further abbreviated here as VDM. 
 
 Until 2022, the QR and VDM were available as hardcopy and distributed by the VSSD shop, with copyrights remaining at the Faculty of CEG and A&BE. These old QR and VDM can be found [here](https://tinyurl.com/Reference-Tables) as PDF. The present Jupyter Book that you are reading now serves as design guideline that from 2024 onwards replaced Quick Reference (QR) and Vademecum (VDM).
-
-</details>
-
 
 
 [^1]: TU Delft Faculty of Civil Engineering and Geosciences, Department Materials, Mechanics, Management & Design (3MD) 
