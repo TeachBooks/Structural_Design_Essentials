@@ -71,6 +71,7 @@ parts:
     - file: design/concrete/concrete
       sections:
       - file: design/concrete/C01_spans_in_concrete
+      - file: design/concrete/C02_rules_of_thumb
       - file: design/concrete/C03_reinforcement_tables
       - file: design/concrete/C04_bubbledeck_floors
       - file: design/concrete/C05_composite_floors
