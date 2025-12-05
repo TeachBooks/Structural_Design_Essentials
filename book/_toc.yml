@@ -68,7 +68,7 @@ parts:
   - caption: Design guidelines
     numbered: 2
     chapters:
-    - file: design/concrete/concrete
+    - file: design/concrete/C00_concrete
       sections:
       - file: design/concrete/C01_spans_in_concrete
       - file: design/concrete/C02_rules_of_thumb
