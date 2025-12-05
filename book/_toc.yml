@@ -89,13 +89,13 @@ parts:
       - file: design/steel/S04_connections
       - file: design/steel/S05_3d_connections
       - file: design/steel/S06_buckling
-    - file: design/timber/timber
+    - file: design/timber/T00_timber
       sections:
-      - file: design/timber/spans_in_timber
-      - file: design/timber/timber_structures_and_details
-      - file: design/timber/connection_elements
-      - file: design/timber/3d_connections
-      - file: design/timber/trusses_and_joints
+      - file: design/timber/T01_spans_in_timber
+      - file: design/timber/T02_timber_structures_and_details
+      - file: design/timber/T03_connection_elements
+      - file: design/timber/T04_3d_connections
+      - file: design/timber/T05_trusses_and_joints
     - file: design/foundations/foundations
       sections:
       - file: design/foundations/design_guide
