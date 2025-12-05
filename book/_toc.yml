@@ -68,7 +68,7 @@ parts:
   - caption: Design guidelines
     numbered: 2
     chapters:
-    - file: design/concrete/concrete
+    - file: design/concrete/C00_concrete
       sections:
       - file: design/concrete/C01_spans_in_concrete
       - file: design/concrete/C02_rules_of_thumb
@@ -81,14 +81,14 @@ parts:
       - file: design/concrete/C09_bridge_beams
       - file: design/concrete/C10_moment_normalforce_interaction
       - file: design/concrete/C11_3d_connections
-    - file: design/steel/steel
+    - file: design/steel/S00_steel
       sections:
-      - file: design/steel/spans_in_steel
-      - file: design/steel/steel_structures
-      - file: design/steel/connections_matrix
-      - file: design/steel/connections
-      - file: design/steel/3d_connections
-      - file: design/steel/buckling
+      - file: design/steel/S01_spans_in_steel
+      - file: design/steel/S02_rules_of_thumb
+      - file: design/steel/S03_connections_matrix
+      - file: design/steel/S04_connections
+      - file: design/steel/S05_3d_connections
+      - file: design/steel/S06_buckling
     - file: design/timber/timber
       sections:
       - file: design/timber/spans_in_timber
