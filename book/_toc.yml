@@ -108,7 +108,7 @@ parts:
     chapters:
     - file: calculation_examples/safety/intro_safety
       sections:
-      - file: calculation_examples/safety/effect_vs_resistance
+      - file: calculation_examples/safety/reliability_index
       - file: calculation_examples/safety/effect_vs_resistance_old
       - file: calculation_examples/safety/unity_check
       - file: calculation_examples/safety/CS_23_24_safety
