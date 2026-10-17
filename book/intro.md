@@ -26,7 +26,7 @@ This book is edited by:
 The following Teaching Assistants were resonsible for most of the hands-on creation of this Jupyter Book:
 - [Guus Meinema](https://nl.linkedin.com/in/guus-meinema-9266011b4) (former student MSc Civil Engineering)
 - [Niels van Vliet](https://www.tudelft.nl/staff/n.a.vanvliet/) (former student MSc Civil Engineering, now PhD researcher [^3])
-- [Minke van den Boogaard](https://nl.linkedin.com/in/minke-van-den-boogaard-204a79268) (former student MSc Architecture)
+- [Minke van den Boogaard](https://nl.linkedin.com/in/minke-van-den-boogaard-204a79268) (student MSc Architecture)
 
 Authors who initiated or contributed to earlier versions of this SDE, the Infomap or Quick Reference, to whom we are greatly indebted, are: Leo Wagemans, Felix Soons, Sander Pasterkamp, Sjors van Es and B. van Raaij.
 
