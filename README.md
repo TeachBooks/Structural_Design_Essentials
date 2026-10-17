@@ -16,6 +16,7 @@ This book is authored by:
 The following Teaching Assistants were involved in the creation of this jupyterbook:
 - Guus Meinema (MSc student CEG)
 - Niels van Vliet (MSc student CEG)
+- Minke van den Boogaard (AR)
 
 ## Funding
 The project was funded by the Open Education Stimulation Fund from [the TU Delft](https://www.tudelft.nl/).
