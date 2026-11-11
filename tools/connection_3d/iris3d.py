@@ -262,7 +262,8 @@ class Scene:
         self.lines = []       # (points, layer)
         self.layer_order = []
         self.view_dir = (0.62, -0.8, 0.5)
-        self.zoom = 1.0
+        self.zoom = 0.75     # < 1 brings the camera closer
+        self.pivot = None     # orbit point; default: centre of the bolts
 
     def _layer(self, layer):
         if layer not in self.layer_order:
@@ -377,11 +378,25 @@ class Scene:
     # ------------------------------------------------------------------ export
     def to_irisdata(self):
         # centre the model on the origin (the viewer orbits around the origin)
-        allp = [p for m, _, _ in self.meshes for p in m.pos]
-        lo = [min(p[k] for p in allp) for k in range(3)]
-        hi = [max(p[k] for p in allp) for k in range(3)]
-        c = tuple((a + b) / 2 for a, b in zip(lo, hi))
-        radius = 0.5 * math.dist(lo, hi)
+        # The viewer orbits around the origin, so put the connection itself there: the centre of
+        # the bolt group (or an explicit pivot), not the centre of the bounding box, which for an
+        # L-shaped joint lies in empty space and makes the model swing across the screen.
+        def bbox(points):
+            lo = [min(p[k] for p in points) for k in range(3)]
+            hi = [max(p[k] for p in points) for k in range(3)]
+            return lo, hi
+
+        lo, hi = bbox([p for m, _, _ in self.meshes for p in m.pos])
+        bolts = [p for m, mat, _ in self.meshes if mat in ("bolt", "nut") for p in m.pos]
+        if self.pivot is not None:
+            c = tuple(self.pivot)
+        elif bolts:
+            blo, bhi = bbox(bolts)
+            c = tuple((a + b) / 2 for a, b in zip(blo, bhi))
+        else:
+            c = tuple((a + b) / 2 for a, b in zip(lo, hi))
+        corners = [(x, y, z) for x in (lo[0], hi[0]) for y in (lo[1], hi[1]) for z in (lo[2], hi[2])]
+        radius = 0.5 * (0.5 * math.dist(lo, hi) + max(math.dist(c, q) for q in corners))
 
         materials, mat_ids = [], {}
         for key, (color, name) in MATERIALS.items():

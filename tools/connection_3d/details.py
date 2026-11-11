@@ -240,7 +240,7 @@ def column_base():
         s.add_line([a, b], "Grout")
     s.box(-35, 35, -30, 30, -grout_t - 40, -grout_t, "concrete", "Foundation")
     s.view_dir = (0.55, -0.78, 0.47)
-    s.zoom = 0.95
+    s.pivot = (0.0, 0.0, 2.0)     # base plate, not the centre of the long anchor bolts
     return s
 
 
