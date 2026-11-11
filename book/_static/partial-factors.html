@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Partial Factors Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400;1,600&display=swap">
+<style>html,body{margin:0}body{font-size:14px}[hidden]{display:none!important}</style>
+</head>
+<body>
+<style>
+/* Layout: lecture-screen workbench — graph dominates (left), calculation sheet (right), controls under the graph. */
+:root{
+  --bg:#f7f8fa; --panel:#ffffff; --ink:#151a24; --muted:#5d6676; --line:#d9dde5; --grid:#e9ecf1;
+  --E:#1d43c8; --R:#cf2129; --warn:#b4530b; --ok:#1b7a4a; --mark:#ffd84d; --markInk:#3b2f00;
+  --ui:#1f2a3c; --uiInk:#ffffff; --soft:#eef1f6;
+  --f-ui:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-math:"STIX Two Text", "Cambria Math", Cambria, "Times New Roman", serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10141b; --panel:#171c25; --ink:#e7eaf0; --muted:#9aa3b2; --line:#2c3443; --grid:#222937;
+  --E:#7d9bff; --R:#ff6b70; --warn:#f0a35c; --ok:#5fd19a; --mark:#6b5a12; --markInk:#fff3c4;
+  --ui:#dfe5ef; --uiInk:#10141b; --soft:#1e2531; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10141b; --panel:#171c25; --ink:#e7eaf0; --muted:#9aa3b2; --line:#2c3443; --grid:#222937;
+  --E:#7d9bff; --R:#ff6b70; --warn:#f0a35c; --ok:#5fd19a; --mark:#6b5a12; --markInk:#fff3c4;
+  --ui:#dfe5ef; --uiInk:#10141b; --soft:#1e2531; color-scheme:dark}
+html,body{background:var(--bg)}
+body{color:var(--ink);font-family:var(--f-ui);font-size:15px;line-height:1.45}
+.wrap{max-width:1500px;margin:0 auto;padding-block:14px 28px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:12px}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;justify-content:space-between}
+h1{font-size:1.35rem;margin:0;font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+h1 small{display:block;font-size:.8rem;font-weight:400;color:var(--muted);letter-spacing:0}
+.tabs{display:flex;gap:4px;background:var(--soft);padding:4px;border-radius:10px}
+.tabs button{border:0;background:transparent;color:var(--ink);font:500 .95rem var(--f-ui);padding:7px 16px;border-radius:7px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--ui);color:var(--uiInk)}
+.hbtns{display:flex;gap:8px;align-items:center}
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);font:500 .9rem var(--f-ui);padding:7px 12px;border-radius:8px;cursor:pointer}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--ui);color:var(--uiInk);border-color:var(--ui)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--E);outline-offset:2px}
+.main{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,380px);gap:12px;align-items:start}
+@media (max-width:980px){.main{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.chartcard{padding:8px 8px 4px}
+#chart{width:100%;height:auto;display:block}
+.sheet{padding:14px 16px;display:grid;gap:12px;min-width:0}
+.sheet h2{font:600 .72rem var(--f-ui);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 4px}
+.inputs{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px}
+.col{display:grid;gap:1px}
+.m{font-family:var(--f-math);font-size:1.08rem}
+.line{font-family:var(--f-math);font-size:1.12rem;padding:2px 6px;margin:0 -6px;border-radius:5px;transition:background .5s}
+.line b{font-weight:600}
+.line.sm{font-size:1rem}
+.line.E{color:var(--E)} .line.R{color:var(--R)}
+.line.fresh{background:var(--mark);color:var(--markInk)}
+.line.hide{display:none}
+.calc{display:grid;gap:1px}
+.note{font-size:.82rem;color:var(--muted)}
+.verdict{font-size:.92rem;padding:8px 10px;border-radius:8px;background:var(--soft)}
+.verdict.warn{color:var(--warn)}
+.stepbar{padding:12px 14px;display:grid;gap:10px}
+.steprow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.dots{display:flex;gap:6px;flex-wrap:wrap}
+.dots button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:500 .85rem var(--f-ui);cursor:pointer}
+.dots button.done{background:var(--soft)}
+.dots button.cur{background:var(--ui);color:var(--uiInk);border-color:var(--ui)}
+.caption{font-size:1.05rem;max-width:80ch;min-height:3em}
+.caption .m{font-size:1.12rem}
+.controls{padding:12px 14px;display:grid;gap:14px}
+.grp{display:grid;gap:8px}
+.grp h3{margin:0;font:600 .78rem var(--f-ui);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);display:flex;gap:8px;align-items:center}
+.grp h3 .sw{width:10px;height:10px;border-radius:2px;display:inline-block}
+.sliders{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px 22px}
+.sl{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px}
+.sl label{font-family:var(--f-math);font-size:1.1rem;min-width:2.2em}
+.sl output{font:500 .95rem var(--f-ui);font-variant-numeric:tabular-nums;min-width:3.6em;text-align:right}
+input[type=range]{width:100%;accent-color:var(--ui)}
+.sl.E input{accent-color:var(--E)} .sl.R input{accent-color:var(--R)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{border:0;background:var(--panel);color:var(--ink);font:500 .85rem var(--f-ui);padding:6px 10px;cursor:pointer;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ui);color:var(--uiInk)}
+.opts{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center}
+.opt{display:flex;gap:8px;align-items:center;font-size:.9rem}
+select{font:500 .88rem var(--f-ui);padding:5px 8px;border-radius:7px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+.presets{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+.preset{display:flex;align-items:center;gap:10px;text-align:left;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:9px 11px;cursor:pointer;font:400 .88rem var(--f-ui)}
+.preset:hover{border-color:var(--muted)}
+.preset .play{flex:none;width:28px;height:28px;border-radius:50%;background:var(--ui);color:var(--uiInk);display:grid;place-items:center;font-size:.8rem}
+.preset.running{border-color:var(--ui);background:var(--soft)}
+.preset strong{display:block;font-weight:600}
+.trends{display:grid;gap:6px}
+.trend svg{width:100%;height:auto;display:block}
+.trendhead{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+[hidden]{display:none!important}
+/* chart */
+.ax{stroke:var(--ink);stroke-width:1.2;fill:none}
+.gridl{stroke:var(--grid);stroke-width:1}
+.tick{fill:var(--muted);font:13px var(--f-ui)}
+.lab{fill:var(--ink);font:16px var(--f-math)}
+.lab.E{fill:var(--E)} .lab.R{fill:var(--R)}
+.big{font-size:22px}
+.cE{stroke:var(--E);fill:none;stroke-width:2.2}
+.cR{stroke:var(--R);fill:none;stroke-width:2.2}
+.mean{stroke-dasharray:9 4 2 4;stroke-width:2.2}
+.char{stroke-dasharray:6 4;stroke-width:2}
+.des{stroke-width:2.6}
+.arr{stroke:var(--ink);stroke-width:1.3;fill:none}
+.arr.warn{stroke:var(--warn)}
+.ahead{fill:var(--ink)} .ahead.warn{fill:var(--warn)}
+.lab.warn{fill:var(--warn)}
+.fresh .halo{stroke:var(--mark);stroke-width:12;stroke-linecap:round;opacity:.85}
+.halo{stroke:transparent;fill:none}
+.fadein{animation:fi .6s ease-out}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.fadein{animation:none}.line{transition:none}}
+.tl{fill:var(--muted);font:12px var(--f-ui)}
+.tcur{fill:var(--ink)}
+.tband{fill:var(--warn);opacity:.09}
+footer{font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 18px}
+footer a{color:inherit}
+.arr.cal{stroke:var(--muted);stroke-dasharray:6 4}
+.ahead.cal{fill:var(--muted)} .lab.cal{fill:var(--muted)}
+.dotm{fill:var(--panel);stroke-width:2}
+.sec{margin-top:6px}
+.code{display:grid;gap:1px}
+.sl.derived{opacity:.55}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Partial Factors Explorer<small>Reliability index β, fixed code partial factors and the unity check · EN 1990:2023 · CIEM5000 Safety &amp; Reliability</small></h1>
+    <div class="tabs" role="tablist" aria-label="Mode">
+      <button role="tab" id="tab-steps" aria-selected="true">Step by step</button>
+      <button role="tab" id="tab-explore" aria-selected="false">Explore</button>
+    </div>
+    <div class="hbtns">
+      <button class="btn" id="reset" title="Back to the lecture example">Lecture example</button>
+      <button class="btn" id="fs" title="Full screen for projection">Full screen</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <div style="display:grid;gap:12px;min-width:0">
+      <div class="card chartcard"><svg id="chart" viewBox="0 0 1000 560" role="img" aria-label="Probability density of load effect E and resistance R with characteristic and design values"></svg></div>
+
+      <section class="card stepbar" id="stepbar">
+        <div class="steprow">
+          <button class="btn" id="prev" aria-label="Previous step">◀ Back</button>
+          <div class="dots" id="dots"></div>
+          <button class="btn primary" id="next" aria-label="Next step">Next ▶</button>
+        </div>
+        <div class="caption" id="caption" aria-live="polite"></div>
+      </section>
+
+      <section class="card controls" id="controls" hidden>
+        <div class="grp">
+          <h3>Play a series <span class="note" style="text-transform:none;letter-spacing:0;font-weight:400">— partial factors stay fixed; watch u.c. and β<sub>real</sub></span></h3>
+          <div class="presets" id="presets"></div>
+        </div>
+        <div class="grp">
+          <h3><span class="sw" style="background:var(--R)"></span>Resistance R</h3>
+          <div class="opts">
+            <span class="seg" id="rmode"><button data-v="free" aria-pressed="true">Set μ<sub>R</sub> and σ<sub>R</sub></button><button data-v="size" aria-pressed="false">Size R to u.c. = 1</button></span>
+          </div>
+          <div class="sliders" id="freeR">
+            <div class="sl R"><label for="muR">μ<sub>R</sub></label><input type="range" id="muR" min="250" max="800" step="5"><output id="o-muR"></output></div>
+            <div class="sl R"><label for="sdR">σ<sub>R</sub></label><input type="range" id="sdR" min="10" max="200" step="1"><output id="o-sdR"></output></div>
+          </div>
+          <div class="opts" id="lockrow">
+            <div class="opt"><span>When μ<sub>R</sub> changes, keep</span>
+              <span class="seg" id="lock"><button data-v="sd" aria-pressed="true">σ<sub>R</sub> constant</button><button data-v="cov" aria-pressed="false">v<sub>R</sub> constant</button></span>
+            </div>
+          </div>
+          <div class="sliders" id="sizeR" hidden>
+            <div class="sl R"><label for="vR">v<sub>R</sub></label><input type="range" id="vR" min="0.03" max="0.30" step="0.005"><output id="o-vR"></output></div>
+            <div class="note" id="sizeNote"></div>
+          </div>
+        </div>
+        <div class="grp">
+          <h3><span class="sw" style="background:var(--E)"></span>Load effect E</h3>
+          <div class="sliders">
+            <div class="sl E"><label for="muE">μ<sub>E</sub></label><input type="range" id="muE" min="50" max="250" step="5"><output id="o-muE"></output></div>
+            <div class="sl E"><label for="sdE">σ<sub>E</sub></label><input type="range" id="sdE" min="5" max="80" step="1"><output id="o-sdE"></output></div>
+          </div>
+        </div>
+        <div class="grp">
+          <h3>Consequence class and distributions</h3>
+          <div class="opts">
+            <span class="seg" id="cc"><button data-v="1">CC1</button><button data-v="2">CC2</button><button data-v="3">CC3</button></span>
+            <div class="opt"><label for="distE">E</label><select id="distE"><option value="normal">normal</option><option value="gumbel">Gumbel</option></select></div>
+            <div class="opt"><label for="distR">R</label><select id="distR"><option value="normal">normal</option><option value="lognormal">lognormal</option></select></div>
+          </div>
+          <div class="note">CC1 / CC2 / CC3: β<sub>0</sub> = 3.3 / 3.8 / 4.3 (50 years) and consequence factor K<sub>F</sub> = 0.9 / 1.0 / 1.1 on the actions. Code factors fixed: γ<sub>Q</sub> = 1.5, γ<sub>M</sub> = 1.2 (generic material). α<sub>E</sub> = −0.7, α<sub>R</sub> = 0.8. Characteristic values are 95 % (E) and 5 % (R) fractiles.</div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="card sheet" id="sheet">
+      <div>
+        <h2>Input</h2>
+        <div class="inputs">
+          <div class="col" id="inE"></div>
+          <div class="col" id="inR"></div>
+        </div>
+      </div>
+      <div id="codeBox"></div>
+      <div>
+        <h2>Calculation</h2>
+        <div class="calc" id="calc"></div>
+      </div>
+      <div class="verdict" id="verdict" hidden></div>
+      <div class="trends" id="trends" hidden>
+        <div class="trendhead"><div id="trendTitle" style="font:600 .95rem var(--f-ui)">Trend</div><span class="note" id="trendNote"></span></div>
+        <div class="trend" id="tBeta"></div>
+        <div class="trend" id="tUc"></div>
+        <div class="trend" id="tGamma"></div>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <span>After R. Schipper, <i>partialfactors.ipynb</i> (CIEM5000) · calibration after Schneider &amp; Vrouwenvelder (2017), eq. 4.44 · consequence classes after EN 1990:2023.</span>
+    <a href="https://teachbooks.io/Structural_Design_Essentials/main/calculation_examples/safety/reliability_index.html" target="_blank" rel="noopener">Structural Design Essentials · 14.1 Reliability index β</a>
+    <span>Keys in step mode: → / Space / Page Down = next, ← / Page Up = back.</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+/* ---------- numerics ---------- */
+function erfc(x){const z=Math.abs(x),t=1/(1+0.5*z);
+  const r=t*Math.exp(-z*z-1.26551223+t*(1.00002368+t*(0.37409196+t*(0.09678418+t*(-0.18628806+t*(0.27886807+t*(-1.13520398+t*(1.48851587+t*(-0.82215223+t*0.17087277)))))))));
+  return x>=0?r:2-r;}
+const Phi=x=>0.5*erfc(-x/Math.SQRT2);
+function PhiInv(p){
+  const a=[-3.969683028665376e+01,2.209460984245205e+02,-2.759285104469687e+02,1.383577518672690e+02,-3.066479806614716e+01,2.506628277459239e+00],
+  b=[-5.447609879822406e+01,1.615858368580409e+02,-1.556989798598866e+02,6.680131188771972e+01,-1.328068155288572e+01],
+  c=[-7.784894002430293e-03,-3.223964580411365e-01,-2.400758277161838e+00,-2.549732539343734e+00,4.374664141464968e+00,2.938163982698783e+00],
+  d=[7.784695709041462e-03,3.224671290700398e-01,2.445134137142996e+00,3.754408661907416e+00];
+  const pl=0.02425;let q,r;
+  if(p<pl){q=Math.sqrt(-2*Math.log(p));return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);}
+  if(p>1-pl){q=Math.sqrt(-2*Math.log(1-p));return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);}
+  q=p-0.5;r=q*q;return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);}
+const SQ2PI=Math.sqrt(2*Math.PI);
+function dist(type,mu,sd){
+  if(type==="gumbel"){const be=sd*Math.sqrt(6)/Math.PI,u=mu-0.5772156649*be;
+    return {pdf:x=>{const z=(x-u)/be;return Math.exp(-(z+Math.exp(-z)))/be},cdf:x=>Math.exp(-Math.exp(-(x-u)/be)),inv:p=>u-be*Math.log(-Math.log(p)),mode:u};}
+  if(type==="lognormal"){const s2=Math.log(1+(sd/mu)**2),s=Math.sqrt(s2),m=Math.log(mu)-s2/2;
+    return {pdf:x=>x<=0?0:Math.exp(-((Math.log(x)-m)**2)/(2*s2))/(x*s*SQ2PI),cdf:x=>x<=0?0:Phi((Math.log(x)-m)/s),inv:p=>Math.exp(m+s*PhiInv(p)),mode:Math.exp(m-s2)};}
+  return {pdf:x=>Math.exp(-((x-mu)**2)/(2*sd*sd))/(sd*SQ2PI),cdf:x=>Phi((x-mu)/sd),inv:p=>mu+sd*PhiInv(p),mode:mu};
+}
+/* ---------- code values ---------- */
+const AE=-0.7, AR=0.8, K=1.64, GQ=1.5, GM=1.2, VREF=0.10;
+const CC={1:{b0:3.3,kf:0.9},2:{b0:3.8,kf:1.0},3:{b0:4.3,kf:1.1}};
+function charR(type,mu,sd){return type==="normal"?mu-K*sd:dist(type,mu,sd).inv(0.05);}
+function charE(type,mu,sd){return type==="normal"?mu+K*sd:dist(type,mu,sd).inv(0.95);}
+function compute(p){
+  const c=CC[p.cc], b0=c.b0;
+  const normal=p.distE==="normal"&&p.distR==="normal";
+  const dE=dist(p.distE,p.muE,p.sdE), dR=dist(p.distR,p.muR,p.sdR);
+  const r={p,normal,dE,dR,b0,kf:c.kf};
+  r.vE=p.sdE/p.muE; r.vR=p.sdR/p.muR;
+  r.Echar=charE(p.distE,p.muE,p.sdE); r.Rchar=charR(p.distR,p.muR,p.sdR);
+  // fixed code factors
+  r.gE=c.kf*GQ; r.gR=GM;
+  r.Ed=r.gE*r.Echar; r.Rd=r.Rchar/r.gR; r.uc=r.Ed/r.Rd;
+  // calibration (eq. 4.44): values at the beta0 level
+  r.Eb = p.distE==="normal" ? p.muE-AE*b0*p.sdE : dE.inv(Phi(-AE*b0));
+  r.Rb = p.distR==="normal" ? p.muR-AR*b0*p.sdR : dR.inv(Phi(-AR*b0));
+  r.gEcal=r.Eb/r.Echar; r.gRcal=r.Rchar/r.Rb;
+  r.gRref = p.distR==="normal" ? (1-K*VREF)/(1-AR*b0*VREF) : charR(p.distR,1,VREF)/dist(p.distR,1,VREF).inv(Phi(-AR*b0));
+  // reliability
+  r.muZ=p.muR-p.muE; r.sdZ=Math.sqrt(p.sdR**2+p.sdE**2); r.betaMV=r.muZ/r.sdZ;
+  if(normal){r.beta=r.betaMV; r.Pf=Phi(-r.beta);}
+  else{const a=Math.min(p.muE-9*p.sdE,p.muR-9*p.sdR), b=Math.max(p.muE+14*p.sdE,p.muR+9*p.sdR), n=8000, h=(b-a)/n; let s=0;
+    for(let i=0;i<=n;i++){const x=a+i*h;const f=dE.pdf(x)*dR.cdf(x);s+=f*(i===0||i===n?1:(i%2?4:2));}
+    r.Pf=Math.max(s*h/3,1e-300); r.beta=-PhiInv(Math.min(r.Pf,0.5));}
+  r.peakE=dE.pdf(dE.mode); r.peakR=dR.pdf(dR.mode);
+  r.pdfMuE=dE.pdf(p.muE); r.pdfMuR=dR.pdf(p.muR);
+  return r;
+}
+/* size R so that u.c. = 1 for a given vR (keeps distribution type) */
+function sizeR(p,v){const c=CC[p.cc];const Ed=c.kf*GQ*charE(p.distE,p.muE,p.sdE);const RcharNeed=GM*Ed;
+  const unit=charR(p.distR,1,v);const mu=RcharNeed/unit;return {...p,muR:mu,sdR:v*mu};}
+
+/* ---------- math typesetting ---------- */
+const GREEK={mu:"μ",sigma:"σ",beta:"β",gamma:"γ",alpha:"α",Phi:"Φ",cdot:"·",minus:"−",sqrt:"√",times:"×",to:"→"};
+function parse(s){
+  s=s.replace(/\\(mu|sigma|beta|gamma|alpha|Phi|cdot|minus|sqrt|times|to)/g,(m,g)=>GREEK[g]);
+  const seg=[];let i=0;
+  const push=(t,st,pos)=>{const l=seg[seg.length-1];if(l&&l.st===st&&l.pos===pos)l.t+=t;else seg.push({t,st,pos});};
+  const styleOf=ch=>/[A-Za-zα-ω]/.test(ch)?"i":"r";
+  while(i<s.length){const ch=s[i];
+    if(ch==="`"){const j=s.indexOf("`",i+1);push(s.slice(i+1,j),"r","b");i=j+1;continue;}
+    if(ch==="_"||ch==="^"){const pos=ch==="_"?"sub":"sup";let g;
+      if(s[i+1]==="{"){const j=s.indexOf("}",i+2);g=s.slice(i+2,j);i=j+1;}else{g=s[i+1];i+=2;}
+      for(const c of g)push(c,styleOf(c),pos);continue;}
+    push(ch,styleOf(ch),"b");i++;}
+  return seg;}
+const esc=t=>t.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+function mh(s){return parse(s).map(g=>{const t=esc(g.t);const x=g.st==="i"?`<i>${t}</i>`:t;return g.pos==="sub"?`<sub>${x}</sub>`:g.pos==="sup"?`<sup>${x}</sup>`:x;}).join("");}
+function ms(s){let out="",cur="b";
+  for(const g of parse(s)){let dy="";
+    const off={b:0,sub:0.32,sup:-0.4};if(g.pos!==cur){dy=` dy="${(off[g.pos]-off[cur]).toFixed(2)}em"`;cur=g.pos;}
+    const fs=g.pos==="b"?"":` font-size="72%"`;const fst=g.st==="i"?` font-style="italic"`:"";
+    out+=`<tspan${dy}${fs}${fst}>${esc(g.t)}</tspan>`;}
+  if(cur!=="b")out+=`<tspan dy="${(cur==="sub"?-0.32:0.4).toFixed(2)}em"> </tspan>`;
+  return out;}
+const m=s=>`<span class="m">${mh(s)}</span>`;
+
+/* ---------- formatting ---------- */
+const f0=x=>Math.round(x).toString(), f1=x=>x.toFixed(1), f2=x=>x.toFixed(2);
+function fPf(p){if(p>=1e-2)return p.toFixed(3);const e=Math.floor(Math.log10(p)),mm=p/10**e;return `${mm.toFixed(1)}·10<sup>${e}</sup>`;}
+const neg=s=>s.replace(/-/g,"−");
+function verdictText(r){const okU=r.uc<=1.0005, okB=r.beta>=r.b0-0.05;
+  if(okU&&okB)return {ok:true,short:"passes the code check and meets β₀",long:`u.c. = ${f2(r.uc)} ≤ 1 and β<sub>real</sub> = ${f1(r.beta)} ≥ β<sub>0</sub> = ${f1(r.b0)}: the code check and the reliability agree.`};
+  if(okU&&!okB)return {ok:false,short:"passes the code check, but β < β₀",long:`u.c. = ${f2(r.uc)} ≤ 1, so the design passes the code check, but β<sub>real</sub> = ${f1(r.beta)} &lt; β<sub>0</sub> = ${f1(r.b0)}. This material spreads more than the code factor γ<sub>M</sub> = 1.2 assumes (v<sub>R</sub> = ${f2(r.vR)} &gt; ${f2(VREF)}).`};
+  if(!okU&&okB)return {ok:false,short:"fails the code check, although β ≥ β₀",long:`u.c. = ${f2(r.uc)} &gt; 1, so the design fails the code check, although β<sub>real</sub> = ${f1(r.beta)} ≥ β<sub>0</sub> = ${f1(r.b0)}. Here the fixed factors are on the safe side.`};
+  return {ok:false,short:"fails the code check and β < β₀",long:`u.c. = ${f2(r.uc)} &gt; 1 and β<sub>real</sub> = ${f1(r.beta)} &lt; β<sub>0</sub> = ${f1(r.b0)}: not safe enough.`};}
+
+/* ---------- state ---------- */
+const LECTURE={muE:100,sdE:40,muR:600,sdR:100,cc:2,distE:"normal",distR:"normal"};
+const S={mode:"steps",step:1,fresh:1,p:{...LECTURE},rmode:"free",lock:"sd",vLock:100/600,vSize:0.10,trendVar:"sdR",xmax:750,ymax:0.011,anim:null};
+function fitAxes(range){let xm=650,ym=0;
+  for(const p of range){const r=compute(p);xm=Math.max(xm,p.muR+3.3*p.sdR,r.Rd+60,r.Ed+120);ym=Math.max(ym,r.peakE,r.peakR);}
+  S.xmax=Math.ceil(xm/50)*50; S.ymax=niceUp(ym*1.1);}
+function niceUp(v){const e=10**Math.floor(Math.log10(v)),mm=v/e;const n=[1,1.2,1.5,2,2.5,3,4,5,6,8,10].find(k=>k>=mm-1e-9);return n*e;}
+
+/* ---------- steps ---------- */
+const CAL=6;   // the 'behind the scenes' step: its chart items are shown in that step only
+const STEPS=[
+ {t:"Load effect and resistance",c:r=>`The load effect ${m("E")} and the resistance ${m("R")}, each with its probability distribution. Dash-dotted lines mark the mean values ${m("\\mu_E")} and ${m("\\mu_R")}.`},
+ {t:"Distance between the means",c:r=>`The distance between the means is ${m("\\mu_Z = \\mu_R \\minus \\mu_E")}, the mean of the safety margin ${m("Z = R \\minus E")}. It equals β<sub>real</sub> times the standard deviation ${m("\\sigma_Z")}.`},
+ {t:"Actual safety level",c:r=>r.normal?`This gives the actual safety level of this design: ${m("\\beta_{real} = \\mu_Z / \\sigma_Z")} = <b>${f1(r.beta)}</b>.`:`With non-normal distributions β<sub>real</sub> follows from the failure probability: ${m("\\beta_{real} = \\minus\\Phi^{\\minus1}(P_f)")} = <b>${f1(r.beta)}</b>.`},
+ {t:"Required safety level",c:r=>`The consequence class sets the required level. For CC${r.p.cc} (${["","e.g. agricultural buildings","offices, housing","e.g. grandstands, major public buildings"][r.p.cc]}) EN 1990 requires ${m("\\beta_0")} = <b>${f1(r.b0)}</b> for 50 years. ${r.beta>=r.b0?`So this design has more reliability than required.`:`This design does not reach that level.`}`},
+ {t:"Characteristic values",c:r=>`The engineer does not know the full distributions; the code works with characteristic values: ${m("E_{char}")} (95 % value) = ${f0(r.Echar)} and ${m("R_{char}")} (5 % value) = ${f0(r.Rchar)}.`},
+ {t:"Behind the scenes: where the code factors come from",c:r=>`Code writers placed the design points at ${m("\\alpha \\cdot \\beta_0 \\cdot \\sigma")} from the means (eq. 4.44) and calibrated once, for a typical spread ${m("v_R")} = 0.10: ${m("\\gamma_R")} = 0.836 / 0.696 = <b>1.20</b> → the code value ${m("\\gamma_M")} = 1.2. For this resistance (${m("v_R")} = ${f2(r.vR)}) eq. 4.44 would ask ${m("\\gamma_R")} = ${f2(r.gRcal)}. On the load side eq. 4.44 gives ${f2(r.gEcal)}, but the code uses ${m("\\gamma_Q")} = 1.5, because real loads are not normal (extremes) and models are uncertain.`},
+ {t:"Fixed code partial factors",c:r=>`The engineer simply takes the fixed code values for CC${r.p.cc}: ${m("\\gamma_E = K_F \\cdot \\gamma_Q")} = ${f1(r.kf)} · 1.5 = ${f2(r.gE)} and ${m("\\gamma_R = \\gamma_M")} = 1.20. This gives ${m("E_d = E_{char} \\cdot \\gamma_E")} = ${f0(r.Ed)} and ${m("R_d = R_{char} / \\gamma_R")} = ${f0(r.Rd)}.`},
+ {t:"Unity check",c:r=>`The unity check compares the design values: ${m("`u.c.` = E_d / R_d")} = <b>${f2(r.uc)}</b>. ${r.Rd>=r.Ed?`The gap ${m("R_d \\minus E_d")} = ${f0(r.Rd-r.Ed)} is the margin left in this design.`:`${m("R_d")} lies left of ${m("E_d")}: the design fails the check.`}`},
+ {t:"Code check versus reliability",c:r=>{const v=verdictText(r);return v.long+(v.ok&&r.uc<0.9?` Both show that this design has spare capacity.`:"");}},
+];
+const NSTEP=STEPS.length;
+
+/* ---------- chart ---------- */
+const W=1000,H=560,ML=78,MR=22,MT=18,MB=92;
+function draw(){
+  const r=compute(S.p), p=S.p, step=S.mode==="steps"?S.step:NSTEP, fresh=S.mode==="steps"?S.fresh:-1;
+  const xmin=-50,xmax=S.xmax,ymax=Math.max(S.ymax,niceUp(Math.max(r.peakE,r.peakR)*1.05));
+  const X=x=>ML+(x-xmin)/(xmax-xmin)*(W-ML-MR), Y=y=>H-MB-y/ymax*(H-MT-MB);
+  const cls=n=>`${n>step?' style="display:none"':''} class="${n===fresh?'fresh fadein':''}"`;
+  const only=n=>`${n!==step?' style="display:none"':''} class="${n===fresh?'fresh fadein':''}"`;
+  let s="";
+  const yt=ticks(0,ymax,6), xt=ticks(Math.ceil(xmin/100)*100,xmax,9,100);
+  for(const t of yt){s+=`<line class="gridl" x1="${ML}" x2="${W-MR}" y1="${Y(t)}" y2="${Y(t)}"/><text class="tick" x="${ML-8}" y="${Y(t)+4}" text-anchor="end">${t.toFixed(3)}</text>`;}
+  for(const t of xt){if(t<xmin||t>xmax)continue;s+=`<line class="gridl" x1="${X(t)}" x2="${X(t)}" y1="${MT}" y2="${H-MB}"/><text class="tick" x="${X(t)}" y="${H-MB+18}" text-anchor="middle">${neg(String(t))}</text>`;}
+  s+=`<path class="ax" d="M${ML},${MT}V${H-MB}H${W-MR}"/>`;
+  s+=`<text class="tick" transform="translate(18,${(MT+H-MB)/2}) rotate(-90)" text-anchor="middle">probability density</text>`;
+  const path=(d)=>{let q="";const n=500;for(let i=0;i<=n;i++){const x=xmin+(xmax-xmin)*i/n;const y=Math.min(d.pdf(x),ymax*1.2);q+=(i?"L":"M")+X(x).toFixed(1)+","+Y(y).toFixed(1);}return q;};
+  s+=`<g clip-path="url(#clip)"><path class="cE" d="${path(r.dE)}"/><path class="cR" d="${path(r.dR)}"/></g>`;
+  const xE=Math.min(Math.max(r.dE.mode,xmin),xmax), xR=Math.min(r.dR.mode,xmax-10);
+  s+=`<text class="lab E big" x="${X(xE)+8}" y="${Y(r.peakE)-4}">E</text>`;
+  s+=`<text class="lab R big" x="${X(xR)+8}" y="${Math.max(Y(r.dR.pdf(xR))-4,MT+18)}">R</text>`;
+  s+=vline(X(p.muE),Y(0),Y(r.pdfMuE),"cE mean")+vline(X(p.muR),Y(0),Y(Math.min(r.pdfMuR,ymax)),"cR mean");
+  const pk=Math.max(r.peakE,r.peakR), hD=pk/3;
+  const yZ=Y(r.peakE/2), yA=Y(hD), yC=Y(pk*0.11);
+  // 2: muZ
+  s+=`<g${cls(2)}>${arrow(X(p.muE),X(p.muR),yZ,"both")}${lbl((X(p.muE)+X(p.muR))/2,yZ-9,r.normal?"\\mu_Z = \\beta_{real} \\cdot \\sigma_Z":"\\mu_Z = \\mu_R \\minus \\mu_E","middle")}</g>`;
+  // 5: characteristic values
+  s+=`<g${cls(5)}>${vline(X(r.Echar),Y(0),Y(r.dE.pdf(r.Echar)),"cE char")}${vline(X(r.Rchar),Y(0),Y(Math.min(r.dR.pdf(r.Rchar),ymax)),"cR char")}
+      ${lbl(X(r.Echar)+5,Y(r.dE.pdf(r.Echar))-6,"E_{char} = "+f0(r.Echar),"start","E")}${lbl(X(r.Rchar)+6,Y(Math.min(r.dR.pdf(r.Rchar),ymax))-6,"R_{char} = "+f0(r.Rchar),"start","R")}</g>`;
+  // 6: calibration (this step only)
+  const yK=Y(pk*0.42);
+  s+=`<g${only(CAL)}>${arrow(X(p.muE),X(r.Eb),yK,"end",false,true)}${lbl((X(p.muE)+X(r.Eb))/2,yK-9,p.distE==="normal"?"\\minus\\alpha_E \\cdot \\beta_0 \\cdot \\sigma_E":"\\mu_E \\to \\beta_0 level","middle","cal")}
+      ${arrow(X(p.muR),X(r.Rb),yK,"end",false,true)}${lbl((X(p.muR)+X(r.Rb))/2,yK-9,p.distR==="normal"?"\\minus\\alpha_R \\cdot \\beta_0 \\cdot \\sigma_R":"\\mu_R \\to \\beta_0 level","middle","cal")}
+      <circle class="dotm" cx="${X(r.Eb)}" cy="${Y(0)}" r="5" style="stroke:var(--E)"/><circle class="dotm" cx="${X(r.Rb)}" cy="${Y(0)}" r="5" style="stroke:var(--R)"/>
+      ${vline(X(r.Eb),Y(0),yK,"arr cal")}${vline(X(r.Rb),Y(0),yK,"arr cal")}</g>`;
+  // 7: code design values
+  s+=`<g${cls(7)}>${vline(X(r.Ed),Y(0),yA,"cE des")}${vline(X(r.Rd),Y(0),yA,"cR des")}
+      ${arrow(X(r.Echar),X(r.Ed),yC,"end")}${lbl((X(r.Echar)+X(r.Ed))/2,yC-9,"\\cdot\\gamma_E","middle")}${arrow(X(r.Rchar),X(r.Rd),yC,"end")}${lbl((X(r.Rd)+X(r.Rchar))/2,yC-9,"/\\gamma_R","middle")}</g>`;
+  // 8: Rd - Ed gap
+  const warn=r.Rd<r.Ed, yG=Y(pk*0.24);
+  const gap=Math.abs(X(r.Rd)-X(r.Ed));
+  s+=`<g${cls(8)}>${gap<14?lbl(X(r.Rd)+8,yG,"R_d = E_d","start"):arrow(X(r.Ed),X(r.Rd),yG,"both",warn)+lbl((X(r.Ed)+X(r.Rd))/2,gap<70?yG+22:yG-9,"R_d \\minus E_d","middle",warn?"warn":"")}</g>`;
+  // labels under the axis
+  const marks=[{x:p.muE,t:"\\mu_E",n:1,c:"E"},{x:p.muR,t:"\\mu_R",n:1,c:"R"},{x:r.Echar,t:"E_{char}",n:5,c:"E"},{x:r.Rchar,t:"R_{char}",n:5,c:"R"},{x:r.Ed,t:"E_d",n:7,c:"E"},{x:r.Rd,t:"R_d",n:7,c:"R"}]
+    .filter(q=>q.n<=step&&q.x>=xmin&&q.x<=xmax).sort((a,b)=>a.x-b.x);
+  let lastX=[-1e9,-1e9];
+  for(const q of marks){const px=X(q.x);let row=px-lastX[0]>52?0:(px-lastX[1]>52?1:0);lastX[row]=px;
+    const yl=H-MB+46+row*22;
+    s+=`<g${cls(q.n)}><line class="gridl" style="stroke:var(--muted)" x1="${px}" x2="${px}" y1="${H-MB+24}" y2="${yl-14}"/>${lbl(px,yl,q.t,"middle",q.c)}</g>`;}
+  s=`<defs><clipPath id="clip"><rect x="${ML}" y="${MT-2}" width="${W-ML-MR}" height="${H-MB-MT+2}"/></clipPath></defs>`+s;
+  document.getElementById("chart").innerHTML=s;
+}
+function ticks(a,b,n,forced){const st=forced||niceUp((b-a)/n);const out=[];for(let t=Math.ceil(a/st)*st;t<=b+1e-12;t+=st)out.push(+t.toFixed(10));return out;}
+function vline(x,y0,y1,c){return `<line class="${c}" x1="${x}" x2="${x}" y1="${y0}" y2="${y1}"/>`;}
+function lbl(x,y,t,anchor,c){return `<text class="lab ${c||""}" x="${x}" y="${y}" text-anchor="${anchor}">${ms(t)}</text>`;}
+function arrow(x1,x2,y,heads,warn,cal){const w=warn?" warn":(cal?" cal":"");const dir=x2>=x1?1:-1;let s=`<line class="halo" x1="${x1}" x2="${x2}" y1="${y}" y2="${y}"/><line class="arr${w}" x1="${x1}" x2="${x2}" y1="${y}" y2="${y}"/>`;
+  const head=(x,d)=>`<path class="ahead${w}" d="M${x},${y}l${-10*d},-4.5v9z"/>`;
+  if(Math.abs(x2-x1)>12){s+=head(x2,dir);if(heads==="both")s+=head(x1,-dir);}return s;}
+
+/* ---------- calculation sheet ---------- */
+function sheet(){
+  const r=compute(S.p),p=S.p,step=S.mode==="steps"?S.step:NSTEP,fresh=S.mode==="steps"?S.fresh:-1;
+  const L=(n,html,c,onlyStep)=>{const hide=onlyStep?n!==step:n>step;return `<div class="line ${c||""} ${hide?"hide":""} ${n===fresh?"fresh":""}">${html}</div>`;};
+  document.getElementById("inE").innerHTML=L(1,`${mh("\\mu_E")} = ${f0(p.muE)}`,"E")+L(1,`${mh("\\sigma_E")} = ${f0(p.sdE)}`,"E")+L(1,`${mh("v_E")} = ${f2(r.vE)}`,"E")+(p.distE!=="normal"?L(1,`<span class="note">${p.distE}</span>`,"E"):"");
+  document.getElementById("inR").innerHTML=L(1,`${mh("\\mu_R")} = ${f0(p.muR)}`,"R")+L(1,`${mh("\\sigma_R")} = ${f0(p.sdR)}`,"R")+L(1,`${mh("v_R")} = ${f2(r.vR)}`,"R")+(p.distR!=="normal"?L(1,`<span class="note">${p.distR}</span>`,"R"):"");
+  // code values box
+  let cb=`<h2 ${step<4?'style="display:none"':''}>Code · EN 1990:2023</h2><div class="code">`;
+  cb+=L(4,`CC${p.cc}: ${mh("\\beta_0")} = <b>${f1(r.b0)}</b>, ${mh("K_F")} = ${f1(r.kf)}`);
+  cb+=L(CAL,`eq. 4.44: ${mh("\\gamma_E = (\\mu_E \\minus \\alpha_E \\cdot \\beta_0 \\cdot \\sigma_E)/E_{char}")} = ${f2(r.gEcal)}`,"E sm",true);
+  cb+=L(CAL,`eq. 4.44: ${mh("\\gamma_R = R_{char}/(\\mu_R \\minus \\alpha_R \\cdot \\beta_0 \\cdot \\sigma_R)")} = ${f2(r.gRcal)}`,"R sm",true);
+  cb+=L(CAL,`calibrated at ${mh("v_R")} = 0.10: ${mh("\\gamma_R")} = ${f2(r.gRref)}, so code ${mh("\\gamma_M")} = 1.2`,"R sm",true);
+  cb+=L(7,`${mh("\\gamma_E = K_F \\cdot \\gamma_Q")} = ${f1(r.kf)} · 1.5 = <b>${f2(r.gE)}</b>`,"E");
+  cb+=L(7,`${mh("\\gamma_R = \\gamma_M")} = <b>1.20</b>`,"R");
+  cb+=`</div>`;
+  document.getElementById("codeBox").innerHTML=cb;
+  let c="";
+  c+=L(3,`${mh("\\mu_Z = \\mu_R \\minus \\mu_E")} = ${f0(r.muZ)}`);
+  c+=L(3,`${mh("\\sigma_Z = \\sqrt(\\sigma_R^2 + \\sigma_E^2)")} = ${f0(r.sdZ)}`);
+  c+=r.normal?L(3,`${mh("\\beta_{real} = \\mu_Z / \\sigma_Z")} = <b>${f1(r.beta)}</b>`):L(3,`${mh("\\beta_{real} = \\minus\\Phi^{\\minus1}(P_f)")} = <b>${f1(r.beta)}</b> <span class="note">(${mh("\\mu_Z/\\sigma_Z")}: ${f1(r.betaMV)})</span>`);
+  c+=L(3,`<span class="note">${mh("P_f")} ≈ ${fPf(r.Pf)}</span>`);
+  c+=L(5,`${mh("E_{char}")} = ${f0(r.Echar)}, ${mh("R_{char}")} = ${f0(r.Rchar)}`);
+  c+=L(7,`${mh("E_d = E_{char} \\cdot \\gamma_E")} = ${f0(r.Ed)}`);
+  c+=L(7,`${mh("R_d = R_{char} / \\gamma_R")} = ${f0(r.Rd)}`);
+  c+=L(8,`<b>${mh("`u.c.` = E_d / R_d")} = ${f2(r.uc)}</b>`);
+  c+=L(9,`<span style="font-family:var(--f-ui);font-size:.92rem">${verdictText(r).ok?"✓":"!"} ${verdictText(r).short.replace("β₀","β<sub>0</sub>")}</span>`,verdictText(r).ok?"":"E");
+  document.getElementById("calc").innerHTML=c;
+  const v=document.getElementById("verdict");
+  if(S.mode==="explore"){const vt=verdictText(r);v.hidden=false;v.className="verdict"+(vt.ok?"":" warn");v.innerHTML=vt.long;}else v.hidden=true;
+}
+
+/* ---------- trend charts ---------- */
+function trendRange(){
+  if(S.rmode==="size")return {lab:"v_R",min:0.03,max:0.30,set:(p,x)=>sizeR(p,x),cur:S.p.sdR/S.p.muR,note:"R sized so that u.c. = 1",fmt:x=>x.toFixed(2)};
+  if(S.trendVar==="sdR")return {lab:"\\sigma_R",min:10,max:200,set:(p,x)=>({...p,sdR:x}),cur:S.p.sdR,note:`μR = ${f0(S.p.muR)} constant`,fmt:x=>x};
+  if(S.lock==="cov")return {lab:"\\mu_R",min:250,max:800,set:(p,x)=>({...p,muR:x,sdR:S.vLock*x}),cur:S.p.muR,note:`vR = ${f2(S.vLock)} constant`,fmt:x=>x};
+  return {lab:"\\mu_R",min:250,max:800,set:(p,x)=>({...p,muR:x}),cur:S.p.muR,note:`σR = ${f0(S.p.sdR)} constant`,fmt:x=>x};
+}
+function trends(){
+  const T=trendRange(),N=70,pts=[];
+  for(let i=0;i<=N;i++){const x=T.min+(T.max-T.min)*i/N;const r=compute(T.set(S.p,x));if(r.Rb>1&&r.Rd>1)pts.push({x,b:r.beta,u:r.uc,g:r.gRcal});}
+  const rc=compute(S.p);
+  document.getElementById("trendTitle").innerHTML=`Trend against ${mh(T.lab)}`;
+  document.getElementById("trendNote").textContent=T.note+(pts.length<N+1?" · range where R at β₀ ≤ 0 left out":"");
+  mini("tBeta",pts,"b",T,rc.beta,[{y:rc.b0}],"\\beta_{real}",v=>v<rc.b0,[0,8],"R");
+  mini("tUc",pts,"u",T,rc.uc,[{y:1}],"`u.c.`",v=>v>1,[0,1.6],"R");
+  mini("tGamma",pts,"g",T,rc.gRcal,[{y:GM}],"\\gamma_R",v=>v>GM,[0.9,2.2],"R","needed for β₀ (eq. 4.44)","code γM = 1.2");
+}
+function mini(id,pts,k,T,cur,refs,name,bad,clamp,col,lineLab,refLab){
+  const w=360,h=112,ml=44,mr=10,mt=22,mb=20;let lo=Math.min(...pts.map(p=>p[k])),hi=Math.max(...pts.map(p=>p[k]));
+  for(const r of refs){lo=Math.min(lo,r.y);hi=Math.max(hi,r.y);}
+  if(clamp){lo=Math.max(lo,clamp[0]);hi=Math.min(hi,clamp[1]);}
+  const pad=(hi-lo)*0.12||0.1;lo-=pad;hi+=pad;
+  const X=x=>ml+(x-T.min)/(T.max-T.min)*(w-ml-mr),Y=y=>h-mb-(Math.min(Math.max(y,lo),hi)-lo)/(hi-lo)*(h-mt-mb);
+  let s=`<text x="4" y="15" style="font:15px var(--f-math);fill:var(--ink)">${ms(name)}</text>`;
+  if(lineLab)s+=`<text class="tl" x="${w-mr}" y="14" text-anchor="end"><tspan style="fill:var(--R)">— ${lineLab}</tspan>  <tspan style="fill:var(--warn)">- - ${refLab}</tspan></text>`;
+  if(bad){let i=0;while(i<pts.length){if(bad(pts[i][k])){let j=i;while(j<pts.length&&bad(pts[j][k]))j++;s+=`<rect class="tband" x="${X(pts[i].x)}" y="${mt}" width="${X(pts[Math.min(j,pts.length-1)].x)-X(pts[i].x)}" height="${h-mt-mb}"/>`;i=j;}else i++;}}
+  for(const t of ticks(lo,hi,3)){s+=`<line class="gridl" x1="${ml}" x2="${w-mr}" y1="${Y(t)}" y2="${Y(t)}"/><text class="tl" x="${ml-5}" y="${Y(t)+4}" text-anchor="end">${t%1?t.toFixed(t<10?1:0):t}</text>`;}
+  for(const r of refs){s+=`<line x1="${ml}" x2="${w-mr}" y1="${Y(r.y)}" y2="${Y(r.y)}" style="stroke:var(--warn);stroke-dasharray:5 4;stroke-width:1.3"/>`;}
+  for(const t of ticks(T.min,T.max,5)){s+=`<text class="tl" x="${X(t)}" y="${h-5}" text-anchor="middle">${T.fmt(+t.toFixed(3))}</text>`;}
+  s+=`<path d="${pts.map((p,i)=>(i?"L":"M")+X(p.x).toFixed(1)+","+Y(p[k]).toFixed(1)).join("")}" style="fill:none;stroke:var(--${col});stroke-width:2"/>`;
+  s+=`<circle cx="${X(T.cur)}" cy="${Y(cur)}" r="5" style="fill:var(--panel);stroke:var(--ink);stroke-width:2"/>`;
+  const v=k==="b"?f1(cur):f2(cur);const right=X(T.cur)>w-70;
+  s+=`<text class="tl tcur" x="${right?X(T.cur)-9:X(T.cur)+9}" y="${Math.max(Y(cur)-8,mt+10)}" text-anchor="${right?"end":"start"}" style="font-weight:600">${v}</text>`;
+  document.getElementById(id).innerHTML=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${name.replace(/[\\_{}`]/g,"")} against ${T.lab.replace(/[\\_]/g,"")}">${s}</svg>`;
+}
+
+/* ---------- UI wiring ---------- */
+const $=id=>document.getElementById(id);
+function render(){draw();sheet();
+  if(S.mode==="steps"){const st=STEPS[S.step-1];$("caption").innerHTML=`<b>${S.step}. ${st.t}.</b> ${st.c(compute(S.p))}`;
+    [...$("dots").children].forEach((b,i)=>{b.className=(i+1===S.step?"cur":(i+1<S.step?"done":""));b.setAttribute("aria-current",i+1===S.step?"step":"false");});
+    $("prev").disabled=S.step===1;$("next").disabled=S.step===NSTEP;}
+  else{syncControls();trends();}
+}
+function syncControls(){for(const k of ["muR","sdR","muE","sdE"]){$(k).value=S.p[k];$("o-"+k).textContent=f0(S.p[k]);}
+  $("vR").value=S.vSize;$("o-vR").textContent=f2(S.vSize);
+  [...$("rmode").children].forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===S.rmode));
+  [...$("lock").children].forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===S.lock));
+  [...$("cc").children].forEach(b=>b.setAttribute("aria-pressed",+b.dataset.v===S.p.cc));
+  $("freeR").hidden=S.rmode!=="free";$("lockrow").hidden=S.rmode!=="free";$("sizeR").hidden=S.rmode!=="size";
+  if(S.rmode==="size")$("sizeNote").innerHTML=`μ<sub>R</sub> = ${f0(S.p.muR)} and σ<sub>R</sub> = ${f0(S.p.sdR)} follow from u.c. = 1.`;
+  $("distE").value=S.p.distE;$("distR").value=S.p.distR;}
+function go(n){S.step=Math.min(Math.max(n,1),NSTEP);S.fresh=S.step;render();}
+for(let i=1;i<=NSTEP;i++){const b=document.createElement("button");b.textContent=i;b.title=STEPS[i-1].t;b.setAttribute("aria-label",`Step ${i}: ${STEPS[i-1].t}`);b.onclick=()=>go(i);$("dots").appendChild(b);}
+$("prev").onclick=()=>go(S.step-1);$("next").onclick=()=>go(S.step+1);
+document.addEventListener("keydown",e=>{if(S.mode!=="steps"||e.target.closest("input,select"))return;
+  if(["ArrowRight","PageDown"," "].includes(e.key)){e.preventDefault();go(S.step+1);}
+  if(["ArrowLeft","PageUp"].includes(e.key)){e.preventDefault();go(S.step-1);}});
+function setMode(md,fromHash){stopAnim();S.mode=md;$("tab-steps").setAttribute("aria-selected",md==="steps");$("tab-explore").setAttribute("aria-selected",md==="explore");
+  $("stepbar").hidden=md!=="steps";$("controls").hidden=md!=="explore";$("trends").hidden=md!=="explore";
+  if(!fromHash){try{history.replaceState(null,"","#"+md);}catch(e){location.hash=md;}}
+  fitAxes([S.p]);render();}
+$("tab-steps").onclick=()=>setMode("steps");$("tab-explore").onclick=()=>setMode("explore");
+window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(h==="steps"||h==="explore")setMode(h,true);});
+$("reset").onclick=()=>{stopAnim();S.p={...LECTURE};S.rmode="free";S.lock="sd";S.vLock=LECTURE.sdR/LECTURE.muR;S.trendVar="sdR";S.step=1;S.fresh=1;fitAxes([S.p]);render();};
+$("fs").onclick=()=>{const d=document.documentElement;try{if(document.fullscreenElement)document.exitFullscreen();else if(d.requestFullscreen)d.requestFullscreen().catch(()=>{});}catch(e){}};
+function growAxes(){const r=compute(S.p);if(r.peakE>S.ymax||r.peakR>S.ymax)S.ymax=niceUp(Math.max(r.peakE,r.peakR)*1.1);
+  if(S.p.muR+3.3*S.p.sdR>S.xmax)S.xmax=Math.ceil((S.p.muR+3.3*S.p.sdR)/50)*50;}
+function resize(){if(S.rmode==="size")S.p=sizeR(S.p,S.vSize);}
+function onSlide(k){return e=>{stopAnim();const v=+e.target.value;
+  if(k==="muR"){S.trendVar="muR";if(S.lock==="cov"){S.p.sdR=Math.round(Math.min(200,Math.max(10,S.vLock*v))*10)/10;}S.p.muR=v;}
+  else if(k==="sdR"){S.trendVar="sdR";S.p.sdR=v;S.vLock=v/S.p.muR;}
+  else if(k==="vR"){S.vSize=v;}
+  else{S.p[k]=v;}
+  resize();growAxes();render();};}
+for(const k of ["muR","sdR","muE","sdE","vR"]){$(k).addEventListener("input",onSlide(k));$(k).addEventListener("change",()=>{fitAxes([S.p]);render();});}
+[...$("rmode").children].forEach(b=>b.onclick=()=>{stopAnim();S.rmode=b.dataset.v;if(S.rmode==="size"){S.vSize=Math.min(0.3,Math.max(0.03,Math.round(S.p.sdR/S.p.muR/0.005)*0.005));resize();}fitAxes([S.p]);render();});
+[...$("lock").children].forEach(b=>b.onclick=()=>{S.lock=b.dataset.v;S.vLock=S.p.sdR/S.p.muR;S.trendVar="muR";render();});
+[...$("cc").children].forEach(b=>b.onclick=()=>{S.p.cc=+b.dataset.v;resize();fitAxes([S.p]);render();});
+$("distE").onchange=e=>{S.p.distE=e.target.value;resize();fitAxes([S.p]);render();};
+$("distR").onchange=e=>{S.p.distR=e.target.value;resize();fitAxes([S.p]);render();};
+
+/* presets */
+const BASE={muE:100,sdE:40,cc:2,distE:"normal",distR:"normal"};
+const PRESETS=[
+ {id:"sd",t:"Spread of R grows",d:"σ<sub>R</sub> 40 → 100, μ<sub>R</sub> = 500",rmode:"free",lock:"sd",trend:"sdR",from:40,to:100,at:x=>({...BASE,muR:500,sdR:x})},
+ {id:"mu",t:"Mean of R drops",d:"μ<sub>R</sub> 550 → 425, σ<sub>R</sub> = 70",rmode:"free",lock:"sd",trend:"muR",from:550,to:425,at:x=>({...BASE,muR:x,sdR:70})},
+ {id:"uc",t:"Design exactly to the code",d:"u.c. = 1, v<sub>R</sub> 0.05 → 0.20",rmode:"size",lock:"sd",trend:"vR",from:0.05,to:0.20,at:x=>sizeR({...BASE,muR:400,sdR:40},x)},
+];
+for(const pr of PRESETS){const b=document.createElement("button");b.className="preset";b.id="pre-"+pr.id;
+  b.innerHTML=`<span class="play" aria-hidden="true">▶</span><span><strong>${pr.t}</strong>${pr.d}</span>`;
+  b.onclick=()=>runPreset(pr);$("presets").appendChild(b);}
+function stopAnim(){if(S.anim){cancelAnimationFrame(S.anim.raf);document.querySelectorAll(".preset").forEach(b=>{b.classList.remove("running");b.querySelector(".play").textContent="▶";});S.anim=null;}}
+function runPreset(pr){const was=S.anim&&S.anim.id===pr.id;stopAnim();if(was)return;
+  S.rmode=pr.rmode;S.lock=pr.lock;S.trendVar=pr.trend;S.p=pr.at(pr.from);S.vSize=pr.rmode==="size"?pr.from:S.vSize;S.vLock=S.p.sdR/S.p.muR;
+  fitAxes([pr.at(pr.from),pr.at(pr.to)]);
+  const btn=$("pre-"+pr.id);btn.classList.add("running");btn.querySelector(".play").textContent="❚❚";
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches, dur=7000, t0=performance.now();
+  const tick=now=>{let u=Math.min((now-t0)/dur,1);if(reduce)u=Math.min(Math.floor(u*6)/6,1)+(u>=1?0:0);
+    const x=pr.from+(pr.to-pr.from)*u;S.p=pr.at(x);if(pr.rmode==="size")S.vSize=x;S.vLock=S.p.sdR/S.p.muR;render();
+    if(u<1)S.anim.raf=requestAnimationFrame(tick);else{btn.classList.remove("running");btn.querySelector(".play").textContent="▶";S.anim=null;}};
+  S.anim={id:pr.id,raf:requestAnimationFrame(tick)};}
+
+/* start */
+const h0=location.hash.slice(1);
+fitAxes([S.p]);
+setMode(h0==="explore"?"explore":"steps",true);
+window.__pf={compute,sizeR,S,render,go,setMode,runPreset,PRESETS,fitAxes,verdictText};
+})();
+</script>
+
+</body>
+</html>
