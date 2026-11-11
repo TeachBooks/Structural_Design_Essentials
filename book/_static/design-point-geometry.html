@@ -1,10 +1,16 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Design Point Geometry</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400;1,600&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<style>html,body{margin:0}body{font-size:14px}[hidden]{display:none!important}</style>
+</head>
+<body>
 <style>
 /* Layout: two figures side by side (2D plane | 3D hill), values + sliders underneath — same visual language as the Partial Factors Explorer. */
 :root{
@@ -62,7 +68,7 @@ footer{font-size:.8rem;color:var(--muted)}
 <div class="wrap">
   <header>
     <h1>Design Point Geometry<small>Normalised load effect and resistance: the reliability index β as the shortest distance to the limit state · CIEM5000 Safety &amp; Reliability</small></h1>
-    <div style="display:flex;gap:8px"><button class="btn" id="reset">Lecture example</button><button class="btn" id="view">Reset 3D view</button></div>
+    <div style="display:flex;gap:8px"><button class="btn" id="reset">Lecture example</button><button class="btn" id="view">Reset 3D view</button><button class="btn" id="fs" title="Full screen for projection">Full screen</button></div>
   </header>
 
   <div class="figs">
@@ -231,6 +237,8 @@ function render(){const g=geo(S);for(const k of Object.keys(LECTURE)){$(k).value
 for(const k of Object.keys(LECTURE))$(k).addEventListener("input",e=>{S[k]=+e.target.value;render();});
 $("reset").onclick=()=>{Object.assign(S,LECTURE);render();};
 $("view").onclick=()=>{cam=null;render();};
+$("fs").onclick=()=>{const d=document.documentElement;try{if(document.fullscreenElement)document.exitFullscreen();else if(d.requestFullscreen)d.requestFullscreen().catch(()=>{});}catch(e){}};
+document.addEventListener("fullscreenchange",()=>{$("fs").textContent=document.fullscreenElement?"Exit full screen":"Full screen";setTimeout(()=>{try{Plotly.Plots.resize("p2d");Plotly.Plots.resize("p3d");}catch(e){}},150);});
 document.getElementById("p3d").addEventListener("plotly_relayout",()=>{});
 function hookCam(){const el=$("p3d");if(el.on)el.on("plotly_relayout",e=>{if(e["scene.camera"])cam=e["scene.camera"];});}
 try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);}catch(e){}
@@ -240,4 +248,5 @@ window.__dp={S,render,geo};
 })();
 </script>
 
-</body></html>
+</body>
+</html>
