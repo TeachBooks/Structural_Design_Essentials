@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 950" width="620" height="950" font-family="Helvetica, Arial, sans-serif">
+  <title>Flowchart of the structural design process (after Voorendt et al., 2015)</title>
+  <defs>
+    <marker id="ak" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1 L10,5 L0,9 z" fill="#222"/></marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1 L10,5 L0,9 z" fill="#c0392b"/></marker>
+    <marker id="ab" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1 L10,5 L0,9 z" fill="#2c6fbb"/></marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1 L10,5 L0,9 z" fill="#2e7d32"/></marker>
+  </defs>
+  <rect width="620" height="950" fill="#fff"/>
+
+  <!-- ===== detailing loop (blue) ===== -->
+  <g fill="none" stroke="#2c6fbb" stroke-width="1.4">
+    <path d="M380,875 V910 H590 V44 H322" marker-end="url(#ab)"/>
+  </g>
+  <text x="340" y="37" font-size="13" font-style="italic" fill="#2c6fbb">detailing loop (per subsystem)</text>
+
+  <!-- ===== iterative jumps (red) ===== -->
+  <g fill="none" stroke="#c0392b" stroke-width="1.4">
+    <!-- outputs to the bus -->
+    <path d="M440,218 H545" marker-end="url(#ar)"/>
+    <path d="M440,344 H545" marker-end="url(#ar)"/>
+    <path d="M440,448 H545" marker-end="url(#ar)"/>
+    <path d="M440,548 H545" marker-end="url(#ar)"/>
+    <path d="M440,663 H545" marker-end="url(#ar)"/>
+    <path d="M440,763 H545" marker-end="url(#ar)"/>
+    <path d="M410,875 V895 H545" marker-end="url(#ar)"/>
+    <!-- upward bus -->
+    <path d="M545,895 V610" marker-end="url(#ar)"/>
+    <path d="M545,610 V410" marker-end="url(#ar)"/>
+    <path d="M545,410 V280" marker-end="url(#ar)"/>
+    <path d="M545,280 V180" marker-end="url(#ar)"/>
+    <path d="M545,180 V80" marker-end="url(#ar)"/>
+    <!-- feedback into earlier steps -->
+    <path d="M545,80 H440" marker-end="url(#ar)"/>
+    <path d="M545,180 H440" marker-end="url(#ar)"/>
+    <path d="M545,280 H440" marker-end="url(#ar)"/>
+    <path d="M545,410 H440" marker-end="url(#ar)"/>
+    <path d="M545,610 H440" marker-end="url(#ar)"/>
+  </g>
+  <g font-size="12" font-style="italic" fill="#c0392b">
+    <text x="452" y="96">iterative jump</text>
+    <text x="452" y="196">iterative jump</text>
+    <text x="452" y="296">iterative jump</text>
+    <text x="452" y="426">iterative jump</text>
+    <text x="452" y="626">iterative jump</text>
+  </g>
+
+  <!-- ===== inputs (green) ===== -->
+  <g fill="none" stroke="#2e7d32" stroke-width="1.4">
+    <path d="M200,331 H60 V655 H200" marker-end="url(#ag)"/>
+    <path d="M200,347 H95 V525 H200" marker-end="url(#ag)"/>
+    <!-- boundary conditions line, with a white halo where it crosses -->
+    <path d="M30,552 H190" stroke="#fff" stroke-width="7"/>
+    <path d="M200,218 H30 V552 H200" marker-end="url(#ag)"/>
+  </g>
+  <g font-size="12" font-weight="bold" fill="#2e7d32" text-anchor="middle">
+    <text x="148" y="540">requirements</text>
+    <text x="140" y="568">boundary</text>
+    <text x="140" y="582">conditions</text>
+    <text x="133" y="634">evaluation</text>
+    <text x="133" y="648">criteria</text>
+  </g>
+
+  <!-- ===== main flow (black) ===== -->
+  <g fill="none" stroke="#222" stroke-width="1.4">
+    <path d="M320,28 V60" marker-end="url(#ak)"/>
+    <path d="M320,130 V160" marker-end="url(#ak)"/>
+    <path d="M320,230 V260" marker-end="url(#ak)"/>
+    <path d="M320,360 V390" marker-end="url(#ak)"/>
+    <path d="M320,460 V490" marker-end="url(#ak)"/>
+    <path d="M320,560 V590" marker-end="url(#ak)"/>
+    <path d="M320,675 V705" marker-end="url(#ak)"/>
+    <path d="M320,775 V805" marker-end="url(#ak)"/>
+    <path d="M320,875 V917" marker-end="url(#ak)"/>
+  </g>
+  <g fill="#fff" stroke="#222" stroke-width="1.4">
+    <rect x="200" y="60" width="240" height="70"/>
+    <rect x="200" y="160" width="240" height="70"/>
+    <rect x="200" y="260" width="240" height="100"/>
+    <rect x="200" y="390" width="240" height="70"/>
+    <rect x="200" y="490" width="240" height="70"/>
+    <rect x="200" y="590" width="240" height="85"/>
+    <rect x="200" y="705" width="240" height="70"/>
+    <rect x="200" y="805" width="240" height="70"/>
+  </g>
+  <!-- small arrows inside the boxes -->
+  <g fill="none" stroke="#222" stroke-width="1">
+    <path d="M320,91 V105" marker-end="url(#ak)"/>
+    <path d="M320,191 V205" marker-end="url(#ak)"/>
+    <path d="M320,306 V320" marker-end="url(#ak)"/>
+    <path d="M320,421 V435" marker-end="url(#ak)"/>
+    <path d="M320,521 V535" marker-end="url(#ak)"/>
+    <path d="M320,636 V650" marker-end="url(#ak)"/>
+    <path d="M320,736 V750" marker-end="url(#ak)"/>
+    <path d="M320,836 V850" marker-end="url(#ak)"/>
+  </g>
+  <!-- step numbers -->
+  <g font-size="20" fill="#222" text-anchor="end">
+    <text x="190" y="80">1</text>
+    <text x="190" y="180">2</text>
+    <text x="190" y="280">3</text>
+    <text x="190" y="410">4</text>
+    <text x="190" y="510">5</text>
+    <text x="190" y="610">6</text>
+    <text x="190" y="725">7</text>
+    <text x="190" y="825">8</text>
+  </g>
+  <!-- step titles -->
+  <g font-size="13" font-weight="bold" fill="#222" text-anchor="middle">
+    <text x="320" y="20">initiative</text>
+    <text x="320" y="84">problem analysis</text>
+    <text x="320" y="184">system analysis</text>
+    <text x="320" y="282">design definition</text>
+    <text x="320" y="299">(basis of the design)</text>
+    <text x="320" y="414">developments of concepts</text>
+    <text x="320" y="514">verification of concepts</text>
+    <text x="320" y="612">evaluation of alternatives</text>
+    <text x="320" y="629">and selection</text>
+    <text x="320" y="729">integration of subsystems</text>
+    <text x="320" y="829">validation of the result</text>
+    <text x="320" y="938">construction</text>
+  </g>
+  <!-- step results -->
+  <g font-size="13" font-style="italic" fill="#333" text-anchor="middle">
+    <text x="320" y="122">design objective</text>
+    <text x="320" y="222">system overview</text>
+    <text x="320" y="336">requirements, evaluation</text>
+    <text x="320" y="352">criteria, boundary conditions</text>
+    <text x="320" y="452">potential solutions</text>
+    <text x="320" y="552">realistic alternatives</text>
+    <text x="320" y="667">most acceptable solution</text>
+    <text x="320" y="767">complete system</text>
+    <text x="320" y="867">approved design</text>
+  </g>
+</svg>
