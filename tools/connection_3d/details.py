@@ -140,8 +140,33 @@ def ecb1():
 
 
 def ecb2():
-    """Connection with bolted angles."""
+    """Connection with bolted angles: 8 mm cap plate slightly smaller than the column,
+    welded above and below (Fig. End_Column_Beam2). No end plate on the beam."""
     s = Scene("End column-beam 2: bolted angles")
+    top = 0.0
+    s.column(COL, COL_BOT, top)
+    t_cap = 0.8
+    cap_plate_inset(s, top, t_cap)
+    bt = top + t_cap
+    gap = 1.0
+    s.beam_x(BEAM, XF + gap, BEAM_END, bt)
+    zc = bt - B["h"] / 2
+    a, t, r, length = 9.0, 0.9, 1.1, 20.0
+    pts, corners = angle_section(a, a, t, r)
+    for sign in (1, -1):
+        s.extrude(pts, (XF, sign * B["tw"] / 2, zc - length / 2), (1, 0, 0), (0, sign, 0), (0, 0, 1),
+                  length, "plate", "Angles", corners=corners)
+    rows = [zc - 7, zc, zc + 7]
+    for z in rows:   # through angle - beam web - angle
+        s.bolt((XF + 5.5, -(B["tw"] / 2 + t), z), (0, 1, 0), B["tw"] + 2 * t)
+    bolts_x(s, XF + t, t + C["tf"], rows, ys=(-(B["tw"] / 2 + 5.5), B["tw"] / 2 + 5.5))
+    s.view_dir = (0.75, -0.65, 0.45)
+    return s
+
+
+def ecb2_original():
+    """Previous version of ecb2 (cap plate larger than the column), kept for comparison."""
+    s = Scene("End column-beam 2 (previous version): bolted angles")
     top = 0.0
     s.column(COL, COL_BOT, top)
     cap_plate(s, top)
@@ -310,6 +335,9 @@ def column_base():
 DETAILS = {
     "end_column_beam_1": (ecb1, "End column-beam", "Welded endplate with two bolts.", "End_Column_Beam1.jpg"),
     "end_column_beam_2": (ecb2, "End column-beam", "Connection with bolted angles.", "End_Column_Beam2.jpg"),
+    "end_column_beam_2_original": (ecb2_original, "End column-beam",
+                                   "Connection with bolted angles (previous version, for comparison).",
+                                   "End_Column_Beam2.jpg"),
     "end_column_beam_3": (ecb3, "End column-beam",
                           "Welded elongated endplate with top plate and stiffeners for extra stiffness.",
                           "End_Column_Beam3.jpg"),
