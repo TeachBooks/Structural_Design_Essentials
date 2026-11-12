@@ -90,8 +90,11 @@ def end_plate_inset(s, x0, beam_top, t=0.8, inset=0.5, a=0.4):
     inner_profile_welds(s, BEAM, (xb, 0, beam_top - B["h"] / 2), (0, 1, 0), (0, 0, 1), (1, 0, 0), yp, a)
 
 
-def col_stiffeners(s, z, t=1.0):
-    """Pair of column web stiffeners (between the flanges) centred at level z."""
+def col_stiffeners(s, z, t=1.0, welded=False, a=0.4):
+    """Pair of column web stiffeners (between the flanges) centred at level z.
+
+    welded=True adds fillet welds above and below each stiffener, to the web and to both
+    inner flange faces."""
     c = C["r"]
     for sign in (1, -1):
         y0, y1 = C["tw"] / 2, C["b"] / 2 - 0.5
@@ -99,6 +102,15 @@ def col_stiffeners(s, z, t=1.0):
         if sign < 0:
             poly = [(u, -v) for u, v in poly]
         s.prism(poly, "z", z - t / 2, z + t / 2, "plate", "Stiffeners")
+        if welded:
+            for sz in (1, -1):
+                zf = z + sz * t / 2
+                # to the web, between the chamfers
+                s.line_weld((-XFI + c, sign * y0, zf), (XFI - c, sign * y0, zf), (0, sign, 0), (0, 0, sz), a)
+                # to the inner flange faces
+                for sx in (1, -1):
+                    s.line_weld((sx * XFI, sign * (y0 + c), zf), (sx * XFI, sign * y1, zf), (-sx, 0, 0),
+                                (0, 0, sz), a)
 
 
 def beam_stiffeners(s, x, z_top, t=1.0):
@@ -165,8 +177,32 @@ def ecb2():
 
 
 def ecb3():
-    """Welded elongated endplate with top plate and stiffeners for extra stiffness."""
+    """Welded elongated endplate with top plate and stiffeners for extra stiffness: 8 mm cap
+    plate slightly smaller than the column, welded stiffeners, top plate as thick as the
+    beam flange (Fig. End_Column_Beam3)."""
     s = Scene("End column-beam 3: elongated endplate, top plate and stiffeners")
+    top = 0.0
+    t_cap = 0.8
+    s.column(COL, COL_BOT, top - t_cap)
+    cap_plate_inset(s, top - t_cap, t_cap)     # cap plate flush with the beam top
+    bt = top
+    z_bot = bt - B["h"] - 8.0
+    end_plate(s, XF, bt, z_bot, beam_top=bt)
+    s.beam_x(BEAM, XF + 1.5, BEAM_END, bt)
+    bolts_x(s, XF + 1.5, 1.5 + C["tf"], [bt - 6, bt - 14, bt - B["h"] + 6, bt - B["h"] - 4])
+    col_stiffeners(s, bt - B["h"] + B["tf"] / 2, welded=True)
+    # tension (top) plate over column and beam, as thick as the beam flange
+    tp = B["tf"]
+    s.box(-XF, XF + 32, -B["b"] / 2, B["b"] / 2, bt, bt + tp, "plate", "Plates")
+    pts = [(x, y) for x in (-6.0, 5.0, XF + 10, XF + 22) for y in (-4.5, 4.5)]
+    bolts_z(s, bt + tp, tp + t_cap, pts[:4])        # into the column cap plate
+    bolts_z(s, bt + tp, tp + B["tf"], pts[4:])      # into the beam top flange
+    return s
+
+
+def ecb3_original():
+    """Previous version of ecb3, kept for comparison."""
+    s = Scene("End column-beam 3 (previous version): elongated endplate, top plate and stiffeners")
     top = 0.0
     s.column(COL, COL_BOT, top - 1.5)
     cap_plate(s, top - 1.5)
@@ -315,6 +351,9 @@ DETAILS = {
     "end_column_beam_3": (ecb3, "End column-beam",
                           "Welded elongated endplate with top plate and stiffeners for extra stiffness.",
                           "End_Column_Beam3.jpg"),
+    "end_column_beam_3_original": (ecb3_original, "End column-beam",
+                                   "Welded elongated endplate with top plate and stiffeners (previous version, for comparison).",
+                                   "End_Column_Beam3.jpg"),
     "end_column_beam_4": (ecb4, "End column-beam", "Beam on column: welded endplate with two bolts.", "End_Column_Beam4.jpg"),
     "end_column_beam_5": (ecb5, "End column-beam", "Welded endplate with six bolts.", "End_Column_Beam5.jpg"),
     "end_column_beam_6": (ecb6, "End column-beam",
