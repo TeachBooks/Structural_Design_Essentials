@@ -3,7 +3,7 @@
 Writes, from the registry in details.py:
   book/_static/connections_3d/viewer.html        shared Iris viewer (loads ?model=<id>)
   book/_static/connections_3d/models/<id>.js     one model per connection
-  book/_static/connections_3d/thumbs/<id>.jpg    thumbnails (headless Edge/Chrome screenshot)
+  book/_static/connections_3d/thumbs/<id>.jpg    thumbnails (headless Edge/Chrome screenshot; preview only)
   book/design/steel/S05_3d_connections.ipynb     the gallery page
 
 Usage (from the repository root):
@@ -139,40 +139,40 @@ def build_thumbnails(only=None):
 
 # ----------------------------------------------------------------------------- page
 STYLE = """<style>
-.c3d-grid {display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1rem; margin: 0.5rem 0 2rem;}
-.c3d-card {display: block; border: 1px solid rgba(128,128,128,0.35); border-radius: 6px; overflow: hidden; text-decoration: none !important; color: inherit !important;}
-.c3d-card img {display: block; width: 100%; height: auto; aspect-ratio: 4 / 3;}
-.c3d-card span {display: block; padding: 0.5rem 0.65rem 0.6rem; font-size: 0.9em; line-height: 1.35;}
-.c3d-card:hover {border-color: #00A6D6; box-shadow: 0 2px 10px rgba(0,0,0,0.18);}
+.c3d-frame {display: block; width: 100%; height: 560px; border: 1px solid rgba(128,128,128,0.35);}
+.c3d-link {margin: 0.35rem 0 2rem; font-size: 0.9em;}
 </style>"""
 
 
-def card(href, img, caption):
-    return (f'<a class="c3d-card" href="{href}" target="_blank" rel="noopener">'
-            f'<img src="{img}" alt="3D view: {caption}" loading="lazy"><span>{caption}</span></a>')
+def embed(src, caption):
+    """Interactive viewer inline on the page, as on the timber 3D connections page.
+
+    loading="lazy" so the WebGL viewers only start when scrolled into view."""
+    return (f"### {caption.rstrip('.')}\n\n"
+            f'<iframe class="c3d-frame" src="{src}" title="3D view: {caption}" loading="lazy" '
+            f'frameborder="0"></iframe>\n'
+            f'<div class="c3d-link"><a href="{src}" target="_blank" rel="noopener">'
+            f"Open this 3D model in a new tab</a></div>\n")
 
 
 def build_page():
     base = "../../_static/connections_3d"
     groups = {}
     for key, (_fn, group, caption, _drawing) in DETAILS.items():
-        groups.setdefault(group, []).append(card(f"{base}/viewer.html?model={key}", f"{base}/thumbs/{key}.jpg",
-                                                 caption))
+        groups.setdefault(group, []).append(embed(f"{base}/viewer.html?model={key}", caption))
     md = ["# 3D Connections\n",
           "Explore the structural connections of steel through interactive 3D visualisations. "
           "The details follow the drawings on the [connections](S04_connections.ipynb) page.\n",
-          "Click a thumbnail to open the 3D viewer in a new tab. In the viewer you can rotate, pan and zoom "
-          "with the mouse, and use the menu at the top left to switch layers (for example bolts or welds) "
+          "Drag with the left mouse button to rotate, with the right mouse button to pan, and scroll to "
+          "zoom. Use the menu at the top left of each model to switch layers (for example bolts or welds) "
           "on and off.\n",
           STYLE + "\n"]
     for group in GROUP_ORDER + sorted(set(groups) - set(GROUP_ORDER)):
         if group in groups:
             md.append(f"## {group}\n")
-            md.append('<div class="c3d-grid">\n' + "\n".join(groups[group]) + "\n</div>\n")
+            md.extend(groups[group])
     md.append("## Other connections\n")
-    md.append('<div class="c3d-grid">\n' + "\n".join(
-        card(f"../../_static/{name}.html", f"{base}/thumbs/{name}.jpg", caption) for name, caption in RHINO)
-        + "\n</div>\n")
+    md.extend(embed(f"../../_static/{name}.html", caption) for name, caption in RHINO)
     text = "\n".join(md)
     lines = text.splitlines(keepends=True)
     if lines and lines[-1].endswith("\n"):
