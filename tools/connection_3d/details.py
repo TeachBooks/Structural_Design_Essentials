@@ -5,7 +5,8 @@ the S04 drawing it is based on. Units: cm, Z up; beams run along +x, columns
 have their flanges perpendicular to x.
 """
 
-from iris3d import PROFILES, Mesh, Scene, angle_section, chamfered_rect, hexagon, rect
+from iris3d import (PROFILES, Mesh, Scene, add, angle_section, chamfered_rect, hexagon, i_section, mul,
+                    offset_polygon, rect)
 
 COL, BEAM = "HEA240", "IPE300"
 C, B = PROFILES[COL], PROFILES[BEAM]
@@ -30,46 +31,63 @@ def end_plate(s, x0, z_top, z_bot, t=1.5, width=16.0, beam_top=None):
     s.profile_weld(BEAM, (x0 + t, 0, bt - B["h"] / 2), (0, 1, 0), (0, 0, 1), (1, 0, 0))
 
 
-def cap_plate_inset(s, z, t=1.5, inset=0.5, a=0.4):
+def inner_profile_welds(s, prof, origin, u, v, w, umax, a=0.4, layer="Welds"):
+    """Fillet welds inside an I/H profile end that meets a plate.
+
+    One continuous weld per side of the web, following the inner flange face, the root
+    radius, the web, the other root radius and the other inner flange face, ending where
+    the plate ends (|u| = umax). origin/u/v: section frame on the plate surface
+    (u = flange width, v = depth); w points into the member."""
+    p = PROFILES[prof]
+    hb, hh, tf = p["b"] / 2, p["h"] / 2, p["tf"]
+    pts, _ = i_section(p)
+    off = offset_polygon(pts, a)            # outwards = into the space between the flanges
+
+    def idx(q):
+        return min(range(len(pts)), key=lambda i: (pts[i][0] - q[0]) ** 2 + (pts[i][1] - q[1]) ** 2)
+
+    def P(q, t):
+        return add(origin, mul(u, q[0]), mul(v, q[1]), mul(w, t))
+
+    for sg, start, end in ((1, (hb, -hh + tf), (hb, hh - tf)), (-1, (-hb, hh - tf), (-hb, -hh + tf))):
+        i0, i1 = idx(start), idx(end)
+        root = list(pts[i0:i1 + 1])
+        toe = list(off[i0:i1 + 1])
+        # end the weld at the plate edge, on the inner flange faces
+        root[0], root[-1] = (sg * umax, root[0][1]), (sg * umax, root[-1][1])
+        toe[0], toe[-1] = (sg * umax, off[i0 + 1][1]), (sg * umax, off[i1 - 1][1])
+        m = Mesh()
+        m.quad_strip([P(q, 0.01) for q in toe], [P(q, a) for q in root], closed=False)
+        s.add_mesh(m, "weld", layer)
+
+
+def cap_plate_inset(s, z, t=0.8, inset=0.5, a=0.4):
     """Cap plate slightly smaller than the column outline (as in Fig. End_Column_Beam1).
 
     Welded above the plate (on the flange tops, along the plate edges) and below it
-    (to the inner flange faces and both sides of the web)."""
+    (inside the profile, following flanges, root radii and web)."""
     xp, yp = XF - inset, C["b"] / 2 - inset
     s.box(-xp, xp, -yp, yp, z, z + t, "plate", "Plates")
     for sx in (1, -1):
         # above: on the flange top, against the plate edge
         s.line_weld((sx * xp, -yp, z), (sx * xp, yp, z), (sx, 0, 0), (0, 0, 1), a)
-        # below: inner flange face to plate underside, either side of the web
-        for sy in (1, -1):
-            y0, y1 = sy * (C["tw"] / 2 + C["r"]), sy * yp
-            s.line_weld((sx * XFI, y0, z), (sx * XFI, y1, z), (-sx, 0, 0), (0, 0, -1), a)
-    for sy in (1, -1):
-        # below: web to plate underside
-        x0, x1 = -XFI + C["r"], XFI - C["r"]
-        s.line_weld((x0, sy * C["tw"] / 2, z), (x1, sy * C["tw"] / 2, z), (0, sy, 0), (0, 0, -1), a)
+    # below: inside the profile (same section frame as profile_weld for the column)
+    inner_profile_welds(s, COL, (0, 0, z), (0, -1, 0), (1, 0, 0), (0, 0, -1), yp, a)
 
 
-def end_plate_inset(s, x0, beam_top, t=1.5, inset=0.5, a=0.4):
+def end_plate_inset(s, x0, beam_top, t=0.8, inset=0.5, a=0.4):
     """End plate slightly smaller than the beam outline, beam welded to its +x face.
 
-    Welded on the exposed flange ends beyond the plate edges (outside) and to the
-    inner flange faces and both sides of the web (inside)."""
+    Welded on the exposed flange ends beyond the plate edges (outside) and inside the
+    profile, following flanges, root radii and web."""
     xb = x0 + t                                  # beam end / plate face
     yp = B["b"] / 2 - inset
     zt, zb = beam_top - inset, beam_top - B["h"] + inset
     s.box(x0, xb, -yp, yp, zb, zt, "plate", "Plates")
-    for sz, ze, zi in ((1, zt, beam_top - B["tf"]), (-1, zb, beam_top - B["h"] + B["tf"])):
+    for sz, ze in ((1, zt), (-1, zb)):
         # outside: on the beam flange end, against the plate edge
         s.line_weld((xb, -yp, ze), (xb, yp, ze), (0, 0, sz), (-1, 0, 0), a)
-        # inside: inner flange face to plate, either side of the web
-        for sy in (1, -1):
-            y0, y1 = sy * (B["tw"] / 2 + B["r"]), sy * yp
-            s.line_weld((xb, y0, zi), (xb, y1, zi), (0, 0, -sz), (1, 0, 0), a)
-    for sy in (1, -1):
-        # web to plate
-        z0, z1 = beam_top - B["h"] + B["tf"] + B["r"], beam_top - B["tf"] - B["r"]
-        s.line_weld((xb, sy * B["tw"] / 2, z0), (xb, sy * B["tw"] / 2, z1), (0, sy, 0), (1, 0, 0), a)
+    inner_profile_welds(s, BEAM, (xb, 0, beam_top - B["h"] / 2), (0, 1, 0), (0, 0, 1), (1, 0, 0), yp, a)
 
 
 def col_stiffeners(s, z, t=1.0):
@@ -108,29 +126,16 @@ def bolts_z(s, z_head, grip, points, size="M20", down=True):
 
 # ----------------------------------------------------------------------------- End column-beam
 def ecb1():
-    """Welded endplate with two bolts: cap plate and end plate slightly smaller than the
+    """Welded endplate with two bolts: 8 mm cap plate and end plate slightly smaller than the
     profiles, welded above and below (Fig. End_Column_Beam1)."""
     s = Scene("End column-beam 1: welded endplate with two bolts")
-    top = 0.0
+    top, t = 0.0, 0.8
     s.column(COL, COL_BOT, top)
-    cap_plate_inset(s, top)
-    bt = top + 1.5
-    end_plate_inset(s, XF, bt)
-    s.beam_x(BEAM, XF + 1.5, BEAM_END, bt)
-    bolts_x(s, XF + 1.5, 1.5 + C["tf"], [bt - B["h"] / 2])
-    return s
-
-
-def ecb1_original():
-    """Previous version of ecb1 (plates larger than the profiles), kept for comparison."""
-    s = Scene("End column-beam 1 (previous version): welded endplate with two bolts")
-    top = 0.0
-    s.column(COL, COL_BOT, top)
-    cap_plate(s, top)
-    bt = top + 1.5
-    end_plate(s, XF, bt, bt - B["h"])
-    s.beam_x(BEAM, XF + 1.5, BEAM_END, bt)
-    bolts_x(s, XF + 1.5, 1.5 + C["tf"], [bt - B["h"] / 2])
+    cap_plate_inset(s, top, t)
+    bt = top + t
+    end_plate_inset(s, XF, bt, t)
+    s.beam_x(BEAM, XF + t, BEAM_END, bt)
+    bolts_x(s, XF + t, t + C["tf"], [bt - B["h"] / 2], ys=(-4.5, 4.5))  # close to the beam web, washers clear of the column root radii
     return s
 
 
@@ -304,9 +309,6 @@ def column_base():
 # id: (function, group, caption, S04 drawing)
 DETAILS = {
     "end_column_beam_1": (ecb1, "End column-beam", "Welded endplate with two bolts.", "End_Column_Beam1.jpg"),
-    "end_column_beam_1_original": (ecb1_original, "End column-beam",
-                                   "Welded endplate with two bolts (previous version, for comparison).",
-                                   "End_Column_Beam1.jpg"),
     "end_column_beam_2": (ecb2, "End column-beam", "Connection with bolted angles.", "End_Column_Beam2.jpg"),
     "end_column_beam_3": (ecb3, "End column-beam",
                           "Welded elongated endplate with top plate and stiffeners for extra stiffness.",
