@@ -173,6 +173,11 @@ def build_page():
             md.extend(groups[group])
     md.append("## Other connections\n")
     md.extend(embed(f"../../_static/{name}.html", caption) for name, caption in RHINO)
+    write_notebook(PAGE, md)
+
+
+def write_notebook(path, md):
+    """Write the markdown blocks `md` as the single cell of notebook `path` (metadata from PAGE)."""
     text = "\n".join(md)
     lines = text.splitlines(keepends=True)
     if lines and lines[-1].endswith("\n"):
@@ -180,7 +185,49 @@ def build_page():
 
     nb = json.loads(PAGE.read_text(encoding="utf-8"))
     nb["cells"] = [{"cell_type": "markdown", "metadata": {}, "source": lines}]
-    PAGE.write_text(json.dumps(nb, indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+    path.write_text(json.dumps(nb, indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+
+
+# ----------------------------------------------------------------------------- compact page (trial)
+PAGE_GRID = ROOT / "book" / "design" / "steel" / "S05a_3d_connections_new.ipynb"
+
+GRID_STYLE = """<style>
+.c3d-grid {display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 0.9rem; margin: 0.5rem 0 1.8rem;}
+.c3d-tile {border: 1px solid rgba(128,128,128,0.35); border-radius: 4px; overflow: hidden;}
+.c3d-tile iframe {display: block; width: 100%; height: 210px; border: 0;}
+.c3d-tile div {padding: 0.4rem 0.55rem 0.5rem; font-size: 0.85em; line-height: 1.3;}
+.c3d-tile a {font-size: 0.95em; white-space: nowrap;}
+</style>"""
+
+
+def tile(src, caption, hide_menu=True):
+    """Small live viewer (menu hidden) with caption and a link to the full-size viewer."""
+    frame_src = src + ("&thumb=1" if hide_menu and "?" in src else "")
+    return (f'<div class="c3d-tile"><iframe src="{frame_src}" title="3D view: {caption}" loading="lazy" '
+            f'frameborder="0"></iframe>'
+            f'<div>{caption.rstrip(".")}<br><a href="{src}" target="_blank" rel="noopener">'
+            f"Open full size &#8599;</a></div></div>")
+
+
+def build_page_grid():
+    base = "../../_static/connections_3d"
+    groups = {}
+    for key, (_fn, group, caption, _drawing) in DETAILS.items():
+        groups.setdefault(group, []).append(tile(f"{base}/viewer.html?model={key}", caption))
+    md = ["# 3D Connections New\n",
+          "Overview of the steel connections as small interactive 3D models. The details follow the "
+          "drawings on the [connections](S04_connections.ipynb) page.\n",
+          "Drag to rotate, right-drag to pan and scroll to zoom. Use *Open full size* for a large view "
+          "with the layer menu (for example to switch bolts or welds on and off).\n",
+          GRID_STYLE + "\n"]
+    for group in GROUP_ORDER + sorted(set(groups) - set(GROUP_ORDER)):
+        if group in groups:
+            md.append(f"## {group}\n")
+            md.append('<div class="c3d-grid">\n' + "\n".join(groups[group]) + "\n</div>\n")
+    md.append("## Other connections\n")
+    md.append('<div class="c3d-grid">\n' + "\n".join(
+        tile(f"../../_static/{name}.html", caption) for name, caption in RHINO) + "\n</div>\n")
+    write_notebook(PAGE_GRID, md)
 
 
 if __name__ == "__main__":
@@ -191,4 +238,5 @@ if __name__ == "__main__":
         only = [a for a in sys.argv[1:] if not a.startswith("--")] or None
         build_thumbnails(only)
     build_page()
+    build_page_grid()
     print("done")
