@@ -1,4 +1,4 @@
-"""Connection details that only appear on the compact page (S05a_3d_connections_new.ipynb).
+"""Connection details that only appear on the gallery page (S05_3d_connections.ipynb).
 
 Same conventions as details.py (units cm, Z up, beams along +x, column flanges
 perpendicular to x) and the same design rules:

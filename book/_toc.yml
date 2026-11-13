@@ -88,7 +88,6 @@ parts:
       - file: design/steel/S03_connections_matrix
       - file: design/steel/S04_connections
       - file: design/steel/S05_3d_connections
-      - file: design/steel/S05a_3d_connections_new
       - file: design/steel/S06_buckling
     - file: design/timber/T00_timber
       sections:

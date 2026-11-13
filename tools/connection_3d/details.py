@@ -1,4 +1,4 @@
-"""Connection details for the 3D gallery (book/design/steel/S05_3d_connections.ipynb).
+"""Connection details for the 3D gallery (book/design/steel/S05_3d_connections.ipynb and the old page S05_3d_connections_old.ipynb).
 
 Each detail is a function returning an iris3d.Scene. Register it in DETAILS with
 the S04 drawing it is based on. Units: cm, Z up; beams run along +x, columns

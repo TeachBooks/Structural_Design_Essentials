@@ -4,7 +4,8 @@ Writes, from the registry in details.py:
   book/_static/connections_3d/viewer.html        shared Iris viewer (loads ?model=<id>)
   book/_static/connections_3d/models/<id>.js     one model per connection
   book/_static/connections_3d/thumbs/<id>.jpg    thumbnails (headless Edge/Chrome screenshot; preview only)
-  book/design/steel/S05_3d_connections.ipynb     the gallery page
+  book/design/steel/S05_3d_connections.ipynb     the gallery page (compact grid)
+  book/design/steel/S05_3d_connections_old.ipynb the previous page (large viewers, not in the TOC)
 
 Usage (from the repository root):
     python tools/connection_3d/build.py              # everything
@@ -27,7 +28,7 @@ from details_new import NEW_DETAILS  # noqa: E402  (compact page only)
 ROOT = Path(__file__).resolve().parents[2]
 STATIC = ROOT / "book" / "_static"
 OUT = STATIC / "connections_3d"
-PAGE = ROOT / "book" / "design" / "steel" / "S05_3d_connections.ipynb"
+PAGE = ROOT / "book" / "design" / "steel" / "S05_3d_connections_old.ipynb"
 TEMPLATE = STATIC / "Connection_Steel_Standard.html"
 
 GROUP_ORDER = ["Cont. column-beam", "Beam-beam", "Beam-wall", "Center-column-beam",
@@ -161,7 +162,9 @@ def build_page():
     groups = {}
     for key, (_fn, group, caption, _drawing) in DETAILS.items():
         groups.setdefault(group, []).append(embed(f"{base}/viewer.html?model={key}", caption))
-    md = ["# 3D Connections\n",
+    md = ["# 3D Connections (old version)\n",
+          "Previous version of the 3D connections page, kept for reference; it is not in the table of "
+          "contents. The current page is [3D Connections](S05_3d_connections.ipynb).\n",
           "Explore the structural connections of steel through interactive 3D visualisations. "
           "The details follow the drawings on the [connections](S04_connections.ipynb) page.\n",
           "Drag with the left mouse button to rotate, with the right mouse button to pan, and scroll to "
@@ -189,8 +192,8 @@ def write_notebook(path, md):
     path.write_text(json.dumps(nb, indent=1, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
 
 
-# ----------------------------------------------------------------------------- compact page (trial)
-PAGE_GRID = ROOT / "book" / "design" / "steel" / "S05a_3d_connections_new.ipynb"
+# ----------------------------------------------------------------------------- compact page (the gallery)
+PAGE_GRID = ROOT / "book" / "design" / "steel" / "S05_3d_connections.ipynb"
 
 GRID_STYLE = """<style>
 .c3d-grid {display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 0.9rem; margin: 0.5rem 0 1.8rem;}
@@ -235,7 +238,7 @@ def build_page_grid():
     groups = {}
     for key, (_fn, group, caption, _drawing) in {**DETAILS, **NEW_DETAILS}.items():
         groups.setdefault(group, []).append(tile(f"{base}/viewer.html?model={key}", caption))
-    md = ["# 3D Connections New\n",
+    md = ["# 3D Connections\n",
           "Overview of the steel connections as small interactive 3D models. The details follow the "
           "drawings on the [connections](S04_connections.ipynb) page.\n",
           "Drag to rotate, right-drag to pan and scroll to zoom. Use *Open full size* for a large view "
