@@ -22,6 +22,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from details import DETAILS  # noqa: E402
+from details_new import NEW_DETAILS  # noqa: E402  (compact page only)
 
 ROOT = Path(__file__).resolve().parents[2]
 STATIC = ROOT / "book" / "_static"
@@ -61,7 +62,7 @@ def build_viewer():
 
 def build_models():
     (OUT / "models").mkdir(parents=True, exist_ok=True)
-    for key, (fn, *_rest) in DETAILS.items():
+    for key, (fn, *_rest) in {**DETAILS, **NEW_DETAILS}.items():
         js = fn().to_js()
         (OUT / "models" / f"{key}.js").write_text(js, encoding="utf-8")
         print(f"  model {key}: {len(js) / 1024:.0f} kB")
@@ -201,18 +202,38 @@ GRID_STYLE = """<style>
 
 
 def tile(src, caption, hide_menu=True):
-    """Small live viewer (menu hidden) with caption and a link to the full-size viewer."""
+    """Small live viewer (menu hidden) with caption and a link to the full-size viewer.
+
+    The iframe only gets its src from GRID_SCRIPT while it is near the screen, so the page
+    never holds more live 3D views than browsers allow (about 16)."""
     frame_src = src + ("&thumb=1" if hide_menu and "?" in src else "")
-    return (f'<div class="c3d-tile"><iframe src="{frame_src}" title="3D view: {caption}" loading="lazy" '
+    return (f'<div class="c3d-tile"><iframe class="c3d-live" data-src="{frame_src}" title="3D view: {caption}" '
             f'frameborder="0"></iframe>'
             f'<div>{caption.rstrip(".")}<br><a href="{src}" target="_blank" rel="noopener">'
             f"Open full size &#8599;</a></div></div>")
 
 
+# Load a tile's viewer when it comes near the screen and release it (about:blank) when it
+# scrolls away. One HTML block: no blank lines inside.
+GRID_SCRIPT = """<script>
+(function () {
+  var frames = Array.prototype.slice.call(document.querySelectorAll("iframe.c3d-live"));
+  function load(f) { if (f.getAttribute("src") !== f.dataset.src) { f.setAttribute("src", f.dataset.src); } }
+  function unload(f) { if (f.getAttribute("src") && f.getAttribute("src") !== "about:blank") { f.setAttribute("src", "about:blank"); } }
+  frames.forEach(function (f) { var r = f.getBoundingClientRect(); if (r.top < window.innerHeight + 150 && r.bottom > -150) { load(f); } });
+  if (!("IntersectionObserver" in window)) { frames.slice(0, 12).forEach(load); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { load(e.target); } else { unload(e.target); } });
+  }, {rootMargin: "150px 0px"});
+  frames.forEach(function (f) { io.observe(f); });
+})();
+</script>"""
+
+
 def build_page_grid():
     base = "../../_static/connections_3d"
     groups = {}
-    for key, (_fn, group, caption, _drawing) in DETAILS.items():
+    for key, (_fn, group, caption, _drawing) in {**DETAILS, **NEW_DETAILS}.items():
         groups.setdefault(group, []).append(tile(f"{base}/viewer.html?model={key}", caption))
     md = ["# 3D Connections New\n",
           "Overview of the steel connections as small interactive 3D models. The details follow the "
@@ -227,6 +248,7 @@ def build_page_grid():
     md.append("## Other connections\n")
     md.append('<div class="c3d-grid">\n' + "\n".join(
         tile(f"../../_static/{name}.html", caption) for name, caption in RHINO) + "\n</div>\n")
+    md.append(GRID_SCRIPT + "\n")
     write_notebook(PAGE_GRID, md)
 
 
