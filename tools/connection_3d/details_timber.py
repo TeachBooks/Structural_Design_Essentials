@@ -4,6 +4,7 @@ Same conventions as details.py: units cm, Z up, the beam runs along +x and the
 column face it connects to lies in the plane x = 0. Beam bottom at z = 0.
 """
 
+from details_new import lock_bolt
 from iris3d import Scene, add, circle, frame_from_axis, hexagon, mul, rect
 
 A = 0.4                     # weld leg
@@ -107,17 +108,21 @@ def beam_concrete_wall():
     """Fig. 12.4 middle: beam end on a concrete wall.
 
     Steel shoe: base plate on the wall, end plate against the beam end, fin plate in a
-    slot through the full beam height, fixed with three dowels."""
+    slot through the full beam height, fixed with three dowels. The base plate is wider
+    than the beam and anchored to the wall with two cast-in anchors (as steel beam_wall_1),
+    one on each side of the beam."""
     s = Scene("Timber beam on concrete wall")
     b, h = 16.0, 40.0           # glulam beam 160 x 400
     tw = 20.0                   # wall thickness
     t, tf = 0.8, 1.0
     fin_x1 = tw - 2.0
+    bp = 30.0                   # base plate width
+    ya = b / 2 + 3.5            # anchors: washer clear of the beam
 
     s.box(0, tw, -35.0, 35.0, -40.0, -t, "concrete", "Wall")
     slotted_beam(s, t, 75.0, b, h, tf + 0.2, fin_x1 + 0.5, h)
 
-    s.box(0, tw, -b / 2, b / 2, -t, 0, "plate", "Plates")                   # base plate
+    s.box(0, tw, -bp / 2, bp / 2, -t, 0, "plate", "Plates")                 # base plate
     s.box(0, t, -b / 2, b / 2, 0, h, "plate", "Plates")                     # end plate
     s.box(t, fin_x1, -tf / 2, tf / 2, 0, h, "plate", "Plates")              # fin plate
     for sy in (1, -1):
@@ -129,6 +134,8 @@ def beam_concrete_wall():
 
     for z in (6.5, 20.0, 34.5):
         dowel(s, 9.0, z, b)
+    for y in (-ya, ya):
+        lock_bolt(s, tw / 2, y, 0.0, layer="Anchors")
 
     s.pivot = (14.0, 0.0, 6.0)
     s.view_dir = (0.75, -0.85, 0.45)
