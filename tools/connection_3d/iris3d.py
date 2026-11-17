@@ -199,6 +199,7 @@ PROFILES = {
     "IPE240": {"h": 24.0, "b": 12.0, "tw": 0.62, "tf": 0.98, "r": 1.5},
     "HEA240": {"h": 23.0, "b": 24.0, "tw": 0.75, "tf": 1.2, "r": 2.1},
     "HEB200": {"h": 20.0, "b": 20.0, "tw": 0.9, "tf": 1.5, "r": 1.8},
+    "HEA280": {"h": 27.0, "b": 28.0, "tw": 0.8, "tf": 1.3, "r": 2.4},
 }
 
 BOLTS = {  # d, head/nut across flats, head height, nut height, washer diameter, washer thickness

@@ -401,10 +401,10 @@ def bw3():
 
 
 # ----------------------------------------------------------------------------- Center-column-beam
-def beam_on_column(s, plate_t=0.8):
+def beam_on_column(s, plate_t=0.8, beam=BEAM):
     """Continuous beam along x on top of the column plate; returns the beam bottom level."""
     bb = plate_t
-    s.beam_x(BEAM, -BEAM_END, BEAM_END, bb + B["h"])
+    s.beam_x(beam, -BEAM_END, BEAM_END, bb + PROFILES[beam]["h"])
     return bb
 
 
@@ -466,26 +466,27 @@ def ccb4():
     return s
 
 
-def column_through(s, upper, slanted):
+def column_through(s, upper, slanted, beam=BEAM, bolts=FOUR):
     """Continuous beam between a lower HEA240 column and an upper column, with plates,
     bolts and welded beam web stiffeners linking the column flanges."""
     t = 0.8
+    bp = PROFILES[beam]
     s.column(COL, COL_BOT, 0.0)
     cap_plate_inset(s, 0.0, t)
-    bb = beam_on_column(s, t)
-    bt = bb + B["h"]
-    bolts_z(s, bb + B["tf"], B["tf"] + t, FOUR)
+    bb = beam_on_column(s, t, beam)
+    bt = bb + bp["h"]
+    bolts_z(s, bb + bp["tf"], bp["tf"] + t, bolts)
     up = PROFILES[upper]
     z_up = bt + t
     s.column(upper, z_up, z_up + 45.0)
     column_plate(s, upper, z_up, t, column_below=False)
-    bolts_z(s, z_up, t + B["tf"], FOUR)
+    bolts_z(s, z_up, t + bp["tf"], bolts)
     x_low = XF - C["tf"] / 2
     x_up = up["h"] / 2 - up["tf"] / 2
     for sx in (1, -1):
-        web_stiffeners(s, sx * x_low, sx * (x_up if slanted else x_low), bt)
+        web_stiffeners(s, sx * x_low, sx * (x_up if slanted else x_low), bt, prof=beam)
     s.view_dir = (0.55, -0.75, 0.35)
-    s.pivot = (0.0, 0.0, bb + B["h"] / 2)
+    s.pivot = (0.0, 0.0, bb + bp["h"] / 2)
     return s
 
 
@@ -495,7 +496,16 @@ def ccb5():
 
 
 def ccb6():
+    """HEA280 beam (28 cm), 4 cm wider than the HEA240 columns. Bolts at y = +-5.0 so the
+    washers clear the beam root radii (tw/2 + r = 2.8 cm)."""
     s = Scene("Center-column-beam 6: endplates with web stiffeners")
+    return column_through(s, COL, slanted=False, beam="HEA280",
+                          bolts=[(x, y) for x in (-4.5, 4.5) for y in (-5.0, 5.0)])
+
+
+def ccb6_old():
+    """Previous version of ccb6 (for comparison): IPE300 beam."""
+    s = Scene("Center-column-beam 6: endplates with web stiffeners (previous version)")
     return column_through(s, COL, slanted=False)
 
 
@@ -565,6 +575,9 @@ NEW_DETAILS = {
                              "Center_Column_Beam5.jpg"),
     "center_column_beam_6": (ccb6, "Center-column-beam", "Welded endplate with welded stiffeners on beam web.",
                              "Center_Column_Beam6.jpg"),
+    "center_column_beam_6_old": (ccb6_old, "Center-column-beam",
+                                 "Welded endplate with welded stiffeners on beam web (previous version, for comparison).",
+                                 "Center_Column_Beam6.jpg"),
     "column_support_2": (cs2, "Column-support", "Column support with welded endplate and four bolts.",
                          "Column_Support2.jpg"),
     "column_support_3": (cs3, "Column-support",

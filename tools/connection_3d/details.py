@@ -113,15 +113,24 @@ def col_stiffeners(s, z, t=1.0, welded=False, a=0.4):
                                 (0, 0, sz), a)
 
 
-def beam_stiffeners(s, x, z_top, t=1.0):
-    """Pair of beam web stiffeners (between the beam flanges) centred at x."""
+def beam_stiffeners(s, x, z_top, t=1.0, welded=False, a=0.4):
+    """Pair of beam web stiffeners (between the beam flanges) centred at x.
+
+    welded=True adds fillet welds on both faces, to the web and to both flanges."""
     c = B["r"]
     zt, zb = z_top - B["tf"], z_top - B["h"] + B["tf"]
     for sign in (1, -1):
         # 2D coordinates for axis 'x' are (y, z)
-        poly = [(sign * B["tw"] / 2, zb + c), (sign * B["tw"] / 2, zt - c), (sign * (B["tw"] / 2 + c), zt),
-                (sign * (B["b"] / 2 - 0.3), zt), (sign * (B["b"] / 2 - 0.3), zb), (sign * (B["tw"] / 2 + c), zb)]
+        yw, ye = sign * B["tw"] / 2, sign * (B["b"] / 2 - 0.3)
+        poly = [(yw, zb + c), (yw, zt - c), (sign * (B["tw"] / 2 + c), zt),
+                (ye, zt), (ye, zb), (sign * (B["tw"] / 2 + c), zb)]
         s.prism(poly, "x", x - t / 2, x + t / 2, "plate", "Stiffeners")
+        if welded:
+            for f in (1, -1):
+                xf = x + f * t / 2
+                s.line_weld((xf, yw, zb + c), (xf, yw, zt - c), (f, 0, 0), (0, sign, 0), a)
+                for z, dz in ((zt, -1), (zb, 1)):
+                    s.line_weld((xf, sign * (B["tw"] / 2 + c), z), (xf, ye, z), (f, 0, 0), (0, 0, dz), a)
 
 
 def bolts_x(s, x_head, grip, rows, ys=(-5.5, 5.5), size="M20"):
@@ -200,30 +209,29 @@ def ecb3():
     return s
 
 
-def ecb3_original():
-    """Previous version of ecb3, kept for comparison."""
-    s = Scene("End column-beam 3 (previous version): elongated endplate, top plate and stiffeners")
-    top = 0.0
-    s.column(COL, COL_BOT, top - 1.5)
-    cap_plate(s, top - 1.5)
-    bt = top
-    z_bot = bt - B["h"] - 8.0
-    end_plate(s, XF, bt, z_bot, beam_top=bt)
-    s.beam_x(BEAM, XF + 1.5, BEAM_END, bt)
-    bolts_x(s, XF + 1.5, 1.5 + C["tf"], [bt - 6, bt - 14, bt - B["h"] + 6, bt - B["h"] - 4])
-    col_stiffeners(s, bt - B["h"] + B["tf"] / 2)
-    # tension (top) plate over column and beam
-    tp = 1.5
-    s.box(-XF, XF + 32, -B["b"] / 2, B["b"] / 2, bt, bt + tp, "plate", "Plates")
-    pts = [(x, y) for x in (-6.0, 5.0, XF + 10, XF + 22) for y in (-4.5, 4.5)]
-    bolts_z(s, bt + tp, tp + 1.5, pts[:4])          # into the column cap plate
-    bolts_z(s, bt + tp, tp + B["tf"], pts[4:])      # into the beam top flange
+def ecb4():
+    """Beam on top of the column, welded endplate, two bolts.
+
+    8 mm cap plate and 8 mm end plate, both 0.5 cm inside the profile outline and welded
+    outside (on the exposed flange ends) and inside the profile (flanges, root radii, web).
+    The end plate is flush with the outer face of the column flange."""
+    s = Scene("End column-beam 4: beam on column, welded endplate with two bolts")
+    top, t = 0.0, 0.8
+    s.column(COL, COL_BOT, top)
+    cap_plate_inset(s, top, t)
+    bb = top + t
+    bt = bb + B["h"]
+    x0 = -XF
+    end_plate_inset(s, x0, bt, t)
+    s.beam_x(BEAM, x0 + t, BEAM_END, bt)
+    bolts_z(s, bb + B["tf"], B["tf"] + t, [(0, -4.5), (0, 4.5)])
+    s.view_dir = (0.5, -0.85, 0.35)
     return s
 
 
-def ecb4():
-    """Beam on top of the column, welded endplate, two bolts."""
-    s = Scene("End column-beam 4: beam on column, welded endplate with two bolts")
+def ecb4_original():
+    """Previous version of ecb4, kept for comparison."""
+    s = Scene("End column-beam 4 (previous version): beam on column, welded endplate with two bolts")
     top = 0.0
     s.column(COL, COL_BOT, top)
     cap_plate(s, top)
@@ -238,8 +246,23 @@ def ecb4():
 
 
 def ecb5():
-    """Welded endplate with six bolts."""
+    """Welded endplate with six bolts: 8 mm cap plate and end plate 0.5 cm inside the profile
+    outlines, welded outside and inside the profiles (as ecb1), three rows of two bolts."""
     s = Scene("End column-beam 5: welded endplate with six bolts")
+    top, t = 0.0, 0.8
+    s.column(COL, COL_BOT, top)
+    cap_plate_inset(s, top, t)
+    bt = top + t
+    end_plate_inset(s, XF, bt, t)
+    s.beam_x(BEAM, XF + t, BEAM_END, bt)
+    zc = bt - B["h"] / 2
+    bolts_x(s, XF + t, t + C["tf"], [zc - 9, zc, zc + 9], ys=(-4.5, 4.5))  # washers clear of the column root radii
+    return s
+
+
+def ecb5_original():
+    """Previous version of ecb5, kept for comparison."""
+    s = Scene("End column-beam 5 (previous version): welded endplate with six bolts")
     top = 0.0
     s.column(COL, COL_BOT, top)
     cap_plate(s, top)
@@ -252,8 +275,39 @@ def ecb5():
 
 
 def ecb6():
-    """Beam on column, endplate extended down the column (tension zone) and stiffeners."""
+    """Beam on column with an external plate over the beam end and the outer column flange.
+
+    8 mm cap plate and beam end plate, 0.5 cm inside the profiles and welded as in ecb1; the
+    end plate is flush with the column face, so the external plate bears on both. It is
+    bolted through the end plate into the beam (tension zone) and through the outer column
+    flange. One welded beam web stiffener above the inner column flange."""
     s = Scene("End column-beam 6: extended endplate in tension zone and stiffeners")
+    top, t = 0.0, 0.8
+    s.column(COL, COL_BOT, top)
+    cap_plate_inset(s, top, t)
+    bb = top + t
+    bt = bb + B["h"]
+    end_plate_inset(s, -XF, bt, t)
+    s.beam_x(BEAM, -XF + t, BEAM_END, bt)
+    # external plate against the end plate and the outer column flange
+    tp, z_low = 1.2, top - 28.0
+    xo = -XF - tp
+    s.box(xo, -XF, -C["b"] / 2, C["b"] / 2, z_low, bt, "plate", "Plates")
+    for z in (bt - 6.0, bt - 15.0, bt - 24.0):              # into the beam, nuts between its flanges
+        for y in (-4.0, 4.0):
+            s.bolt((xo, y, z), (1, 0, 0), tp + t)
+    for z in (top - 4.5, top - 14.0, top - 23.5):           # into the column, nuts inside the profile
+        for y in (-6.0, 6.0):
+            s.bolt((xo, y, z), (1, 0, 0), tp + C["tf"])
+    bolts_z(s, bb + B["tf"], B["tf"] + t, [(x, y) for x in (-6.0, 6.0) for y in (-4.5, 4.5)])
+    beam_stiffeners(s, XF - C["tf"] / 2, bt, welded=True)
+    s.view_dir = (-0.45, -0.85, 0.4)
+    return s
+
+
+def ecb6_original():
+    """Previous version of ecb6, kept for comparison."""
+    s = Scene("End column-beam 6 (previous version): extended endplate in tension zone and stiffeners")
     top = 0.0
     s.column(COL, COL_BOT, top)
     cap_plate(s, top)
@@ -351,14 +405,20 @@ DETAILS = {
     "end_column_beam_3": (ecb3, "End column-beam",
                           "Welded elongated endplate with top plate and stiffeners for extra stiffness.",
                           "End_Column_Beam3.jpg"),
-    "end_column_beam_3_original": (ecb3_original, "End column-beam",
-                                   "Welded elongated endplate with top plate and stiffeners (previous version, for comparison).",
-                                   "End_Column_Beam3.jpg"),
     "end_column_beam_4": (ecb4, "End column-beam", "Beam on column: welded endplate with two bolts.", "End_Column_Beam4.jpg"),
+    "end_column_beam_4_original": (ecb4_original, "End column-beam",
+                                   "Beam on column: welded endplate with two bolts (previous version, for comparison).",
+                                   "End_Column_Beam4.jpg"),
     "end_column_beam_5": (ecb5, "End column-beam", "Welded endplate with six bolts.", "End_Column_Beam5.jpg"),
+    "end_column_beam_5_original": (ecb5_original, "End column-beam",
+                                   "Welded endplate with six bolts (previous version, for comparison).",
+                                   "End_Column_Beam5.jpg"),
     "end_column_beam_6": (ecb6, "End column-beam",
                           "Welded endplate with extra plate in tension zone and stiffeners.",
                           "End_Column_Beam6.jpg"),
+    "end_column_beam_6_original": (ecb6_original, "End column-beam",
+                                   "Extended endplate in tension zone and stiffeners (previous version, for comparison).",
+                                   "End_Column_Beam6.jpg"),
     "end_column_beam_7": (ecb7, "End column-beam", "Beam on column: welded endplate with four bolts.", "End_Column_Beam7.jpg"),
     "end_column_beam_8": (ecb8, "End column-beam",
                           "Welded elongated endplate with four bolts and stiffeners.", "End_Column_Beam8.jpg"),
