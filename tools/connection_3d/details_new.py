@@ -12,7 +12,7 @@ import math
 
 from details import (B, BEAM, BEAM_END, C, COL, COL_BOT, XF, XFI, bolts_x, bolts_z, cap_plate,
                      cap_plate_inset, col_stiffeners, end_plate, end_plate_inset, inner_profile_welds)
-from iris3d import PROFILES, Mesh, Scene, angle_section, hexagon, i_section, rect
+from iris3d import PROFILES, Mesh, Scene, _arc, _dedupe, angle_section, hexagon, i_section, rect
 
 SEC = "IPE240"                  # secondary beam
 S = PROFILES[SEC]
@@ -76,7 +76,65 @@ def angle_cleats(s, x_face, x_bolt, zc, rows, web_t, grip_face, y_face_bolts, le
 
 
 def coped_beam(s, prof, x0, xc, x1, z_top, z_cope, layer="Secondary beam"):
-    """Beam along x from x0 to x1 with its top flange and upper web cut back to xc."""
+    """Beam along x from x0 to x1 with its top flange and upper web cut back to xc.
+
+    Only the cope is removed: the bottom flange, its root radii and the web below z_cope run
+    on to x0. Outlines are drawn on the real edges only (no section line at xc across the
+    remaining part), so the beam does not look cut through."""
+    p = PROFILES[prof]
+    h, b, tw, tf, r = p["h"], p["b"], p["tw"], p["tf"], p["r"]
+    hh, hb, ht = h / 2, b / 2, tw / 2
+    zm = z_top - hh                     # section centre
+    vc = z_cope - zm                    # cope level in section coordinates
+    # lower part (bottom flange + root radii + web up to the cope), x0 .. x1
+    lower, lc = [], []
+
+    def c(pt):
+        lc.append(len(lower))
+        lower.append(pt)
+
+    c((-hb, -hh)); c((hb, -hh)); c((hb, -hh + tf))
+    lower.append((ht + r, -hh + tf)); lower += _arc(ht + r, -hh + tf + r, r, -90, -180)
+    c((ht, vc)); c((-ht, vc))
+    lower.append((-ht, -hh + tf + r)); lower += _arc(-ht - r, -hh + tf + r, r, 0, -90)
+    c((-hb, -hh + tf))
+    lower, lc = _dedupe(lower, lc)
+    # upper part (web above the cope + root radii + top flange), xc .. x1
+    upper, uc = [], []
+
+    def d(pt):
+        uc.append(len(upper))
+        upper.append(pt)
+
+    d((-ht, vc)); d((ht, vc))
+    upper.append((ht, hh - tf - r)); upper += _arc(ht + r, hh - tf - r, r, 180, 90)
+    d((hb, hh - tf)); d((hb, hh)); d((-hb, hh)); d((-hb, hh - tf))
+    upper.append((-ht - r, hh - tf)); upper += _arc(-ht - r, hh - tf - r, r, 90, 0)
+    upper, uc = _dedupe(upper, uc)
+
+    u, v, w = (0, 1, 0), (0, 0, 1), (1, 0, 0)
+
+    def P(pt, x):
+        return (x, pt[0], zm + pt[1])
+
+    s.extrude(lower, (x0, 0, zm), u, v, w, x1 - x0, "steel", layer, outline=False)
+    s.extrude(upper, (xc, 0, zm), u, v, w, x1 - xc, "steel", layer, outline=False)
+    # outlines: coped end, cope edge, far end, longitudinal corner edges
+    s.add_line([P(q, x0) for q in lower], layer, closed=True)
+    s.add_line([P(q, xc) for q in upper[1:]] + [P(upper[0], xc)], layer)
+    s.add_line([P(q, x1) for q in lower[:lc[3]]] + [P(q, x1) for q in upper[2:]]
+               + [P(q, x1) for q in lower[lc[4] + 1:]], layer, closed=True)
+    for i in lc:
+        if i in (lc[3], lc[4]):          # web top at the cope: only from x0 to xc
+            s.add_line([P(lower[i], x0), P(lower[i], xc)], layer)
+        else:
+            s.add_line([P(lower[i], x0), P(lower[i], x1)], layer)
+    for i in uc[2:]:
+        s.add_line([P(upper[i], xc), P(upper[i], x1)], layer)
+
+
+def coped_beam_old(s, prof, x0, xc, x1, z_top, z_cope, layer="Secondary beam"):
+    """Previous version (for comparison): full section from xc, boxes for the coped part."""
     p = PROFILES[prof]
     s.beam_x(prof, xc, x1, z_top, layer=layer)
     zb = z_top - p["h"]
@@ -188,6 +246,17 @@ def bb1():
     return s
 
 
+def bb1_old():
+    """Previous version of bb1 (for comparison): coped part built from boxes."""
+    s = Scene("Beam-beam 1: bolted angles (previous version)")
+    primary(s)
+    coped_beam_old(s, SEC, P_TW / 2 + 1.0, X_COPE, 90.0, 0.0, Z_COPE)
+    zc = -S["h"] / 2
+    angle_cleats(s, P_TW / 2, P_TW / 2 + 5.5, zc, [zc - 3.5, zc + 3.5], S["tw"], P_TW, S["tw"] / 2 + 5.5, 14.0)
+    s.view_dir = (0.7, -0.6, 0.5)
+    return s
+
+
 def bb2():
     """Secondary beam (coped) with a welded 8 mm end plate, bolted to the primary web."""
     s = Scene("Beam-beam 2: welded endplate, bolted to other element")
@@ -198,7 +267,7 @@ def bb2():
     zb = -S["h"]
     zp_bot = zb + 0.5
     s.box(x0, xb, -yp, yp, zp_bot, Z_COPE, "plate", "Plates")
-    coped_beam(s, SEC, xb, X_COPE, 90.0, 0.0, Z_COPE)
+    coped_beam_old(s, SEC, xb, X_COPE, 90.0, 0.0, Z_COPE)
     zf = zb + S["tf"]
     for sy in (1, -1):
         # web to plate, both sides; top of the bottom flange to plate
@@ -477,6 +546,8 @@ NEW_DETAILS = {
     "cont_column_beam_3": (cb3, "Cont. column-beam",
                            "Connection with elongated endplate, bolted to stiffened column.", "Column_Beam3.jpg"),
     "beam_beam_1": (bb1, "Beam-beam", "Connection with bolted angles.", "Beam_Beam1.jpg"),
+    "beam_beam_1_old": (bb1_old, "Beam-beam", "Connection with bolted angles (previous version, for comparison).",
+                        "Beam_Beam1.jpg"),
     "beam_beam_2": (bb2, "Beam-beam", "Connection with welded endplate, bolted to other element.",
                     "Beam_Beam2.jpg"),
     "beam_beam_3": (bb3a, "Beam-beam", "Connection with elongated endplate, bolted to other element.",
