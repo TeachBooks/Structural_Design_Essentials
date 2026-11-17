@@ -218,6 +218,7 @@ MATERIALS = {
     "grout": (0xB9B2A3, "Grout"),
     "concrete": (0xC9C9C4, "Concrete"),
     "elastomer": (0x3A3A3A, "Elastomer"),
+    "timber": (0xD9B47A, "Timber"),
 }
 
 

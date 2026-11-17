@@ -24,6 +24,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from details import DETAILS  # noqa: E402
 from details_new import NEW_DETAILS  # noqa: E402  (compact page only)
+from details_timber import TIMBER_DETAILS  # noqa: E402  (embedded on the timber pages)
 
 ROOT = Path(__file__).resolve().parents[2]
 STATIC = ROOT / "book" / "_static"
@@ -67,7 +68,7 @@ def build_viewer():
 
 def build_models():
     (OUT / "models").mkdir(parents=True, exist_ok=True)
-    for key, (fn, *_rest) in {**DETAILS, **NEW_DETAILS}.items():
+    for key, (fn, *_rest) in {**DETAILS, **NEW_DETAILS, **TIMBER_DETAILS}.items():
         js = fn().to_js()
         (OUT / "models" / f"{key}.js").write_text(js, encoding="utf-8")
         print(f"  model {key}: {len(js) / 1024:.0f} kB")
