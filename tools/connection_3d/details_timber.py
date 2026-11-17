@@ -147,25 +147,28 @@ def beam_double_column():
     """Fig. 12.4 right: beam on a double timber column, by means of a support block.
 
     The block sits between the two column halves and is bolted through them; the beam
-    rests on the block (two vertical dowels) and is held at the top by a steel strip
-    screwed into the beam."""
+    rests on the block (two vertical dowels). A steel plate on top covers the beam and both
+    column halves and ties them together with three screws: one in the centre of each
+    column half and one in the centre of the beam."""
     s = Scene("Timber beam on double timber column")
     b, h = 16.0, 40.0           # glulam beam 160 x 400
     tc, wc = 12.0, 22.0         # each column half 120 x 220
     hb = 22.0                   # support block height
-    tp = 1.0                    # top strip
+    tp = 1.0                    # top plate
 
     for sy in (1, -1):
         y0, y1 = sorted((sy * b / 2, sy * (b / 2 + tc)))
         timber_column(s, -wc / 2, wc / 2, y0, y1, -70.0, h)
     s.box(-wc / 2, wc / 2, -b / 2, b / 2, -hb, 0, "timber", "Support block")
     s.box(-55.0, 55.0, -b / 2, b / 2, 0, h, "timber", "Beam")
-    s.box(-wc / 2, wc / 2, -b / 2, b / 2, h, h + tp, "plate", "Plates")
+    yc = b / 2 + tc              # outer face of a column half
+    s.box(-wc / 2, wc / 2, -yc, yc, h, h + tp, "plate", "Plates")
 
     for x in (-5.5, 5.5):
         s.bolt((x, -b / 2 - tc, -11.0), (0, 1, 0), b + 2 * tc, size="M16")
         s.cylinder((x, 0, -6.0), (0, 0, 1), 0.6, 12.0, "bolt", "Dowels", n=16, outline=True)
-        coach_screw(s, (x, 0, h + tp), (0, 0, -1), 10.0 + tp, layer="Screws")
+    for y in (-(b + tc) / 2, 0.0, (b + tc) / 2):
+        coach_screw(s, (0.0, y, h + tp), (0, 0, -1), 10.0 + tp, layer="Screws")
 
     s.pivot = (0.0, 0.0, 0.0)
     s.view_dir = (0.85, -0.7, 0.3)
