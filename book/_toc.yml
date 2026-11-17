@@ -95,6 +95,7 @@ parts:
       - file: design/timber/T02_timber_structures_and_details
       - file: design/timber/T03_connection_elements
       - file: design/timber/T04_3d_connections
+      - file: design/timber/T04a_3d_connections_to_be_checked
       - file: design/timber/T05_trusses_and_joints
     - file: design/foundations/foundations
       sections:

@@ -25,6 +25,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from details import DETAILS  # noqa: E402
 from details_new import NEW_DETAILS  # noqa: E402  (compact page only)
 from details_timber import TIMBER_DETAILS  # noqa: E402  (embedded on the timber pages)
+from details_timber_check import CHECK_DETAILS, CHECK_GROUPS  # noqa: E402  (timber page to be checked)
 
 ROOT = Path(__file__).resolve().parents[2]
 STATIC = ROOT / "book" / "_static"
@@ -68,7 +69,7 @@ def build_viewer():
 
 def build_models():
     (OUT / "models").mkdir(parents=True, exist_ok=True)
-    for key, (fn, *_rest) in {**DETAILS, **NEW_DETAILS, **TIMBER_DETAILS}.items():
+    for key, (fn, *_rest) in {**DETAILS, **NEW_DETAILS, **TIMBER_DETAILS, **CHECK_DETAILS}.items():
         js = fn().to_js()
         (OUT / "models" / f"{key}.js").write_text(js, encoding="utf-8")
         print(f"  model {key}: {len(js) / 1024:.0f} kB")
@@ -260,6 +261,37 @@ def build_page_grid():
     write_notebook(PAGE_GRID, md)
 
 
+# ----------------------------------------------------------------------------- timber details to be checked
+PAGE_TIMBER_CHECK = ROOT / "book" / "design" / "timber" / "T04a_3d_connections_to_be_checked.ipynb"
+
+
+def build_timber_check_page():
+    """Compact grid of the timber details of Figs. 12.7 - 12.37, with points to check."""
+    base = "../../_static/connections_3d"
+    md = ["# 3D Connections (to be checked)\n",
+          "First versions of 3D models of the details in the figures on the page "
+          "[Rules of thumb and details](T02_timber_structures_and_details.ipynb) (Figs. 12.7 - 12.37). "
+          "They still have to be checked; approved details will move to the "
+          "[3D Connections](T04_3d_connections.ipynb) page. Under each figure is a list of points to check "
+          "and things that were unclear in the drawing.\n",
+          "Drag to rotate, right-drag to pan and scroll to zoom. Use *Open full size* for a large view "
+          "with the layer menu (for example to switch off timber members and see the steel parts).\n",
+          GRID_STYLE + "\n"]
+    for fig, title in CHECK_GROUPS.items():
+        items = [(k, v) for k, v in CHECK_DETAILS.items() if v[1] == fig]
+        md.append(f"## Figure {fig}: {title}\n")
+        md.append('<div class="c3d-grid">\n' + "\n".join(
+            tile(f"{base}/viewer.html?model={k}", v[2]) for k, v in items) + "\n</div>\n")
+        md.append("**To check**\n")
+        lines = []
+        for k, (_fn, _g, caption, _drawing, checks) in items:
+            lines.append(f"- *{caption}*")
+            lines.extend(f"  - {c}" for c in checks)
+        md.append("\n".join(lines) + "\n")
+    md.append(GRID_SCRIPT + "\n")
+    write_notebook(PAGE_TIMBER_CHECK, md)
+
+
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     build_viewer()
@@ -269,4 +301,5 @@ if __name__ == "__main__":
         build_thumbnails(only)
     build_page()
     build_page_grid()
+    build_timber_check_page()
     print("done")
