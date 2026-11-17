@@ -12,7 +12,7 @@ import math
 
 from details import (B, BEAM, BEAM_END, C, COL, COL_BOT, XF, XFI, bolts_x, bolts_z, cap_plate,
                      cap_plate_inset, col_stiffeners, end_plate, end_plate_inset, inner_profile_welds)
-from iris3d import PROFILES, Mesh, Scene, _arc, _dedupe, angle_section, hexagon, i_section, rect
+from iris3d import PROFILES, Mesh, Scene, _arc, _dedupe, add, mul, angle_section, hexagon, i_section, rect
 
 SEC = "IPE240"                  # secondary beam
 S = PROFILES[SEC]
@@ -302,11 +302,14 @@ def bb2_old():
 SLOPE = math.radians(12.0)
 
 
-def ridge(haunch):
+def ridge(haunch, haunch_flange_welds=True):
     """Two sloping beams with elongated end plates bolted together at the ridge.
 
-    The beams are cut plumb; with haunch=True a welded haunch is added under each beam."""
-    s = Scene("Beam-beam 3: elongated endplates at the ridge" + (" with haunch" if haunch else ""))
+    The beams are cut plumb; with haunch=True a welded haunch is added under each beam. Its
+    flange is cut flush on the end plate and welded to the plate and to the beam's bottom
+    flange (haunch_flange_welds=False: previous version, loose flange, for comparison)."""
+    s = Scene("Beam-beam 3: elongated endplates at the ridge" + (" with haunch" if haunch else "")
+              + ("" if haunch_flange_welds else " (previous version)"))
     ca, sa = math.cos(SLOPE), math.sin(SLOPE)
     h_v = B["h"] / ca                                # vertical depth of the sloping beam
     tp = 1.5
@@ -341,8 +344,24 @@ def ridge(haunch):
             n = (d[2], 0, -d[0])
             if n[2] > 0:
                 n = (-n[0], 0, -n[2])
-            s.extrude(rect(-B["b"] / 2, B["b"] / 2, 0, B["tf"]), pc, (0, 1, 0), n, d, ln, "plate", "Haunch")
             inward = (-n[0], 0, -n[2])
+            if not haunch_flange_welds:
+                s.extrude(rect(-B["b"] / 2, B["b"] / 2, 0, B["tf"]), pc, (0, 1, 0), n, d, ln, "plate", "Haunch")
+            else:
+                # flange in the plane y = 0 (z, x), end cut flush on the plate face
+                po = add(pc, mul(n, B["tf"]))                     # outer face at pc
+                q = add(po, mul(d, (pc[0] - po[0]) / d[0]))       # outer face on the plate
+                pbo = add(pb, mul(n, B["tf"]))
+                fl = [(pc[2], pc[0]), (pb[2], pb[0]), (pbo[2], pbo[0]), (q[2], q[0])]
+                s.prism(fl, "y", -B["b"] / 2, B["b"] / 2, "plate", "Haunch")
+                hb, ht = B["b"] / 2, B["tw"] / 2
+                along = (side * ca, 0, -sa)                       # beam bottom face, away from the plate
+                # flange to end plate: underneath over the full width, on top beside the web
+                s.line_weld((q[0], -hb, q[2]), (q[0], hb, q[2]), (0, 0, -1), d, A)
+                for y0, y1 in ((ht, hb), (-hb, -ht)):
+                    s.line_weld((pc[0], y0, pc[2]), (pc[0], y1, pc[2]), (0, 0, 1), d, A)
+                # flange end to the bottom flange of the beam
+                s.line_weld((pb[0], -hb, pb[2]), (pb[0], hb, pb[2]), along, n, A)
             for sy in (1, -1):
                 yw = sy * B["tw"] / 2
                 s.line_weld((pa[0], yw, pa[2]), (pb[0], yw, pb[2]), (0, sy, 0), (0, 0, -1), A)
@@ -361,6 +380,11 @@ def bb3a():
 
 def bb3b():
     return ridge(True)
+
+
+def bb3b_old():
+    """Previous version of bb3b (for comparison): haunch flange not welded."""
+    return ridge(True, haunch_flange_welds=False)
 
 
 # ----------------------------------------------------------------------------- Beam-wall
@@ -579,6 +603,9 @@ NEW_DETAILS = {
     "beam_beam_3_haunch": (bb3b, "Beam-beam",
                            "Connection with elongated endplate, bolted to other element, with haunch.",
                            "Beam_Beam3.jpg"),
+    "beam_beam_3_haunch_old": (bb3b_old, "Beam-beam",
+                               "Connection with elongated endplate, bolted to other element, with haunch "
+                               "(previous version, for comparison).", "Beam_Beam3.jpg"),
     "beam_wall_1": (bw1, "Beam-wall", "Support on elastomer, with lock bolt.", "Beam_Wall1.jpg"),
     "beam_wall_2": (bw2, "Beam-wall", "Support on (tapered) elastomer, with lock bolt.", "Beam_Wall2.jpg"),
     "beam_wall_3": (bw3, "Beam-wall", "Support with steel axle.", "Beam_Wall3.jpg"),
