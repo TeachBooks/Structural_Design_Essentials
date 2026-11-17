@@ -133,15 +133,6 @@ def coped_beam(s, prof, x0, xc, x1, z_top, z_cope, layer="Secondary beam"):
         s.add_line([P(upper[i], xc), P(upper[i], x1)], layer)
 
 
-def coped_beam_old(s, prof, x0, xc, x1, z_top, z_cope, layer="Secondary beam"):
-    """Previous version (for comparison): full section from xc, boxes for the coped part."""
-    p = PROFILES[prof]
-    s.beam_x(prof, xc, x1, z_top, layer=layer)
-    zb = z_top - p["h"]
-    s.box(x0, xc, -p["b"] / 2, p["b"] / 2, zb, zb + p["tf"], "steel", layer)
-    s.box(x0, xc, -p["tw"] / 2, p["tw"] / 2, zb + p["tf"], z_cope, "steel", layer)
-
-
 def lock_bolt(s, x, y, z_top_flange, z_bot=-22.0, layer="Lock bolts"):
     """Anchor (lock) bolt M20 cast in concrete, washer + nut on the bottom flange."""
     s.cylinder((x, y, z_bot), (0, 0, 1), 1.0, z_top_flange + 0.4 + 1.6 + 0.6 - z_bot, "bolt", layer)
@@ -246,22 +237,11 @@ def bb1():
     return s
 
 
-def bb1_old():
-    """Previous version of bb1 (for comparison): coped part built from boxes."""
-    s = Scene("Beam-beam 1: bolted angles (previous version)")
-    primary(s)
-    coped_beam_old(s, SEC, P_TW / 2 + 1.0, X_COPE, 90.0, 0.0, Z_COPE)
-    zc = -S["h"] / 2
-    angle_cleats(s, P_TW / 2, P_TW / 2 + 5.5, zc, [zc - 3.5, zc + 3.5], S["tw"], P_TW, S["tw"] / 2 + 5.5, 14.0)
-    s.view_dir = (0.7, -0.6, 0.5)
-    return s
-
-
 def bb2():
     """Secondary beam (coped) with a welded 8 mm end plate, bolted to the primary web."""
     s = Scene("Beam-beam 2: welded endplate, bolted to other element")
     primary(s)
-    t, yp = 0.8, S["b"] / 2 - 0.5
+    t, yp = 0.8, 7.0                     # 14 cm wide: 3 cm edge distance to the M20 bolts at y = +-4
     x0 = P_TW / 2
     xb = x0 + t
     zb = -S["h"]
@@ -272,28 +252,7 @@ def bb2():
     for sy in (1, -1):
         # web to plate, both sides; top of the bottom flange to plate
         s.line_weld((xb, sy * S["tw"] / 2, zf + S["r"]), (xb, sy * S["tw"] / 2, Z_COPE), (1, 0, 0), (0, sy, 0), A)
-        s.line_weld((xb, sy * (S["tw"] / 2 + S["r"]), zf), (xb, sy * yp, zf), (1, 0, 0), (0, 0, 1), A)
-    bolts_x(s, xb, t + P_TW, [-8.0, -18.0], ys=(-4.0, 4.0))
-    s.view_dir = (0.7, -0.6, 0.5)
-    return s
-
-
-def bb2_old():
-    """Previous version of bb2 (for comparison). Secondary beam (coped) with a welded 8 mm end plate, bolted to the primary web."""
-    s = Scene("Beam-beam 2: welded endplate, bolted to other element (previous version)")
-    primary(s)
-    t, yp = 0.8, S["b"] / 2 - 0.5
-    x0 = P_TW / 2
-    xb = x0 + t
-    zb = -S["h"]
-    zp_bot = zb + 0.5
-    s.box(x0, xb, -yp, yp, zp_bot, Z_COPE, "plate", "Plates")
-    coped_beam_old(s, SEC, xb, X_COPE, 90.0, 0.0, Z_COPE)
-    zf = zb + S["tf"]
-    for sy in (1, -1):
-        # web to plate, both sides; top of the bottom flange to plate
-        s.line_weld((xb, sy * S["tw"] / 2, zf + S["r"]), (xb, sy * S["tw"] / 2, Z_COPE), (1, 0, 0), (0, sy, 0), A)
-        s.line_weld((xb, sy * (S["tw"] / 2 + S["r"]), zf), (xb, sy * yp, zf), (1, 0, 0), (0, 0, 1), A)
+        s.line_weld((xb, sy * (S["tw"] / 2 + S["r"]), zf), (xb, sy * S["b"] / 2, zf), (1, 0, 0), (0, 0, 1), A)
     bolts_x(s, xb, t + P_TW, [-8.0, -18.0], ys=(-4.0, 4.0))
     s.view_dir = (0.7, -0.6, 0.5)
     return s
@@ -302,14 +261,13 @@ def bb2_old():
 SLOPE = math.radians(12.0)
 
 
-def ridge(haunch, haunch_flange_welds=True):
+def ridge(haunch):
     """Two sloping beams with elongated end plates bolted together at the ridge.
 
     The beams are cut plumb; with haunch=True a welded haunch is added under each beam. Its
     flange is cut flush on the end plate and welded to the plate and to the beam's bottom
-    flange (haunch_flange_welds=False: previous version, loose flange, for comparison)."""
-    s = Scene("Beam-beam 3: elongated endplates at the ridge" + (" with haunch" if haunch else "")
-              + ("" if haunch_flange_welds else " (previous version)"))
+    flange."""
+    s = Scene("Beam-beam 3: elongated endplates at the ridge" + (" with haunch" if haunch else ""))
     ca, sa = math.cos(SLOPE), math.sin(SLOPE)
     h_v = B["h"] / ca                                # vertical depth of the sloping beam
     tp = 1.5
@@ -345,23 +303,20 @@ def ridge(haunch, haunch_flange_welds=True):
             if n[2] > 0:
                 n = (-n[0], 0, -n[2])
             inward = (-n[0], 0, -n[2])
-            if not haunch_flange_welds:
-                s.extrude(rect(-B["b"] / 2, B["b"] / 2, 0, B["tf"]), pc, (0, 1, 0), n, d, ln, "plate", "Haunch")
-            else:
-                # flange in the plane y = 0 (z, x), end cut flush on the plate face
-                po = add(pc, mul(n, B["tf"]))                     # outer face at pc
-                q = add(po, mul(d, (pc[0] - po[0]) / d[0]))       # outer face on the plate
-                pbo = add(pb, mul(n, B["tf"]))
-                fl = [(pc[2], pc[0]), (pb[2], pb[0]), (pbo[2], pbo[0]), (q[2], q[0])]
-                s.prism(fl, "y", -B["b"] / 2, B["b"] / 2, "plate", "Haunch")
-                hb, ht = B["b"] / 2, B["tw"] / 2
-                along = (side * ca, 0, -sa)                       # beam bottom face, away from the plate
-                # flange to end plate: underneath over the full width, on top beside the web
-                s.line_weld((q[0], -hb, q[2]), (q[0], hb, q[2]), (0, 0, -1), d, A)
-                for y0, y1 in ((ht, hb), (-hb, -ht)):
-                    s.line_weld((pc[0], y0, pc[2]), (pc[0], y1, pc[2]), (0, 0, 1), d, A)
-                # flange end to the bottom flange of the beam
-                s.line_weld((pb[0], -hb, pb[2]), (pb[0], hb, pb[2]), along, n, A)
+            # flange in the plane y = 0 (z, x), end cut flush on the plate face
+            po = add(pc, mul(n, B["tf"]))                     # outer face at pc
+            q = add(po, mul(d, (pc[0] - po[0]) / d[0]))       # outer face on the plate
+            pbo = add(pb, mul(n, B["tf"]))
+            fl = [(pc[2], pc[0]), (pb[2], pb[0]), (pbo[2], pbo[0]), (q[2], q[0])]
+            s.prism(fl, "y", -B["b"] / 2, B["b"] / 2, "plate", "Haunch")
+            hb, ht = B["b"] / 2, B["tw"] / 2
+            along = (side * ca, 0, -sa)                       # beam bottom face, away from the plate
+            # flange to end plate: underneath over the full width, on top beside the web
+            s.line_weld((q[0], -hb, q[2]), (q[0], hb, q[2]), (0, 0, -1), d, A)
+            for y0, y1 in ((ht, hb), (-hb, -ht)):
+                s.line_weld((pc[0], y0, pc[2]), (pc[0], y1, pc[2]), (0, 0, 1), d, A)
+            # flange end to the bottom flange of the beam
+            s.line_weld((pb[0], -hb, pb[2]), (pb[0], hb, pb[2]), along, n, A)
             for sy in (1, -1):
                 yw = sy * B["tw"] / 2
                 s.line_weld((pa[0], yw, pa[2]), (pb[0], yw, pb[2]), (0, sy, 0), (0, 0, -1), A)
@@ -380,11 +335,6 @@ def bb3a():
 
 def bb3b():
     return ridge(True)
-
-
-def bb3b_old():
-    """Previous version of bb3b (for comparison): haunch flange not welded."""
-    return ridge(True, haunch_flange_welds=False)
 
 
 # ----------------------------------------------------------------------------- Beam-wall
@@ -591,21 +541,13 @@ NEW_DETAILS = {
     "cont_column_beam_3": (cb3, "Cont. column-beam",
                            "Connection with elongated endplate, bolted to stiffened column.", "Column_Beam3.jpg"),
     "beam_beam_1": (bb1, "Beam-beam", "Connection with bolted angles.", "Beam_Beam1.jpg"),
-    "beam_beam_1_old": (bb1_old, "Beam-beam", "Connection with bolted angles (previous version, for comparison).",
-                        "Beam_Beam1.jpg"),
     "beam_beam_2": (bb2, "Beam-beam", "Connection with welded endplate, bolted to other element.",
                     "Beam_Beam2.jpg"),
-    "beam_beam_2_old": (bb2_old, "Beam-beam",
-                        "Connection with welded endplate, bolted to other element (previous version, for comparison).",
-                        "Beam_Beam2.jpg"),
     "beam_beam_3": (bb3a, "Beam-beam", "Connection with elongated endplate, bolted to other element.",
                     "Beam_Beam3.jpg"),
     "beam_beam_3_haunch": (bb3b, "Beam-beam",
                            "Connection with elongated endplate, bolted to other element, with haunch.",
                            "Beam_Beam3.jpg"),
-    "beam_beam_3_haunch_old": (bb3b_old, "Beam-beam",
-                               "Connection with elongated endplate, bolted to other element, with haunch "
-                               "(previous version, for comparison).", "Beam_Beam3.jpg"),
     "beam_wall_1": (bw1, "Beam-wall", "Support on elastomer, with lock bolt.", "Beam_Wall1.jpg"),
     "beam_wall_2": (bw2, "Beam-wall", "Support on (tapered) elastomer, with lock bolt.", "Beam_Wall2.jpg"),
     "beam_wall_3": (bw3, "Beam-wall", "Support with steel axle.", "Beam_Wall3.jpg"),
