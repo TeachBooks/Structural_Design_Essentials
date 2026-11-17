@@ -267,6 +267,27 @@ def bb2():
     zb = -S["h"]
     zp_bot = zb + 0.5
     s.box(x0, xb, -yp, yp, zp_bot, Z_COPE, "plate", "Plates")
+    coped_beam(s, SEC, xb, X_COPE, 90.0, 0.0, Z_COPE)
+    zf = zb + S["tf"]
+    for sy in (1, -1):
+        # web to plate, both sides; top of the bottom flange to plate
+        s.line_weld((xb, sy * S["tw"] / 2, zf + S["r"]), (xb, sy * S["tw"] / 2, Z_COPE), (1, 0, 0), (0, sy, 0), A)
+        s.line_weld((xb, sy * (S["tw"] / 2 + S["r"]), zf), (xb, sy * yp, zf), (1, 0, 0), (0, 0, 1), A)
+    bolts_x(s, xb, t + P_TW, [-8.0, -18.0], ys=(-4.0, 4.0))
+    s.view_dir = (0.7, -0.6, 0.5)
+    return s
+
+
+def bb2_old():
+    """Previous version of bb2 (for comparison). Secondary beam (coped) with a welded 8 mm end plate, bolted to the primary web."""
+    s = Scene("Beam-beam 2: welded endplate, bolted to other element (previous version)")
+    primary(s)
+    t, yp = 0.8, S["b"] / 2 - 0.5
+    x0 = P_TW / 2
+    xb = x0 + t
+    zb = -S["h"]
+    zp_bot = zb + 0.5
+    s.box(x0, xb, -yp, yp, zp_bot, Z_COPE, "plate", "Plates")
     coped_beam_old(s, SEC, xb, X_COPE, 90.0, 0.0, Z_COPE)
     zf = zb + S["tf"]
     for sy in (1, -1):
@@ -550,6 +571,9 @@ NEW_DETAILS = {
                         "Beam_Beam1.jpg"),
     "beam_beam_2": (bb2, "Beam-beam", "Connection with welded endplate, bolted to other element.",
                     "Beam_Beam2.jpg"),
+    "beam_beam_2_old": (bb2_old, "Beam-beam",
+                        "Connection with welded endplate, bolted to other element (previous version, for comparison).",
+                        "Beam_Beam2.jpg"),
     "beam_beam_3": (bb3a, "Beam-beam", "Connection with elongated endplate, bolted to other element.",
                     "Beam_Beam3.jpg"),
     "beam_beam_3_haunch": (bb3b, "Beam-beam",

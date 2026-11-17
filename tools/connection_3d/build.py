@@ -31,6 +31,10 @@ OUT = STATIC / "connections_3d"
 PAGE = ROOT / "book" / "design" / "steel" / "S05_3d_connections_old.ipynb"
 TEMPLATE = STATIC / "Connection_Steel_Standard.html"
 
+# headings on the compact page (registry group -> title); textual corrections by the author
+GROUP_TITLES = {"Cont. column-beam": "Continuous column-beam", "Center-column-beam": "Column-continuous beam",
+                "Column-support": "Column-foundation"}
+
 GROUP_ORDER = ["Cont. column-beam", "Beam-beam", "Beam-wall", "Center-column-beam",
                "Column-support", "End column-beam"]
 
@@ -246,7 +250,7 @@ def build_page_grid():
           GRID_STYLE + "\n"]
     for group in GROUP_ORDER + sorted(set(groups) - set(GROUP_ORDER)):
         if group in groups:
-            md.append(f"## {group}\n")
+            md.append(f"## {GROUP_TITLES.get(group, group)}\n")
             md.append('<div class="c3d-grid">\n' + "\n".join(groups[group]) + "\n</div>\n")
     md.append("## Other connections\n")
     md.append('<div class="c3d-grid">\n' + "\n".join(
