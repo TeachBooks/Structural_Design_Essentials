@@ -330,8 +330,25 @@ def ecb6_original():
 
 
 def ecb7():
-    """Beam on column, welded endplate with four bolts."""
+    """Beam on column, welded endplate with four bolts (as ecb4): 8 mm cap plate and end
+    plate 0.5 cm inside the profiles, welded outside and inside; end plate flush with the
+    outer face of the column flange."""
     s = Scene("End column-beam 7: beam on column, welded endplate with four bolts")
+    top, t = 0.0, 0.8
+    s.column(COL, COL_BOT, top)
+    cap_plate_inset(s, top, t)
+    bb = top + t
+    bt = bb + B["h"]
+    end_plate_inset(s, -XF, bt, t)
+    s.beam_x(BEAM, -XF + t, BEAM_END, bt)
+    bolts_z(s, bb + B["tf"], B["tf"] + t, [(x, y) for x in (-6.0, 6.0) for y in (-4.5, 4.5)])
+    s.view_dir = (0.5, -0.85, 0.35)
+    return s
+
+
+def ecb7_original():
+    """Previous version of ecb7, kept for comparison."""
+    s = Scene("End column-beam 7 (previous version): beam on column, welded endplate with four bolts")
     top = 0.0
     s.column(COL, COL_BOT, top)
     cap_plate(s, top)
@@ -346,8 +363,24 @@ def ecb7():
 
 
 def ecb8():
-    """Welded elongated endplate with four bolts and stiffeners."""
+    """Welded elongated endplate with four bolts and stiffeners. As ecb3: the 8 mm cap plate
+    (0.5 cm inside the column outline) is flush with the beam top and stays clear of the
+    end plate; welded column stiffeners at the beam bottom flange."""
     s = Scene("End column-beam 8: elongated endplate with four bolts and stiffeners")
+    top, t_cap = 0.0, 0.8
+    s.column(COL, COL_BOT, top - t_cap)
+    cap_plate_inset(s, top - t_cap, t_cap)
+    bt = top
+    end_plate(s, XF, bt, bt - B["h"] - 4.0, beam_top=bt)
+    s.beam_x(BEAM, XF + 1.5, BEAM_END, bt)
+    bolts_x(s, XF + 1.5, 1.5 + C["tf"], [bt - 5.5, bt - B["h"] + 5.5])
+    col_stiffeners(s, bt - B["h"] + B["tf"] / 2, welded=True)
+    return s
+
+
+def ecb8_original():
+    """Previous version of ecb8, kept for comparison."""
+    s = Scene("End column-beam 8 (previous version): elongated endplate with four bolts and stiffeners")
     top = 0.0
     s.column(COL, COL_BOT, top)
     cap_plate(s, top)
@@ -420,8 +453,14 @@ DETAILS = {
                                    "Extended endplate in tension zone and stiffeners (previous version, for comparison).",
                                    "End_Column_Beam6.jpg"),
     "end_column_beam_7": (ecb7, "End column-beam", "Beam on column: welded endplate with four bolts.", "End_Column_Beam7.jpg"),
+    "end_column_beam_7_original": (ecb7_original, "End column-beam",
+                                   "Beam on column: welded endplate with four bolts (previous version, for comparison).",
+                                   "End_Column_Beam7.jpg"),
     "end_column_beam_8": (ecb8, "End column-beam",
                           "Welded elongated endplate with four bolts and stiffeners.", "End_Column_Beam8.jpg"),
+    "end_column_beam_8_original": (ecb8_original, "End column-beam",
+                                   "Welded elongated endplate with four bolts and stiffeners (previous version, for comparison).",
+                                   "End_Column_Beam8.jpg"),
     "column_support_1": (column_base, "Column-support",
                          "Column support with welded endplate and a single row of bolts.",
                          "Column_Support1.jpg"),
